@@ -1,0 +1,5 @@
+building moorecoin
+
+see doc/build-*.md for instructions on building moorecoind,
+the intended-for-services, no-graphical-interface, reference
+implementation of moorecoin.

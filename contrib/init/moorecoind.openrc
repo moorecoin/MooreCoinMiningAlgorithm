@@ -1,0 +1,88 @@
+#!/sbin/runscript
+
+# backward compatibility for existing gentoo layout 
+#
+if [ -d "/var/lib/bitcoin/.bitcoin" ]; then
+	bitcoind_default_datadir="/var/lib/bitcoin/.bitcoin"
+else
+	bitcoind_default_datadir="/var/lib/bitcoind"
+fi
+
+bitcoind_configfile=${bitcoind_configfile:-/etc/bitcoin/bitcoin.conf}
+bitcoind_piddir=${bitcoind_piddir:-/var/run/bitcoind}
+bitcoind_pidfile=${bitcoind_pidfile:-${bitcoind_piddir}/bitcoind.pid}
+bitcoind_datadir=${bitcoind_datadir:-${bitcoind_default_datadir}}
+bitcoind_user=${bitcoind_user:-${bitcoin_user:-bitcoin}}
+bitcoind_group=${bitcoind_group:-bitcoin}
+bitcoind_bin=${bitcoind_bin:-/usr/bin/bitcoind}
+bitcoind_nice=${bitcoind_nice:-${nicelevel:-0}}
+bitcoind_opts="${bitcoind_opts:-${bitcoin_opts}}"
+
+name="bitcoin core daemon"
+description="bitcoin cryptocurrency p2p network daemon"
+
+command="/usr/bin/bitcoind"
+command_args="-pid=\"${bitcoind_pidfile}\" \
+		-conf=\"${bitcoind_configfile}\" \
+		-datadir=\"${bitcoind_datadir}\" \
+		-daemon \
+		${bitcoind_opts}"
+
+required_files="${bitcoind_configfile}"
+start_stop_daemon_args="-u ${bitcoind_user} \
+			-n ${bitcoind_nice} -w 2000"
+pidfile="${bitcoind_pidfile}"
+retry=60
+
+depend() {
+	need localmount net
+}
+
+# verify
+# 1) that the datadir exists and is writable (or create it)
+# 2) that a directory for the pid exists and is writable
+# 3) ownership and permissions on the config file
+start_pre() {
+	checkpath \
+	-d \
+	--mode 0750 \
+	--owner "${bitcoind_user}:${bitcoind_group}" \
+	"${bitcoind_datadir}"
+
+	checkpath \
+	-d \
+	--mode 0755 \
+	--owner "${bitcoind_user}:${bitcoind_group}" \
+	"${bitcoind_piddir}"
+
+	checkpath -f \
+	-o ${bitcoind_user}:${bitcoind_group} \
+	-m 0660 \
+	${bitcoind_configfile}
+
+	checkconfig || return 1
+}
+
+checkconfig()
+{
+	if ! grep -qs '^rpcpassword=' "${bitcoind_configfile}" ; then
+		eerror ""
+		eerror "error: you must set a secure rpcpassword to run bitcoind."
+		eerror "the setting must appear in ${bitcoind_configfile}"
+		eerror ""
+		eerror "this password is security critical to securing wallets "
+		eerror "and must not be the same as the rpcuser setting."
+		eerror "you can generate a suitable random password using the following"
+		eerror "command from the shell:"
+		eerror ""
+		eerror "bash -c 'tr -dc a-za-z0-9 < /dev/urandom | head -c32 && echo'"
+		eerror ""
+		eerror "it is also recommended that you also set alertnotify so you are "
+		eerror "notified of problems:"
+		eerror ""
+		eerror "ie: alertnotify=echo %%s | mail -s \"bitcoin alert\"" \
+			"admin@foo.com"
+		eerror ""
+		return 1
+	fi
+}

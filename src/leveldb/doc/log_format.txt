@@ -1,0 +1,75 @@
+the log file contents are a sequence of 32kb blocks.  the only
+exception is that the tail of the file may contain a partial block.
+
+each block consists of a sequence of records:
+   block := record* trailer?
+   record :=
+	checksum: uint32	// crc32c of type and data[] ; little-endian
+	length: uint16		// little-endian
+	type: uint8		// one of full, first, middle, last
+	data: uint8[length]
+
+a record never starts within the last six bytes of a block (since it
+won't fit).  any leftover bytes here form the trailer, which must
+consist entirely of zero bytes and must be skipped by readers.
+
+aside: if exactly seven bytes are left in the current block, and a new
+non-zero length record is added, the writer must emit a first record
+(which contains zero bytes of user data) to fill up the trailing seven
+bytes of the block and then emit all of the user data in subsequent
+blocks.
+
+more types may be added in the future.  some readers may skip record
+types they do not understand, others may report that some data was
+skipped.
+
+full == 1
+first == 2
+middle == 3
+last == 4
+
+the full record contains the contents of an entire user record.
+
+first, middle, last are types used for user records that have been
+split into multiple fragments (typically because of block boundaries).
+first is the type of the first fragment of a user record, last is the
+type of the last fragment of a user record, and middle is the type of
+all interior fragments of a user record.
+
+example: consider a sequence of user records:
+   a: length 1000
+   b: length 97270
+   c: length 8000
+a will be stored as a full record in the first block.
+
+b will be split into three fragments: first fragment occupies the rest
+of the first block, second fragment occupies the entirety of the
+second block, and the third fragment occupies a prefix of the third
+block.  this will leave six bytes free in the third block, which will
+be left empty as the trailer.
+
+c will be stored as a full record in the fourth block.
+
+===================
+
+some benefits over the recordio format:
+
+(1) we do not need any heuristics for resyncing - just go to next
+block boundary and scan.  if there is a corruption, skip to the next
+block.  as a side-benefit, we do not get confused when part of the
+contents of one log file are embedded as a record inside another log
+file.
+
+(2) splitting at approximate boundaries (e.g., for mapreduce) is
+simple: find the next block boundary and skip records until we
+hit a full or first record.
+
+(3) we do not need extra buffering for large records.
+
+some downsides compared to recordio format:
+
+(1) no packing of tiny records.  this could be fixed by adding a new
+record type, so it is a shortcoming of the current implementation,
+not necessarily the format.
+
+(2) no compression.  again, this could be fixed by adding new record types.

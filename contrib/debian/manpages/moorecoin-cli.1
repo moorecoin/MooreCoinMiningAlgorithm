@@ -1,0 +1,48 @@
+.th bitcoin-cli "1" "february 2015" "bitcoin-cli 0.10" 
+.sh name
+bitcoin-cli \- a remote procedure call client for bitcoin core. 
+.sh synopsis
+bitcoin-cli [options] <command> [params] \- send command to bitcoin core. 
+.tp
+bitcoin-cli [options] help \- asks bitcoin core for a list of supported commands.
+.sh description
+this manual page documents the bitcoin-cli program. bitcoin-cli is an rpc client used to send commands to bitcoin core.
+
+.sh options
+.tp
+\fb\-?\fr
+show the help message.
+.tp
+\fb\-conf=\fr<file>
+specify configuration file (default: bitcoin.conf).
+.tp
+\fb\-datadir=\fr<dir>
+specify data directory.
+.tp
+\fb\-testnet\fr
+connect to a bitcoin core instance running in testnet mode.
+.tp
+\fb\-regtest\fr
+connect to a bitcoin core instance running in regtest mode (see documentation for -regtest on bitcoind).
+.tp
+\fb\-rpcuser=\fr<user>
+username for json\-rpc connections.
+.tp
+\fb\-rpcpassword=\fr<pw>
+password for json\-rpc connections.
+.tp
+\fb\-rpcport=\fr<port>
+listen for json\-rpc connections on <port> (default: 8332 or testnet: 18332).
+.tp
+\fb\-rpcconnect=\fr<ip>
+send commands to node running on <ip> (default: 127.0.0.1).
+.tp
+\fb\-rpcssl\fr=\fi1\fr
+use openssl (https) for json\-rpc connections (see the bitcoin wiki for ssl setup instructions).
+
+.sh "see also"
+\fbbitcoind\fp, \fbbitcoin.conf\fp
+.sh author
+this manual page was written by ciemon dunville <ciemon@gmail.com>. permission is granted to copy, distribute and/or modify this document under the terms of the mit license.
+
+the complete text of the mit license can be found on the web at \fihttp://opensource.org/licenses/mit\fp.

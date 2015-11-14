@@ -1,0 +1,134 @@
+---
+name: "bitcoin-osx-0.12"
+enable_cache: true
+suites:
+- "precise"
+architectures:
+- "amd64"
+packages: 
+- "g++"
+- "git-core"
+- "pkg-config"
+- "autoconf2.13"
+- "libtool"
+- "automake"
+- "faketime"
+- "bsdmainutils"
+- "cmake"
+- "libcap-dev"
+- "libz-dev"
+- "libbz2-dev"
+reference_datetime: "2015-06-01 00:00:00"
+remotes:
+- "url": "https://github.com/bitcoin/bitcoin.git"
+  "dir": "bitcoin"
+files:
+- "macosx10.9.sdk.tar.gz"
+script: |
+  wrap_dir=$home/wrapped
+  hosts="x86_64-apple-darwin11"
+  configflags="--enable-upnp-default --enable-reduce-exports genisoimage=$wrap_dir/genisoimage"
+  faketime_host_progs=""
+  faketime_progs="ar ranlib date dmg genisoimage"
+
+  export qt_rcc_test=1
+  export gzip="-9n"
+  export tar_options="--mtime="$reference_date\\\ $reference_time""
+  export tz="utc"
+  export build_dir=`pwd`
+  mkdir -p ${wrap_dir}
+  if test -n "$gbuild_cache_enabled"; then
+    export sources_path=${gbuild_common_cache}
+    export base_cache=${gbuild_package_cache}
+    mkdir -p ${base_cache} ${sources_path}
+  fi
+
+  export zero_ar_date=1
+
+  # create global faketime wrappers
+  for prog in ${faketime_progs}; do
+    echo '#!/bin/bash' > ${wrap_dir}/${prog}
+    echo "real=\`which -a ${prog} | grep -v ${wrap_dir}/${prog} | head -1\`" >> ${wrap_dir}/${prog}
+    echo 'export ld_preload=/usr/lib/faketime/libfaketime.so.1' >> ${wrap_dir}/${prog}
+    echo "export faketime=\"${reference_datetime}\"" >> ${wrap_dir}/${prog}
+    echo "\$real \$@" >> $wrap_dir/${prog}
+    chmod +x ${wrap_dir}/${prog}
+  done
+
+  # create per-host faketime wrappers
+  for i in $hosts; do
+    for prog in ${faketime_host_progs}; do
+        echo '#!/bin/bash' > ${wrap_dir}/${i}-${prog}
+        echo "real=\`which -a ${i}-${prog} | grep -v ${wrap_dir}/${i}-${prog} | head -1\`" >> ${wrap_dir}/${i}-${prog}
+        echo 'export ld_preload=/usr/lib/faketime/libfaketime.so.1' >> ${wrap_dir}/${i}-${prog}
+        echo "export faketime=\"${reference_datetime}\"" >> ${wrap_dir}/${i}-${prog}
+        echo "\$real \$@" >> $wrap_dir/${i}-${prog}
+        chmod +x ${wrap_dir}/${i}-${prog}
+    done
+  done
+  export path=${wrap_dir}:${path}
+
+  cd bitcoin
+  baseprefix=`pwd`/depends
+
+  mkdir -p ${baseprefix}/sdks
+  tar -c ${baseprefix}/sdks -xf ${build_dir}/macosx10.9.sdk.tar.gz
+
+  # build dependencies for each host
+  for i in $hosts; do
+    make ${makeopts} -c ${baseprefix} host="${i}"
+  done
+
+  # create the release tarball using (arbitrarily) the first host
+  ./autogen.sh
+  ./configure --prefix=${baseprefix}/`echo "${hosts}" | awk '{print $1;}'`
+  make dist
+  sourcedist=`echo bitcoin-*.tar.gz`
+  distname=`echo ${sourcedist} | sed 's/.tar.*//'`
+
+  # correct tar file order
+  mkdir -p temp
+  pushd temp
+  tar xf ../$sourcedist
+  find bitcoin-* | sort | tar --no-recursion --mode='u+rw,go+r-w,a+x' --owner=0 --group=0 -c -t - | gzip -9n > ../$sourcedist
+  popd
+
+  origpath="$path"
+  # extract the release tarball into a dir for each host and build
+  for i in ${hosts}; do
+    export path=${baseprefix}/${i}/native/bin:${origpath}
+    mkdir -p distsrc-${i}
+    cd distsrc-${i}
+    installpath=`pwd`/installed/${distname}
+    mkdir -p ${installpath}
+    tar --strip-components=1 -xf ../$sourcedist
+
+    ./configure --prefix=${baseprefix}/${i} --bindir=${installpath}/bin --includedir=${installpath}/include --libdir=${installpath}/lib --disable-ccache --disable-maintainer-mode --disable-dependency-tracking ${configflags}
+    make ${makeopts}
+    make install-strip
+
+    make deploydir
+    mkdir -p unsigned-app-${i}
+    cp contrib/macdeploy/detached-sig-apply.sh unsigned-app-${i}
+    cp contrib/macdeploy/detached-sig-create.sh unsigned-app-${i}
+    cp ${baseprefix}/${i}/native/bin/dmg ${baseprefix}/${i}/native/bin/genisoimage unsigned-app-${i}
+    cp ${baseprefix}/${i}/native/bin/${i}-codesign_allocate unsigned-app-${i}/codesign_allocate
+    cp ${baseprefix}/${i}/native/bin/${i}-pagestuff unsigned-app-${i}/pagestuff
+    mv dist unsigned-app-${i}
+    pushd unsigned-app-${i}
+    find . | sort | tar --no-recursion --mode='u+rw,go+r-w,a+x' --owner=0 --group=0 -c -t - | gzip -9n > ${outdir}/${distname}-osx-unsigned.tar.gz
+    popd
+
+    make deploy
+    ${wrap_dir}/dmg dmg bitcoin-core.dmg ${outdir}/${distname}-osx-unsigned.dmg
+
+    cd installed
+    find . -name "lib*.la" -delete
+    find . -name "lib*.a" -delete
+    rm -rf ${distname}/lib/pkgconfig
+    find ${distname} | sort | tar --no-recursion --mode='u+rw,go+r-w,a+x' --owner=0 --group=0 -c -t - | gzip -9n > ${outdir}/${distname}-${i}.tar.gz
+    cd ../../
+  done
+  mkdir -p $outdir/src
+  mv $sourcedist $outdir/src
+  mv ${outdir}/${distname}-x86_64-*.tar.gz ${outdir}/${distname}-osx64.tar.gz

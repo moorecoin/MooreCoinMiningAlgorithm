@@ -1,0 +1,1178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui version="4.0">
+ <class>rpcconsole</class>
+ <widget class="qwidget" name="rpcconsole">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>740</width>
+    <height>450</height>
+   </rect>
+  </property>
+  <property name="windowtitle">
+   <string>debug window</string>
+  </property>
+  <layout class="qvboxlayout" name="verticallayout_2">
+   <item>
+    <widget class="qtabwidget" name="tabwidget">
+     <property name="currentindex">
+      <number>0</number>
+     </property>
+     <widget class="qwidget" name="tab_info">
+      <attribute name="title">
+       <string>&amp;information</string>
+      </attribute>
+      <layout class="qgridlayout" name="gridlayout" columnstretch="0,1">
+       <property name="horizontalspacing">
+        <number>12</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="qlabel" name="label_9">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>general</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="qlabel" name="label_5">
+         <property name="text">
+          <string>client name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="qlabel" name="clientname">
+         <property name="cursor">
+          <cursorshape>ibeamcursor</cursorshape>
+         </property>
+         <property name="text">
+          <string>n/a</string>
+         </property>
+         <property name="textformat">
+          <enum>qt::plaintext</enum>
+         </property>
+         <property name="textinteractionflags">
+          <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="qlabel" name="label_6">
+         <property name="text">
+          <string>client version</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="qlabel" name="clientversion">
+         <property name="cursor">
+          <cursorshape>ibeamcursor</cursorshape>
+         </property>
+         <property name="text">
+          <string>n/a</string>
+         </property>
+         <property name="textformat">
+          <enum>qt::plaintext</enum>
+         </property>
+         <property name="textinteractionflags">
+          <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="qlabel" name="label_14">
+         <property name="text">
+          <string>using openssl version</string>
+         </property>
+         <property name="indent">
+          <number>10</number>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="qlabel" name="opensslversion">
+         <property name="cursor">
+          <cursorshape>ibeamcursor</cursorshape>
+         </property>
+         <property name="text">
+          <string>n/a</string>
+         </property>
+         <property name="textformat">
+          <enum>qt::plaintext</enum>
+         </property>
+         <property name="textinteractionflags">
+          <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="qlabel" name="label_berkeleydbversion">
+         <property name="text">
+          <string>using berkeleydb version</string>
+         </property>
+         <property name="indent">
+          <number>10</number>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="qlabel" name="berkeleydbversion">
+         <property name="cursor">
+          <cursorshape>ibeamcursor</cursorshape>
+         </property>
+         <property name="text">
+          <string>n/a</string>
+         </property>
+         <property name="textformat">
+          <enum>qt::plaintext</enum>
+         </property>
+         <property name="textinteractionflags">
+          <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="qlabel" name="label_12">
+         <property name="text">
+          <string>build date</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="qlabel" name="builddate">
+         <property name="cursor">
+          <cursorshape>ibeamcursor</cursorshape>
+         </property>
+         <property name="text">
+          <string>n/a</string>
+         </property>
+         <property name="textformat">
+          <enum>qt::plaintext</enum>
+         </property>
+         <property name="textinteractionflags">
+          <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="qlabel" name="label_13">
+         <property name="text">
+          <string>startup time</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="qlabel" name="startuptime">
+         <property name="cursor">
+          <cursorshape>ibeamcursor</cursorshape>
+         </property>
+         <property name="text">
+          <string>n/a</string>
+         </property>
+         <property name="textformat">
+          <enum>qt::plaintext</enum>
+         </property>
+         <property name="textinteractionflags">
+          <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="qlabel" name="label_11">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>network</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="qlabel" name="label_8">
+         <property name="text">
+          <string>name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1">
+        <widget class="qlabel" name="networkname">
+         <property name="cursor">
+          <cursorshape>ibeamcursor</cursorshape>
+         </property>
+         <property name="text">
+          <string>n/a</string>
+         </property>
+         <property name="textformat">
+          <enum>qt::plaintext</enum>
+         </property>
+         <property name="textinteractionflags">
+          <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="qlabel" name="label_7">
+         <property name="text">
+          <string>number of connections</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="1">
+        <widget class="qlabel" name="numberofconnections">
+         <property name="cursor">
+          <cursorshape>ibeamcursor</cursorshape>
+         </property>
+         <property name="text">
+          <string>n/a</string>
+         </property>
+         <property name="textformat">
+          <enum>qt::plaintext</enum>
+         </property>
+         <property name="textinteractionflags">
+          <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0">
+        <widget class="qlabel" name="label_10">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>block chain</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0">
+        <widget class="qlabel" name="label_3">
+         <property name="text">
+          <string>current number of blocks</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="1">
+        <widget class="qlabel" name="numberofblocks">
+         <property name="cursor">
+          <cursorshape>ibeamcursor</cursorshape>
+         </property>
+         <property name="text">
+          <string>n/a</string>
+         </property>
+         <property name="textformat">
+          <enum>qt::plaintext</enum>
+         </property>
+         <property name="textinteractionflags">
+          <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="0">
+        <widget class="qlabel" name="label_2">
+         <property name="text">
+          <string>last block time</string>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="1">
+        <widget class="qlabel" name="lastblocktime">
+         <property name="cursor">
+          <cursorshape>ibeamcursor</cursorshape>
+         </property>
+         <property name="text">
+          <string>n/a</string>
+         </property>
+         <property name="textformat">
+          <enum>qt::plaintext</enum>
+         </property>
+         <property name="textinteractionflags">
+          <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="0">
+        <spacer name="verticalspacer_2">
+         <property name="orientation">
+          <enum>qt::vertical</enum>
+         </property>
+         <property name="sizehint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="14" column="0">
+        <widget class="qlabel" name="labeldebuglogfile">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>debug log file</string>
+         </property>
+        </widget>
+       </item>
+       <item row="15" column="0">
+        <widget class="qpushbutton" name="opendebuglogfilebutton">
+         <property name="tooltip">
+          <string>open the bitcoin core debug log file from the current data directory. this can take a few seconds for large log files.</string>
+         </property>
+         <property name="text">
+          <string>&amp;open</string>
+         </property>
+         <property name="autodefault">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="16" column="0">
+        <spacer name="verticalspacer">
+         <property name="orientation">
+          <enum>qt::vertical</enum>
+         </property>
+         <property name="sizehint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="qwidget" name="tab_console">
+      <attribute name="title">
+       <string>&amp;console</string>
+      </attribute>
+      <layout class="qvboxlayout" name="verticallayout_3">
+       <property name="spacing">
+        <number>3</number>
+       </property>
+       <item>
+        <widget class="qtextedit" name="messageswidget">
+         <property name="minimumsize">
+          <size>
+           <width>0</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="readonly">
+          <bool>true</bool>
+         </property>
+         <property name="tabkeynavigation" stdset="0">
+          <bool>false</bool>
+         </property>
+         <property name="columncount" stdset="0">
+          <number>2</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="qhboxlayout" name="horizontallayout">
+         <property name="spacing">
+          <number>3</number>
+         </property>
+         <item>
+          <widget class="qlabel" name="label">
+           <property name="text">
+            <string notr="true">&gt;</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="qlineedit" name="lineedit"/>
+         </item>
+         <item>
+          <widget class="qpushbutton" name="clearbutton">
+           <property name="maximumsize">
+            <size>
+             <width>24</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="tooltip">
+            <string>clear console</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="../bitcoin.qrc">
+             <normaloff>:/icons/remove</normaloff>:/icons/remove</iconset>
+           </property>
+           <property name="shortcut">
+            <string notr="true">ctrl+l</string>
+           </property>
+           <property name="autodefault">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="qwidget" name="tab_nettraffic">
+      <attribute name="title">
+       <string>&amp;network traffic</string>
+      </attribute>
+      <layout class="qhboxlayout" name="horizontallayout_3">
+       <item>
+        <layout class="qvboxlayout" name="verticallayout_4">
+         <item>
+          <widget class="trafficgraphwidget" name="trafficgraph" native="true">
+           <property name="sizepolicy">
+            <sizepolicy hsizetype="expanding" vsizetype="expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="qhboxlayout" name="horizontallayout_2">
+           <item>
+            <widget class="qslider" name="sldgraphrange">
+             <property name="minimum">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <number>288</number>
+             </property>
+             <property name="pagestep">
+              <number>12</number>
+             </property>
+             <property name="value">
+              <number>6</number>
+             </property>
+             <property name="orientation">
+              <enum>qt::horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="qlabel" name="lblgraphrange">
+             <property name="minimumsize">
+              <size>
+               <width>100</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="alignment">
+              <set>qt::aligncenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="qpushbutton" name="btncleartrafficgraph">
+             <property name="text">
+              <string>&amp;clear</string>
+             </property>
+             <property name="autodefault">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="qvboxlayout" name="verticallayout">
+         <item>
+          <widget class="qgroupbox" name="groupbox">
+           <property name="title">
+            <string>totals</string>
+           </property>
+           <layout class="qvboxlayout" name="verticallayout_5">
+            <item>
+             <layout class="qhboxlayout" name="horizontallayout_4">
+              <item>
+               <widget class="line" name="line">
+                <property name="sizepolicy">
+                 <sizepolicy hsizetype="fixed" vsizetype="fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumsize">
+                 <size>
+                  <width>10</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="palette">
+                 <palette>
+                  <active>
+                   <colorrole role="light">
+                    <brush brushstyle="solidpattern">
+                     <color alpha="255">
+                      <red>0</red>
+                      <green>255</green>
+                      <blue>0</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                  </active>
+                  <inactive>
+                   <colorrole role="light">
+                    <brush brushstyle="solidpattern">
+                     <color alpha="255">
+                      <red>0</red>
+                      <green>255</green>
+                      <blue>0</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                  </inactive>
+                  <disabled>
+                   <colorrole role="light">
+                    <brush brushstyle="solidpattern">
+                     <color alpha="255">
+                      <red>0</red>
+                      <green>255</green>
+                      <blue>0</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                  </disabled>
+                 </palette>
+                </property>
+                <property name="orientation">
+                 <enum>qt::horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="qlabel" name="label_16">
+                <property name="text">
+                 <string>received</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="qlabel" name="lblbytesin">
+                <property name="minimumsize">
+                 <size>
+                  <width>50</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="alignment">
+                 <set>qt::alignright|qt::aligntrailing|qt::alignvcenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="qhboxlayout" name="horizontallayout_5">
+              <item>
+               <widget class="line" name="line_2">
+                <property name="sizepolicy">
+                 <sizepolicy hsizetype="fixed" vsizetype="fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumsize">
+                 <size>
+                  <width>10</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="palette">
+                 <palette>
+                  <active>
+                   <colorrole role="light">
+                    <brush brushstyle="solidpattern">
+                     <color alpha="255">
+                      <red>255</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                  </active>
+                  <inactive>
+                   <colorrole role="light">
+                    <brush brushstyle="solidpattern">
+                     <color alpha="255">
+                      <red>255</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                  </inactive>
+                  <disabled>
+                   <colorrole role="light">
+                    <brush brushstyle="solidpattern">
+                     <color alpha="255">
+                      <red>255</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                  </disabled>
+                 </palette>
+                </property>
+                <property name="orientation">
+                 <enum>qt::horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="qlabel" name="label_17">
+                <property name="text">
+                 <string>sent</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="qlabel" name="lblbytesout">
+                <property name="minimumsize">
+                 <size>
+                  <width>50</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="alignment">
+                 <set>qt::alignright|qt::aligntrailing|qt::alignvcenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <spacer name="verticalspacer_4">
+              <property name="orientation">
+               <enum>qt::vertical</enum>
+              </property>
+              <property name="sizehint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>407</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="qwidget" name="tab_peers">
+      <attribute name="title">
+       <string>&amp;peers</string>
+      </attribute>
+      <layout class="qgridlayout" name="gridlayout_2">
+       <item row="0" column="0" rowspan="2">
+        <widget class="qtableview" name="peerwidget">
+         <property name="horizontalscrollbarpolicy">
+          <enum>qt::scrollbarasneeded</enum>
+         </property>
+         <property name="sortingenabled">
+          <bool>true</bool>
+         </property>
+         <attribute name="horizontalheaderhighlightsections">
+          <bool>false</bool>
+         </attribute>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="qlabel" name="peerheading">
+         <property name="sizepolicy">
+          <sizepolicy hsizetype="preferred" vsizetype="minimum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumsize">
+          <size>
+           <width>300</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorshape>ibeamcursor</cursorshape>
+         </property>
+         <property name="text">
+          <string>select a peer to view detailed information.</string>
+         </property>
+         <property name="alignment">
+          <set>qt::alignhcenter|qt::aligntop</set>
+         </property>
+         <property name="wordwrap">
+          <bool>true</bool>
+         </property>
+         <property name="textinteractionflags">
+          <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="qwidget" name="detailwidget" native="true">
+         <property name="minimumsize">
+          <size>
+           <width>300</width>
+           <height>0</height>
+          </size>
+         </property>
+         <layout class="qgridlayout" name="gridlayout_3">
+          <item row="0" column="0">
+           <widget class="qlabel" name="label_30">
+            <property name="text">
+             <string>whitelisted</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="qlabel" name="peerwhitelisted">
+            <property name="cursor">
+             <cursorshape>ibeamcursor</cursorshape>
+            </property>
+            <property name="text">
+             <string>n/a</string>
+            </property>
+            <property name="textformat">
+             <enum>qt::plaintext</enum>
+            </property>
+            <property name="textinteractionflags">
+             <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="qlabel" name="label_23">
+            <property name="text">
+             <string>direction</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="qlabel" name="peerdirection">
+            <property name="cursor">
+             <cursorshape>ibeamcursor</cursorshape>
+            </property>
+            <property name="text">
+             <string>n/a</string>
+            </property>
+            <property name="textformat">
+             <enum>qt::plaintext</enum>
+            </property>
+            <property name="textinteractionflags">
+             <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="qlabel" name="label_21">
+            <property name="text">
+             <string>version</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="qlabel" name="peerversion">
+            <property name="cursor">
+             <cursorshape>ibeamcursor</cursorshape>
+            </property>
+            <property name="text">
+             <string>n/a</string>
+            </property>
+            <property name="textformat">
+             <enum>qt::plaintext</enum>
+            </property>
+            <property name="textinteractionflags">
+             <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="qlabel" name="label_28">
+            <property name="text">
+             <string>user agent</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2">
+           <widget class="qlabel" name="peersubversion">
+            <property name="cursor">
+             <cursorshape>ibeamcursor</cursorshape>
+            </property>
+            <property name="text">
+             <string>n/a</string>
+            </property>
+            <property name="textformat">
+             <enum>qt::plaintext</enum>
+            </property>
+            <property name="textinteractionflags">
+             <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="qlabel" name="label_4">
+            <property name="text">
+             <string>services</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="2">
+           <widget class="qlabel" name="peerservices">
+            <property name="cursor">
+             <cursorshape>ibeamcursor</cursorshape>
+            </property>
+            <property name="text">
+             <string>n/a</string>
+            </property>
+            <property name="textformat">
+             <enum>qt::plaintext</enum>
+            </property>
+            <property name="textinteractionflags">
+             <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="qlabel" name="label_29">
+            <property name="text">
+             <string>starting block</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="2">
+           <widget class="qlabel" name="peerheight">
+            <property name="cursor">
+             <cursorshape>ibeamcursor</cursorshape>
+            </property>
+            <property name="text">
+             <string>n/a</string>
+            </property>
+            <property name="textformat">
+             <enum>qt::plaintext</enum>
+            </property>
+            <property name="textinteractionflags">
+             <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="qlabel" name="label_27">
+            <property name="text">
+             <string>synced headers</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="2">
+           <widget class="qlabel" name="peersyncheight">
+            <property name="cursor">
+             <cursorshape>ibeamcursor</cursorshape>
+            </property>
+            <property name="text">
+             <string>n/a</string>
+            </property>
+            <property name="textformat">
+             <enum>qt::plaintext</enum>
+            </property>
+            <property name="textinteractionflags">
+             <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0">
+           <widget class="qlabel" name="label_25">
+            <property name="text">
+             <string>synced blocks</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="2">
+           <widget class="qlabel" name="peercommonheight">
+            <property name="cursor">
+             <cursorshape>ibeamcursor</cursorshape>
+            </property>
+            <property name="text">
+             <string>n/a</string>
+            </property>
+            <property name="textformat">
+             <enum>qt::plaintext</enum>
+            </property>
+            <property name="textinteractionflags">
+             <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="0">
+           <widget class="qlabel" name="label_24">
+            <property name="text">
+             <string>ban score</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="2">
+           <widget class="qlabel" name="peerbanscore">
+            <property name="cursor">
+             <cursorshape>ibeamcursor</cursorshape>
+            </property>
+            <property name="text">
+             <string>n/a</string>
+            </property>
+            <property name="textformat">
+             <enum>qt::plaintext</enum>
+            </property>
+            <property name="textinteractionflags">
+             <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+            </property>
+           </widget>
+          </item>
+          <item row="9" column="0">
+           <widget class="qlabel" name="label_22">
+            <property name="text">
+             <string>connection time</string>
+            </property>
+           </widget>
+          </item>
+          <item row="9" column="2">
+           <widget class="qlabel" name="peerconntime">
+            <property name="cursor">
+             <cursorshape>ibeamcursor</cursorshape>
+            </property>
+            <property name="text">
+             <string>n/a</string>
+            </property>
+            <property name="textformat">
+             <enum>qt::plaintext</enum>
+            </property>
+            <property name="textinteractionflags">
+             <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+            </property>
+           </widget>
+          </item>
+          <item row="10" column="0">
+           <widget class="qlabel" name="label_15">
+            <property name="text">
+             <string>last send</string>
+            </property>
+           </widget>
+          </item>
+          <item row="10" column="2">
+           <widget class="qlabel" name="peerlastsend">
+            <property name="cursor">
+             <cursorshape>ibeamcursor</cursorshape>
+            </property>
+            <property name="text">
+             <string>n/a</string>
+            </property>
+            <property name="textformat">
+             <enum>qt::plaintext</enum>
+            </property>
+            <property name="textinteractionflags">
+             <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+            </property>
+           </widget>
+          </item>
+          <item row="11" column="0">
+           <widget class="qlabel" name="label_19">
+            <property name="text">
+             <string>last receive</string>
+            </property>
+           </widget>
+          </item>
+          <item row="11" column="2">
+           <widget class="qlabel" name="peerlastrecv">
+            <property name="cursor">
+             <cursorshape>ibeamcursor</cursorshape>
+            </property>
+            <property name="text">
+             <string>n/a</string>
+            </property>
+            <property name="textformat">
+             <enum>qt::plaintext</enum>
+            </property>
+            <property name="textinteractionflags">
+             <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+            </property>
+           </widget>
+          </item>
+          <item row="12" column="0">
+           <widget class="qlabel" name="label_18">
+            <property name="text">
+             <string>bytes sent</string>
+            </property>
+           </widget>
+          </item>
+          <item row="12" column="2">
+           <widget class="qlabel" name="peerbytessent">
+            <property name="cursor">
+             <cursorshape>ibeamcursor</cursorshape>
+            </property>
+            <property name="text">
+             <string>n/a</string>
+            </property>
+            <property name="textformat">
+             <enum>qt::plaintext</enum>
+            </property>
+            <property name="textinteractionflags">
+             <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+            </property>
+           </widget>
+          </item>
+          <item row="13" column="0">
+           <widget class="qlabel" name="label_20">
+            <property name="text">
+             <string>bytes received</string>
+            </property>
+           </widget>
+          </item>
+          <item row="13" column="2">
+           <widget class="qlabel" name="peerbytesrecv">
+            <property name="cursor">
+             <cursorshape>ibeamcursor</cursorshape>
+            </property>
+            <property name="text">
+             <string>n/a</string>
+            </property>
+            <property name="textformat">
+             <enum>qt::plaintext</enum>
+            </property>
+            <property name="textinteractionflags">
+             <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+            </property>
+           </widget>
+          </item>
+          <item row="14" column="0">
+           <widget class="qlabel" name="label_26">
+            <property name="text">
+             <string>ping time</string>
+            </property>
+           </widget>
+          </item>
+          <item row="14" column="2">
+           <widget class="qlabel" name="peerpingtime">
+            <property name="cursor">
+             <cursorshape>ibeamcursor</cursorshape>
+            </property>
+            <property name="text">
+             <string>n/a</string>
+            </property>
+            <property name="textformat">
+             <enum>qt::plaintext</enum>
+            </property>
+            <property name="textinteractionflags">
+             <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+            </property>
+           </widget>
+          </item>
+          <item row="15" column="0">
+           <widget class="qlabel" name="peerpingwaitlabel">
+            <property name="tooltip">
+             <string>the duration of a currently outstanding ping.</string>
+            </property>
+            <property name="text">
+             <string>ping wait</string>
+            </property>
+           </widget>
+          </item>
+          <item row="15" column="2">
+           <widget class="qlabel" name="peerpingwait">
+            <property name="cursor">
+             <cursorshape>ibeamcursor</cursorshape>
+            </property>
+            <property name="text">
+             <string>n/a</string>
+            </property>
+            <property name="textformat">
+             <enum>qt::plaintext</enum>
+            </property>
+            <property name="textinteractionflags">
+             <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+            </property>
+           </widget>
+          </item>
+          <item row="16" column="0">
+           <widget class="qlabel" name="label_timeoffset">
+            <property name="text">
+             <string>time offset</string>
+            </property>
+           </widget>
+          </item>
+          <item row="16" column="2">
+           <widget class="qlabel" name="timeoffset">
+            <property name="cursor">
+             <cursorshape>ibeamcursor</cursorshape>
+            </property>
+            <property name="text">
+             <string>n/a</string>
+            </property>
+            <property name="textformat">
+             <enum>qt::plaintext</enum>
+            </property>
+            <property name="textinteractionflags">
+             <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+            </property>
+           </widget>
+          </item>
+          <item row="17" column="1">
+           <spacer name="verticalspacer_3">
+            <property name="orientation">
+             <enum>qt::vertical</enum>
+            </property>
+            <property name="sizehint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>trafficgraphwidget</class>
+   <extends>qwidget</extends>
+   <header>trafficgraphwidget.h</header>
+   <container>1</container>
+   <slots>
+    <slot>clear()</slot>
+   </slots>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../bitcoin.qrc"/>
+ </resources>
+ <connections/>
+</ui>

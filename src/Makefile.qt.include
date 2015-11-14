@@ -1,0 +1,418 @@
+bin_programs += qt/moorecoin-qt
+extra_libraries += qt/libmoorecoinqt.a
+
+# moorecoin qt core #
+qt_ts = \
+  qt/locale/moorecoin_ach.ts \
+  qt/locale/moorecoin_af_za.ts \
+  qt/locale/moorecoin_ar.ts \
+  qt/locale/moorecoin_be_by.ts \
+  qt/locale/moorecoin_bg.ts \
+  qt/locale/moorecoin_bs.ts \
+  qt/locale/moorecoin_ca_es.ts \
+  qt/locale/moorecoin_ca.ts \
+  qt/locale/moorecoin_ca@valencia.ts \
+  qt/locale/moorecoin_cmn.ts \
+  qt/locale/moorecoin_cs.ts \
+  qt/locale/moorecoin_cy.ts \
+  qt/locale/moorecoin_da.ts \
+  qt/locale/moorecoin_de.ts \
+  qt/locale/moorecoin_el_gr.ts \
+  qt/locale/moorecoin_en.ts \
+  qt/locale/moorecoin_eo.ts \
+  qt/locale/moorecoin_es_cl.ts \
+  qt/locale/moorecoin_es_do.ts \
+  qt/locale/moorecoin_es_mx.ts \
+  qt/locale/moorecoin_es.ts \
+  qt/locale/moorecoin_es_uy.ts \
+  qt/locale/moorecoin_et.ts \
+  qt/locale/moorecoin_eu_es.ts \
+  qt/locale/moorecoin_fa_ir.ts \
+  qt/locale/moorecoin_fa.ts \
+  qt/locale/moorecoin_fi.ts \
+  qt/locale/moorecoin_fr_ca.ts \
+  qt/locale/moorecoin_fr.ts \
+  qt/locale/moorecoin_gl.ts \
+  qt/locale/moorecoin_gu_in.ts \
+  qt/locale/moorecoin_he.ts \
+  qt/locale/moorecoin_hi_in.ts \
+  qt/locale/moorecoin_hr.ts \
+  qt/locale/moorecoin_hu.ts \
+  qt/locale/moorecoin_id_id.ts \
+  qt/locale/moorecoin_it.ts \
+  qt/locale/moorecoin_ja.ts \
+  qt/locale/moorecoin_ka.ts \
+  qt/locale/moorecoin_kk_kz.ts \
+  qt/locale/moorecoin_ko_kr.ts \
+  qt/locale/moorecoin_ky.ts \
+  qt/locale/moorecoin_la.ts \
+  qt/locale/moorecoin_lt.ts \
+  qt/locale/moorecoin_lv_lv.ts \
+  qt/locale/moorecoin_mn.ts \
+  qt/locale/moorecoin_ms_my.ts \
+  qt/locale/moorecoin_nb.ts \
+  qt/locale/moorecoin_nl.ts \
+  qt/locale/moorecoin_pam.ts \
+  qt/locale/moorecoin_pl.ts \
+  qt/locale/moorecoin_pt_br.ts \
+  qt/locale/moorecoin_pt_pt.ts \
+  qt/locale/moorecoin_ro_ro.ts \
+  qt/locale/moorecoin_ru.ts \
+  qt/locale/moorecoin_sah.ts \
+  qt/locale/moorecoin_sk.ts \
+  qt/locale/moorecoin_sl_si.ts \
+  qt/locale/moorecoin_sq.ts \
+  qt/locale/moorecoin_sr.ts \
+  qt/locale/moorecoin_sv.ts \
+  qt/locale/moorecoin_th_th.ts \
+  qt/locale/moorecoin_tr.ts \
+  qt/locale/moorecoin_uk.ts \
+  qt/locale/moorecoin_ur_pk.ts \
+  qt/locale/moorecoin_uz@cyrl.ts \
+  qt/locale/moorecoin_vi.ts \
+  qt/locale/moorecoin_vi_vn.ts \
+  qt/locale/moorecoin_zh_cn.ts \
+  qt/locale/moorecoin_zh_hk.ts \
+  qt/locale/moorecoin_zh_tw.ts
+
+qt_forms_ui = \
+  qt/forms/addressbookpage.ui \
+  qt/forms/askpassphrasedialog.ui \
+  qt/forms/coincontroldialog.ui \
+  qt/forms/editaddressdialog.ui \
+  qt/forms/helpmessagedialog.ui \
+  qt/forms/intro.ui \
+  qt/forms/openuridialog.ui \
+  qt/forms/optionsdialog.ui \
+  qt/forms/overviewpage.ui \
+  qt/forms/receivecoinsdialog.ui \
+  qt/forms/receiverequestdialog.ui \
+  qt/forms/rpcconsole.ui \
+  qt/forms/sendcoinsdialog.ui \
+  qt/forms/sendcoinsentry.ui \
+  qt/forms/signverifymessagedialog.ui \
+  qt/forms/transactiondescdialog.ui
+
+qt_moc_cpp = \
+  qt/moc_addressbookpage.cpp \
+  qt/moc_addresstablemodel.cpp \
+  qt/moc_askpassphrasedialog.cpp \
+  qt/moc_moorecoinaddressvalidator.cpp \
+  qt/moc_moorecoinamountfield.cpp \
+  qt/moc_moorecoingui.cpp \
+  qt/moc_moorecoinunits.cpp \
+  qt/moc_clientmodel.cpp \
+  qt/moc_coincontroldialog.cpp \
+  qt/moc_coincontroltreewidget.cpp \
+  qt/moc_csvmodelwriter.cpp \
+  qt/moc_editaddressdialog.cpp \
+  qt/moc_guiutil.cpp \
+  qt/moc_intro.cpp \
+  qt/moc_macdockiconhandler.cpp \
+  qt/moc_macnotificationhandler.cpp \
+  qt/moc_notificator.cpp \
+  qt/moc_openuridialog.cpp \
+  qt/moc_optionsdialog.cpp \
+  qt/moc_optionsmodel.cpp \
+  qt/moc_overviewpage.cpp \
+  qt/moc_peertablemodel.cpp \
+  qt/moc_paymentserver.cpp \
+  qt/moc_qvalidatedlineedit.cpp \
+  qt/moc_qvaluecombobox.cpp \
+  qt/moc_receivecoinsdialog.cpp \
+  qt/moc_receiverequestdialog.cpp \
+  qt/moc_recentrequeststablemodel.cpp \
+  qt/moc_rpcconsole.cpp \
+  qt/moc_sendcoinsdialog.cpp \
+  qt/moc_sendcoinsentry.cpp \
+  qt/moc_signverifymessagedialog.cpp \
+  qt/moc_splashscreen.cpp \
+  qt/moc_trafficgraphwidget.cpp \
+  qt/moc_transactiondesc.cpp \
+  qt/moc_transactiondescdialog.cpp \
+  qt/moc_transactionfilterproxy.cpp \
+  qt/moc_transactiontablemodel.cpp \
+  qt/moc_transactionview.cpp \
+  qt/moc_utilitydialog.cpp \
+  qt/moc_walletframe.cpp \
+  qt/moc_walletmodel.cpp \
+  qt/moc_walletview.cpp
+
+moorecoin_mm = \
+  qt/macdockiconhandler.mm \
+  qt/macnotificationhandler.mm
+
+qt_moc = \
+  qt/moorecoin.moc \
+  qt/moorecoinamountfield.moc \
+  qt/intro.moc \
+  qt/overviewpage.moc \
+  qt/rpcconsole.moc
+
+qt_qrc_cpp = qt/qrc_moorecoin.cpp
+qt_qrc = qt/moorecoin.qrc
+qt_qrc_locale_cpp = qt/qrc_moorecoin_locale.cpp
+qt_qrc_locale = qt/moorecoin_locale.qrc
+
+protobuf_cc = qt/paymentrequest.pb.cc
+protobuf_h = qt/paymentrequest.pb.h
+protobuf_proto = qt/paymentrequest.proto
+
+moorecoin_qt_h = \
+  qt/addressbookpage.h \
+  qt/addresstablemodel.h \
+  qt/askpassphrasedialog.h \
+  qt/moorecoinaddressvalidator.h \
+  qt/moorecoinamountfield.h \
+  qt/moorecoingui.h \
+  qt/moorecoinunits.h \
+  qt/clientmodel.h \
+  qt/coincontroldialog.h \
+  qt/coincontroltreewidget.h \
+  qt/csvmodelwriter.h \
+  qt/editaddressdialog.h \
+  qt/guiconstants.h \
+  qt/guiutil.h \
+  qt/intro.h \
+  qt/macdockiconhandler.h \
+  qt/macnotificationhandler.h \
+  qt/networkstyle.h \
+  qt/notificator.h \
+  qt/openuridialog.h \
+  qt/optionsdialog.h \
+  qt/optionsmodel.h \
+  qt/overviewpage.h \
+  qt/paymentrequestplus.h \
+  qt/paymentserver.h \
+  qt/peertablemodel.h \
+  qt/qvalidatedlineedit.h \
+  qt/qvaluecombobox.h \
+  qt/receivecoinsdialog.h \
+  qt/receiverequestdialog.h \
+  qt/recentrequeststablemodel.h \
+  qt/rpcconsole.h \
+  qt/scicon.h \
+  qt/sendcoinsdialog.h \
+  qt/sendcoinsentry.h \
+  qt/signverifymessagedialog.h \
+  qt/splashscreen.h \
+  qt/trafficgraphwidget.h \
+  qt/transactiondesc.h \
+  qt/transactiondescdialog.h \
+  qt/transactionfilterproxy.h \
+  qt/transactionrecord.h \
+  qt/transactiontablemodel.h \
+  qt/transactionview.h \
+  qt/utilitydialog.h \
+  qt/walletframe.h \
+  qt/walletmodel.h \
+  qt/walletmodeltransaction.h \
+  qt/walletview.h \
+  qt/winshutdownmonitor.h
+
+res_icons = \
+  qt/res/icons/add.png \
+  qt/res/icons/address-book.png \
+  qt/res/icons/about.png \
+  qt/res/icons/about_qt.png \
+  qt/res/icons/moorecoin.ico \
+  qt/res/icons/moorecoin.png \
+  qt/res/icons/clock1.png \
+  qt/res/icons/clock2.png \
+  qt/res/icons/clock3.png \
+  qt/res/icons/clock4.png \
+  qt/res/icons/clock5.png \
+  qt/res/icons/configure.png \
+  qt/res/icons/connect0.png \
+  qt/res/icons/connect1.png \
+  qt/res/icons/connect2.png \
+  qt/res/icons/connect3.png \
+  qt/res/icons/connect4.png \
+  qt/res/icons/debugwindow.png \
+  qt/res/icons/edit.png \
+  qt/res/icons/editcopy.png \
+  qt/res/icons/editpaste.png \
+  qt/res/icons/export.png \
+  qt/res/icons/eye.png \
+  qt/res/icons/eye_minus.png \
+  qt/res/icons/eye_plus.png \
+  qt/res/icons/filesave.png \
+  qt/res/icons/history.png \
+  qt/res/icons/info.png \
+  qt/res/icons/key.png \
+  qt/res/icons/lock_closed.png \
+  qt/res/icons/lock_open.png \
+  qt/res/icons/open.png \
+  qt/res/icons/overview.png \
+  qt/res/icons/quit.png \
+  qt/res/icons/receive.png \
+  qt/res/icons/remove.png \
+  qt/res/icons/send.png \
+  qt/res/icons/synced.png \
+  qt/res/icons/transaction0.png \
+  qt/res/icons/transaction2.png \
+  qt/res/icons/transaction_conflicted.png \
+  qt/res/icons/tx_inout.png \
+  qt/res/icons/tx_input.png \
+  qt/res/icons/tx_output.png \
+  qt/res/icons/tx_mined.png \
+  qt/res/icons/warning.png \
+  qt/res/icons/verify.png
+
+moorecoin_qt_cpp = \
+  qt/moorecoinaddressvalidator.cpp \
+  qt/moorecoinamountfield.cpp \
+  qt/moorecoingui.cpp \
+  qt/moorecoinunits.cpp \
+  qt/clientmodel.cpp \
+  qt/csvmodelwriter.cpp \
+  qt/guiutil.cpp \
+  qt/intro.cpp \
+  qt/networkstyle.cpp \
+  qt/notificator.cpp \
+  qt/optionsdialog.cpp \
+  qt/optionsmodel.cpp \
+  qt/peertablemodel.cpp \
+  qt/qvalidatedlineedit.cpp \
+  qt/qvaluecombobox.cpp \
+  qt/rpcconsole.cpp \
+  qt/scicon.cpp \
+  qt/splashscreen.cpp \
+  qt/trafficgraphwidget.cpp \
+  qt/utilitydialog.cpp
+
+if target_windows
+moorecoin_qt_cpp += qt/winshutdownmonitor.cpp
+endif
+
+if enable_wallet
+moorecoin_qt_cpp += \
+  qt/addressbookpage.cpp \
+  qt/addresstablemodel.cpp \
+  qt/askpassphrasedialog.cpp \
+  qt/coincontroldialog.cpp \
+  qt/coincontroltreewidget.cpp \
+  qt/editaddressdialog.cpp \
+  qt/openuridialog.cpp \
+  qt/overviewpage.cpp \
+  qt/paymentrequestplus.cpp \
+  qt/paymentserver.cpp \
+  qt/receivecoinsdialog.cpp \
+  qt/receiverequestdialog.cpp \
+  qt/recentrequeststablemodel.cpp \
+  qt/sendcoinsdialog.cpp \
+  qt/sendcoinsentry.cpp \
+  qt/signverifymessagedialog.cpp \
+  qt/transactiondesc.cpp \
+  qt/transactiondescdialog.cpp \
+  qt/transactionfilterproxy.cpp \
+  qt/transactionrecord.cpp \
+  qt/transactiontablemodel.cpp \
+  qt/transactionview.cpp \
+  qt/walletframe.cpp \
+  qt/walletmodel.cpp \
+  qt/walletmodeltransaction.cpp \
+  qt/walletview.cpp
+endif
+
+res_images = 
+
+res_movies = $(wildcard qt/res/movies/spinner-*.png)
+
+moorecoin_rc = qt/res/moorecoin-qt-res.rc
+
+moorecoin_qt_includes = -i$(builddir)/qt -i$(srcdir)/qt -i$(srcdir)/qt/forms \
+  -i$(builddir)/qt/forms
+
+qt_libmoorecoinqt_a_cppflags = $(moorecoin_includes) $(moorecoin_qt_includes) \
+  $(qt_includes) $(qt_dbus_includes) $(protobuf_cflags) $(qr_cflags)
+
+qt_libmoorecoinqt_a_sources = $(moorecoin_qt_cpp) $(moorecoin_qt_h) $(qt_forms_ui) \
+  $(qt_qrc) $(qt_qrc_locale) $(qt_ts) $(protobuf_proto) $(res_icons) $(res_images) $(res_movies)
+
+nodist_qt_libmoorecoinqt_a_sources = $(qt_moc_cpp) $(qt_moc) $(protobuf_cc) \
+  $(protobuf_h) $(qt_qrc_cpp) $(qt_qrc_locale_cpp)
+
+# forms/foo.h -> forms/ui_foo.h
+qt_forms_h=$(join $(dir $(qt_forms_ui)),$(addprefix ui_, $(notdir $(qt_forms_ui:.ui=.h))))
+
+# most files will depend on the forms and moc files as includes. generate them
+# before anything else.
+$(qt_moc): $(qt_forms_h)
+$(qt_libmoorecoinqt_a_objects) $(qt_moorecoin_qt_objects) : | $(qt_moc)
+
+#generating these with a half-written protobuf header leads to wacky results.
+#this makes sure it's done.
+$(qt_moc): $(protobuf_h)
+$(qt_moc_cpp): $(protobuf_h)
+
+# moorecoin-qt binary #
+qt_moorecoin_qt_cppflags = $(moorecoin_includes) $(moorecoin_qt_includes) \
+  $(qt_includes) $(protobuf_cflags) $(qr_cflags)
+
+qt_moorecoin_qt_sources = qt/moorecoin.cpp
+if target_darwin
+  qt_moorecoin_qt_sources += $(moorecoin_mm)
+endif
+if target_windows
+  qt_moorecoin_qt_sources += $(moorecoin_rc)
+endif
+qt_moorecoin_qt_ldadd = qt/libmoorecoinqt.a $(libmoorecoin_server)
+if enable_wallet
+qt_moorecoin_qt_ldadd += $(libmoorecoin_wallet)
+endif
+qt_moorecoin_qt_ldadd += $(libmoorecoin_cli) $(libmoorecoin_common) $(libmoorecoin_util) $(libmoorecoin_crypto) $(libmoorecoin_univalue) $(libleveldb) $(libmemenv) \
+  $(boost_libs) $(qt_libs) $(qt_dbus_libs) $(qr_libs) $(protobuf_libs) $(bdb_libs) $(ssl_libs) $(crypto_libs) $(miniupnpc_libs) $(libsecp256k1)
+qt_moorecoin_qt_ldflags = $(reldflags) $(am_ldflags) $(qt_ldflags) $(libtool_app_ldflags)
+qt_moorecoin_qt_libtoolflags = --tag cxx
+
+#locale/foo.ts -> locale/foo.qm
+qt_qm=$(qt_ts:.ts=.qm)
+
+secondary: $(qt_qm)
+
+qt/moorecoinstrings.cpp: $(libmoorecoin_server_a_sources) $(libmoorecoin_wallet_a_sources)
+	@test -n $(xgettext) || echo "xgettext is required for updating translations"
+	$(am_v_gen) cd $(srcdir); xgettext=$(xgettext) ../share/qt/extract_strings_qt.py $^
+
+translate: qt/moorecoinstrings.cpp $(qt_forms_ui) $(qt_forms_ui) $(moorecoin_qt_cpp) $(moorecoin_qt_h) $(moorecoin_mm)
+	@test -n $(lupdate) || echo "lupdate is required for updating translations"
+	$(am_v_gen) qt_select=$(qt_select) $(lupdate) $^ -locations relative -no-obsolete -ts qt/locale/moorecoin_en.ts
+
+$(qt_qrc_locale_cpp): $(qt_qrc_locale) $(qt_qm)
+	@test -f $(rcc)
+	@test -f $(@d)/$(<f) || cp -f $< $(@d)
+	$(am_v_gen) qt_select=$(qt_select) $(rcc) -name moorecoin_locale $(@d)/$(<f) | \
+	  $(sed) -e '/^\*\*.*created:/d' -e '/^\*\*.*by:/d' > $@
+
+$(qt_qrc_cpp): $(qt_qrc) $(qt_forms_h) $(res_icons) $(res_images) $(res_movies) $(protobuf_h)
+	@test -f $(rcc)
+	$(am_v_gen) qt_select=$(qt_select) $(rcc) -name moorecoin $< | \
+	  $(sed) -e '/^\*\*.*created:/d' -e '/^\*\*.*by:/d' > $@
+
+clean_qt = $(nodist_qt_libmoorecoinqt_a_sources) $(qt_qm) $(qt_forms_h) qt/*.gcda qt/*.gcno
+
+cleanfiles += $(clean_qt)
+
+moorecoin_qt_clean: force
+	rm -f $(clean_qt) $(qt_libmoorecoinqt_a_objects) $(qt_moorecoin_qt_objects) qt/moorecoin-qt$(exeext) $(libmoorecoinqt)
+
+moorecoin_qt : qt/moorecoin-qt$(exeext)
+
+ui_%.h: %.ui
+	@test -f $(uic)
+	@$(mkdir_p) $(@d)
+	$(am_v_gen) qt_select=$(qt_select) $(uic) -o $@ $< || (echo "error creating $@"; false)
+
+%.moc: %.cpp
+	$(am_v_gen) qt_select=$(qt_select) $(moc) $(qt_includes) $(moc_defs) $< | \
+	  $(sed) -e '/^\*\*.*created:/d' -e '/^\*\*.*by:/d' > $@
+
+moc_%.cpp: %.h
+	$(am_v_gen) qt_select=$(qt_select) $(moc) $(qt_includes) $(moc_defs) $< | \
+	  $(sed) -e '/^\*\*.*created:/d' -e '/^\*\*.*by:/d' > $@
+
+%.qm: %.ts
+	@test -f $(lrelease)
+	@$(mkdir_p) $(@d)
+	$(am_v_gen) qt_select=$(qt_select) $(lrelease) -silent $< -qm $@

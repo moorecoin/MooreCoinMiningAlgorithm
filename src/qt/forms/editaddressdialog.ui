@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui version="4.0">
+ <class>editaddressdialog</class>
+ <widget class="qdialog" name="editaddressdialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>457</width>
+    <height>126</height>
+   </rect>
+  </property>
+  <property name="windowtitle">
+   <string>edit address</string>
+  </property>
+  <layout class="qvboxlayout" name="verticallayout">
+   <item>
+    <layout class="qformlayout" name="formlayout">
+     <property name="fieldgrowthpolicy">
+      <enum>qformlayout::allnonfixedfieldsgrow</enum>
+     </property>
+     <item row="0" column="0">
+      <widget class="qlabel" name="label">
+       <property name="text">
+        <string>&amp;label</string>
+       </property>
+       <property name="buddy">
+        <cstring>labeledit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="qlineedit" name="labeledit">
+       <property name="tooltip">
+        <string>the label associated with this address list entry</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="qlabel" name="label_2">
+       <property name="text">
+        <string>&amp;address</string>
+       </property>
+       <property name="buddy">
+        <cstring>addressedit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="qvalidatedlineedit" name="addressedit">
+       <property name="tooltip">
+        <string>the address associated with this address list entry. this can only be modified for sending addresses.</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="qdialogbuttonbox" name="buttonbox">
+     <property name="orientation">
+      <enum>qt::horizontal</enum>
+     </property>
+     <property name="standardbuttons">
+      <set>qdialogbuttonbox::cancel|qdialogbuttonbox::ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>qvalidatedlineedit</class>
+   <extends>qlineedit</extends>
+   <header>qvalidatedlineedit.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonbox</sender>
+   <signal>accepted()</signal>
+   <receiver>editaddressdialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonbox</sender>
+   <signal>rejected()</signal>
+   <receiver>editaddressdialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

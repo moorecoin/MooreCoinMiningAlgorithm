@@ -1,0 +1,59 @@
+language: c
+sudo: false
+addons:
+  apt:
+    packages: libgmp-dev
+compiler:
+  - clang
+  - gcc
+env:
+  global:
+    - field=auto  bignum=auto  scalar=auto  endomorphism=no  asm=no  build=check  extraflags= host=
+  matrix:
+    - scalar=32bit
+    - scalar=64bit
+    - field=64bit
+    - field=64bit     endomorphism=yes
+    - field=64bit                       asm=x86_64
+    - field=64bit     endomorphism=yes  asm=x86_64
+    - field=32bit
+    - field=32bit     endomorphism=yes
+    - bignum=no
+    - bignum=no       endomorphism=yes
+    - build=distcheck
+    - extraflags=cflags=-ddeterministic
+matrix:
+  fast_finish: true
+  include:
+    - compiler: clang
+      env: host=i686-linux-gnu endomorphism=yes
+      addons:
+        apt:
+          packages:
+            - gcc-multilib
+            - libgmp-dev:i386
+    - compiler: clang
+      env: host=i686-linux-gnu
+      addons:
+        apt:
+          packages:
+            - gcc-multilib
+    - compiler: gcc
+      env: host=i686-linux-gnu endomorphism=yes
+      addons:
+        apt:
+          packages:
+            - gcc-multilib
+    - compiler: gcc
+      env: host=i686-linux-gnu
+      addons:
+        apt:
+          packages:
+            - gcc-multilib
+            - libgmp-dev:i386
+before_script: ./autogen.sh
+script:
+ - if [ -n "$host" ]; then export use_host="--host=$host"; fi
+ - if [ "x$host" = "xi686-linux-gnu" ]; then export cc="$cc -m32"; fi
+ - ./configure --enable-endomorphism=$endomorphism --with-field=$field --with-bignum=$bignum --with-scalar=$scalar $extraflags $use_host && make -j2 $build
+os: linux

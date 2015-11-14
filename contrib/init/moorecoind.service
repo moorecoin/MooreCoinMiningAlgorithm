@@ -1,0 +1,22 @@
+[unit]
+description=bitcoin's distributed currency daemon
+after=network.target
+
+[service]
+user=bitcoin
+group=bitcoin
+
+type=forking
+pidfile=/var/lib/bitcoind/bitcoind.pid
+execstart=/usr/bin/bitcoind -daemon -pid=/var/lib/bitcoind/bitcoind.pid \
+-conf=/etc/bitcoin/bitcoin.conf -datadir=/var/lib/bitcoind -disablewallet
+
+restart=always
+privatetmp=true
+timeoutstopsec=60s
+timeoutstartsec=2s
+startlimitinterval=120s
+startlimitburst=5
+
+[install]
+wantedby=multi-user.target

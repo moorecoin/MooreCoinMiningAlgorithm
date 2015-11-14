@@ -1,0 +1,549 @@
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="doc.css" />
+<title>leveldb</title>
+</head>
+
+<body>
+<h1>leveldb</h1>
+<address>jeff dean, sanjay ghemawat</address>
+<p>
+the <code>leveldb</code> library provides a persistent key value store.  keys and
+values are arbitrary byte arrays.  the keys are ordered within the key
+value store according to a user-specified comparator function.
+
+<p>
+<h1>opening a database</h1>
+<p>
+a <code>leveldb</code> database has a name which corresponds to a file system
+directory.  all of the contents of database are stored in this
+directory.  the following example shows how to open a database,
+creating it if necessary:
+<p>
+<pre>
+  #include &lt;assert&gt;
+  #include "leveldb/db.h"
+
+  leveldb::db* db;
+  leveldb::options options;
+  options.create_if_missing = true;
+  leveldb::status status = leveldb::db::open(options, "/tmp/testdb", &amp;db);
+  assert(status.ok());
+  ...
+</pre>
+if you want to raise an error if the database already exists, add
+the following line before the <code>leveldb::db::open</code> call:
+<pre>
+  options.error_if_exists = true;
+</pre>
+<h1>status</h1>
+<p>
+you may have noticed the <code>leveldb::status</code> type above.  values of this
+type are returned by most functions in <code>leveldb</code> that may encounter an
+error.  you can check if such a result is ok, and also print an
+associated error message:
+<p>
+<pre>
+   leveldb::status s = ...;
+   if (!s.ok()) cerr &lt;&lt; s.tostring() &lt;&lt; endl;
+</pre>
+<h1>closing a database</h1>
+<p>
+when you are done with a database, just delete the database object.
+example:
+<p>
+<pre>
+  ... open the db as described above ...
+  ... do something with db ...
+  delete db;
+</pre>
+<h1>reads and writes</h1>
+<p>
+the database provides <code>put</code>, <code>delete</code>, and <code>get</code> methods to
+modify/query the database.  for example, the following code
+moves the value stored under key1 to key2.
+<pre>
+  std::string value;
+  leveldb::status s = db-&gt;get(leveldb::readoptions(), key1, &amp;value);
+  if (s.ok()) s = db-&gt;put(leveldb::writeoptions(), key2, value);
+  if (s.ok()) s = db-&gt;delete(leveldb::writeoptions(), key1);
+</pre>
+
+<h1>atomic updates</h1>
+<p>
+note that if the process dies after the put of key2 but before the
+delete of key1, the same value may be left stored under multiple keys.
+such problems can be avoided by using the <code>writebatch</code> class to
+atomically apply a set of updates:
+<p>
+<pre>
+  #include "leveldb/write_batch.h"
+  ...
+  std::string value;
+  leveldb::status s = db-&gt;get(leveldb::readoptions(), key1, &amp;value);
+  if (s.ok()) {
+    leveldb::writebatch batch;
+    batch.delete(key1);
+    batch.put(key2, value);
+    s = db-&gt;write(leveldb::writeoptions(), &amp;batch);
+  }
+</pre>
+the <code>writebatch</code> holds a sequence of edits to be made to the database,
+and these edits within the batch are applied in order.  note that we
+called <code>delete</code> before <code>put</code> so that if <code>key1</code> is identical to <code>key2</code>,
+we do not end up erroneously dropping the value entirely.
+<p>
+apart from its atomicity benefits, <code>writebatch</code> may also be used to
+speed up bulk updates by placing lots of individual mutations into the
+same batch.
+
+<h1>synchronous writes</h1>
+by default, each write to <code>leveldb</code> is asynchronous: it
+returns after pushing the write from the process into the operating
+system.  the transfer from operating system memory to the underlying
+persistent storage happens asynchronously.  the <code>sync</code> flag
+can be turned on for a particular write to make the write operation
+not return until the data being written has been pushed all the way to
+persistent storage.  (on posix systems, this is implemented by calling
+either <code>fsync(...)</code> or <code>fdatasync(...)</code> or
+<code>msync(..., ms_sync)</code> before the write operation returns.)
+<pre>
+  leveldb::writeoptions write_options;
+  write_options.sync = true;
+  db-&gt;put(write_options, ...);
+</pre>
+asynchronous writes are often more than a thousand times as fast as
+synchronous writes.  the downside of asynchronous writes is that a
+crash of the machine may cause the last few updates to be lost.  note
+that a crash of just the writing process (i.e., not a reboot) will not
+cause any loss since even when <code>sync</code> is false, an update
+is pushed from the process memory into the operating system before it
+is considered done.
+
+<p>
+asynchronous writes can often be used safely.  for example, when
+loading a large amount of data into the database you can handle lost
+updates by restarting the bulk load after a crash.  a hybrid scheme is
+also possible where every nth write is synchronous, and in the event
+of a crash, the bulk load is restarted just after the last synchronous
+write finished by the previous run.  (the synchronous write can update
+a marker that describes where to restart on a crash.)
+
+<p>
+<code>writebatch</code> provides an alternative to asynchronous writes.
+multiple updates may be placed in the same <code>writebatch</code> and
+applied together using a synchronous write (i.e.,
+<code>write_options.sync</code> is set to true).  the extra cost of
+the synchronous write will be amortized across all of the writes in
+the batch.
+
+<p>
+<h1>concurrency</h1>
+<p>
+a database may only be opened by one process at a time.
+the <code>leveldb</code> implementation acquires a lock from the
+operating system to prevent misuse.  within a single process, the
+same <code>leveldb::db</code> object may be safely shared by multiple
+concurrent threads.  i.e., different threads may write into or fetch
+iterators or call <code>get</code> on the same database without any
+external synchronization (the leveldb implementation will
+automatically do the required synchronization).  however other objects
+(like iterator and writebatch) may require external synchronization.
+if two threads share such an object, they must protect access to it
+using their own locking protocol.  more details are available in
+the public header files.
+<p>
+<h1>iteration</h1>
+<p>
+the following example demonstrates how to print all key,value pairs
+in a database.
+<p>
+<pre>
+  leveldb::iterator* it = db-&gt;newiterator(leveldb::readoptions());
+  for (it-&gt;seektofirst(); it-&gt;valid(); it-&gt;next()) {
+    cout &lt;&lt; it-&gt;key().tostring() &lt;&lt; ": "  &lt;&lt; it-&gt;value().tostring() &lt;&lt; endl;
+  }
+  assert(it-&gt;status().ok());  // check for any errors found during the scan
+  delete it;
+</pre>
+the following variation shows how to process just the keys in the
+range <code>[start,limit)</code>:
+<p>
+<pre>
+  for (it-&gt;seek(start);
+       it-&gt;valid() &amp;&amp; it-&gt;key().tostring() &lt; limit;
+       it-&gt;next()) {
+    ...
+  }
+</pre>
+you can also process entries in reverse order.  (caveat: reverse
+iteration may be somewhat slower than forward iteration.)
+<p>
+<pre>
+  for (it-&gt;seektolast(); it-&gt;valid(); it-&gt;prev()) {
+    ...
+  }
+</pre>
+<h1>snapshots</h1>
+<p>
+snapshots provide consistent read-only views over the entire state of
+the key-value store.  <code>readoptions::snapshot</code> may be non-null to indicate
+that a read should operate on a particular version of the db state.
+if <code>readoptions::snapshot</code> is null, the read will operate on an
+implicit snapshot of the current state.
+<p>
+snapshots are created by the db::getsnapshot() method:
+<p>
+<pre>
+  leveldb::readoptions options;
+  options.snapshot = db-&gt;getsnapshot();
+  ... apply some updates to db ...
+  leveldb::iterator* iter = db-&gt;newiterator(options);
+  ... read using iter to view the state when the snapshot was created ...
+  delete iter;
+  db-&gt;releasesnapshot(options.snapshot);
+</pre>
+note that when a snapshot is no longer needed, it should be released
+using the db::releasesnapshot interface.  this allows the
+implementation to get rid of state that was being maintained just to
+support reading as of that snapshot.
+<h1>slice</h1>
+<p>
+the return value of the <code>it->key()</code> and <code>it->value()</code> calls above
+are instances of the <code>leveldb::slice</code> type.  <code>slice</code> is a simple
+structure that contains a length and a pointer to an external byte
+array.  returning a <code>slice</code> is a cheaper alternative to returning a
+<code>std::string</code> since we do not need to copy potentially large keys and
+values.  in addition, <code>leveldb</code> methods do not return null-terminated
+c-style strings since <code>leveldb</code> keys and values are allowed to
+contain '\0' bytes.
+<p>
+c++ strings and null-terminated c-style strings can be easily converted
+to a slice:
+<p>
+<pre>
+   leveldb::slice s1 = "hello";
+
+   std::string str("world");
+   leveldb::slice s2 = str;
+</pre>
+a slice can be easily converted back to a c++ string:
+<pre>
+   std::string str = s1.tostring();
+   assert(str == std::string("hello"));
+</pre>
+be careful when using slices since it is up to the caller to ensure that
+the external byte array into which the slice points remains live while
+the slice is in use.  for example, the following is buggy:
+<p>
+<pre>
+   leveldb::slice slice;
+   if (...) {
+     std::string str = ...;
+     slice = str;
+   }
+   use(slice);
+</pre>
+when the <code>if</code> statement goes out of scope, <code>str</code> will be destroyed and the
+backing storage for <code>slice</code> will disappear.
+<p>
+<h1>comparators</h1>
+<p>
+the preceding examples used the default ordering function for key,
+which orders bytes lexicographically.  you can however supply a custom
+comparator when opening a database.  for example, suppose each
+database key consists of two numbers and we should sort by the first
+number, breaking ties by the second number.  first, define a proper
+subclass of <code>leveldb::comparator</code> that expresses these rules:
+<p>
+<pre>
+  class twopartcomparator : public leveldb::comparator {
+   public:
+    // three-way comparison function:
+    //   if a &lt; b: negative result
+    //   if a &gt; b: positive result
+    //   else: zero result
+    int compare(const leveldb::slice&amp; a, const leveldb::slice&amp; b) const {
+      int a1, a2, b1, b2;
+      parsekey(a, &amp;a1, &amp;a2);
+      parsekey(b, &amp;b1, &amp;b2);
+      if (a1 &lt; b1) return -1;
+      if (a1 &gt; b1) return +1;
+      if (a2 &lt; b2) return -1;
+      if (a2 &gt; b2) return +1;
+      return 0;
+    }
+
+    // ignore the following methods for now:
+    const char* name() const { return "twopartcomparator"; }
+    void findshortestseparator(std::string*, const leveldb::slice&amp;) const { }
+    void findshortsuccessor(std::string*) const { }
+  };
+</pre>
+now create a database using this custom comparator:
+<p>
+<pre>
+  twopartcomparator cmp;
+  leveldb::db* db;
+  leveldb::options options;
+  options.create_if_missing = true;
+  options.comparator = &amp;cmp;
+  leveldb::status status = leveldb::db::open(options, "/tmp/testdb", &amp;db);
+  ...
+</pre>
+<h2>backwards compatibility</h2>
+<p>
+the result of the comparator's <code>name</code> method is attached to the
+database when it is created, and is checked on every subsequent
+database open.  if the name changes, the <code>leveldb::db::open</code> call will
+fail.  therefore, change the name if and only if the new key format
+and comparison function are incompatible with existing databases, and
+it is ok to discard the contents of all existing databases.
+<p>
+you can however still gradually evolve your key format over time with
+a little bit of pre-planning.  for example, you could store a version
+number at the end of each key (one byte should suffice for most uses).
+when you wish to switch to a new key format (e.g., adding an optional
+third part to the keys processed by <code>twopartcomparator</code>),
+(a) keep the same comparator name (b) increment the version number
+for new keys (c) change the comparator function so it uses the
+version numbers found in the keys to decide how to interpret them.
+<p>
+<h1>performance</h1>
+<p>
+performance can be tuned by changing the default values of the
+types defined in <code>include/leveldb/options.h</code>.
+
+<p>
+<h2>block size</h2>
+<p>
+<code>leveldb</code> groups adjacent keys together into the same block and such a
+block is the unit of transfer to and from persistent storage.  the
+default block size is approximately 4096 uncompressed bytes.
+applications that mostly do bulk scans over the contents of the
+database may wish to increase this size.  applications that do a lot
+of point reads of small values may wish to switch to a smaller block
+size if performance measurements indicate an improvement.  there isn't
+much benefit in using blocks smaller than one kilobyte, or larger than
+a few megabytes.  also note that compression will be more effective
+with larger block sizes.
+<p>
+<h2>compression</h2>
+<p>
+each block is individually compressed before being written to
+persistent storage.  compression is on by default since the default
+compression method is very fast, and is automatically disabled for
+uncompressible data.  in rare cases, applications may want to disable
+compression entirely, but should only do so if benchmarks show a
+performance improvement:
+<p>
+<pre>
+  leveldb::options options;
+  options.compression = leveldb::knocompression;
+  ... leveldb::db::open(options, name, ...) ....
+</pre>
+<h2>cache</h2>
+<p>
+the contents of the database are stored in a set of files in the
+filesystem and each file stores a sequence of compressed blocks.  if
+<code>options.cache</code> is non-null, it is used to cache frequently used
+uncompressed block contents.
+<p>
+<pre>
+  #include "leveldb/cache.h"
+
+  leveldb::options options;
+  options.cache = leveldb::newlrucache(100 * 1048576);  // 100mb cache
+  leveldb::db* db;
+  leveldb::db::open(options, name, &db);
+  ... use the db ...
+  delete db
+  delete options.cache;
+</pre>
+note that the cache holds uncompressed data, and therefore it should
+be sized according to application level data sizes, without any
+reduction from compression.  (caching of compressed blocks is left to
+the operating system buffer cache, or any custom <code>env</code>
+implementation provided by the client.)
+<p>
+when performing a bulk read, the application may wish to disable
+caching so that the data processed by the bulk read does not end up
+displacing most of the cached contents.  a per-iterator option can be
+used to achieve this:
+<p>
+<pre>
+  leveldb::readoptions options;
+  options.fill_cache = false;
+  leveldb::iterator* it = db-&gt;newiterator(options);
+  for (it-&gt;seektofirst(); it-&gt;valid(); it-&gt;next()) {
+    ...
+  }
+</pre>
+<h2>key layout</h2>
+<p>
+note that the unit of disk transfer and caching is a block.  adjacent
+keys (according to the database sort order) will usually be placed in
+the same block.  therefore the application can improve its performance
+by placing keys that are accessed together near each other and placing
+infrequently used keys in a separate region of the key space.
+<p>
+for example, suppose we are implementing a simple file system on top
+of <code>leveldb</code>.  the types of entries we might wish to store are:
+<p>
+<pre>
+   filename -&gt; permission-bits, length, list of file_block_ids
+   file_block_id -&gt; data
+</pre>
+we might want to prefix <code>filename</code> keys with one letter (say '/') and the
+<code>file_block_id</code> keys with a different letter (say '0') so that scans
+over just the metadata do not force us to fetch and cache bulky file
+contents.
+<p>
+<h2>filters</h2>
+<p>
+because of the way <code>leveldb</code> data is organized on disk,
+a single <code>get()</code> call may involve multiple reads from disk.
+the optional <code>filterpolicy</code> mechanism can be used to reduce
+the number of disk reads substantially.
+<pre>
+   leveldb::options options;
+   options.filter_policy = newbloomfilterpolicy(10);
+   leveldb::db* db;
+   leveldb::db::open(options, "/tmp/testdb", &amp;db);
+   ... use the database ...
+   delete db;
+   delete options.filter_policy;
+</pre>
+the preceding code associates a
+<a href="http://en.wikipedia.org/wiki/bloom_filter">bloom filter</a>
+based filtering policy with the database.  bloom filter based
+filtering relies on keeping some number of bits of data in memory per
+key (in this case 10 bits per key since that is the argument we passed
+to newbloomfilterpolicy).  this filter will reduce the number of unnecessary
+disk reads needed for <code>get()</code> calls by a factor of
+approximately a 100.  increasing the bits per key will lead to a
+larger reduction at the cost of more memory usage.  we recommend that
+applications whose working set does not fit in memory and that do a
+lot of random reads set a filter policy.
+<p>
+if you are using a custom comparator, you should ensure that the filter
+policy you are using is compatible with your comparator.  for example,
+consider a comparator that ignores trailing spaces when comparing keys.
+<code>newbloomfilterpolicy</code> must not be used with such a comparator.
+instead, the application should provide a custom filter policy that
+also ignores trailing spaces.  for example:
+<pre>
+  class customfilterpolicy : public leveldb::filterpolicy {
+   private:
+    filterpolicy* builtin_policy_;
+   public:
+    customfilterpolicy() : builtin_policy_(newbloomfilterpolicy(10)) { }
+    ~customfilterpolicy() { delete builtin_policy_; }
+
+    const char* name() const { return "ignoretrailingspacesfilter"; }
+
+    void createfilter(const slice* keys, int n, std::string* dst) const {
+      // use builtin bloom filter code after removing trailing spaces
+      std::vector&lt;slice&gt; trimmed(n);
+      for (int i = 0; i &lt; n; i++) {
+        trimmed[i] = removetrailingspaces(keys[i]);
+      }
+      return builtin_policy_-&gt;createfilter(&amp;trimmed[i], n, dst);
+    }
+
+    bool keymaymatch(const slice& key, const slice& filter) const {
+      // use builtin bloom filter code after removing trailing spaces
+      return builtin_policy_-&gt;keymaymatch(removetrailingspaces(key), filter);
+    }
+  };
+</pre>
+<p>
+advanced applications may provide a filter policy that does not use
+a bloom filter but uses some other mechanism for summarizing a set
+of keys.  see <code>leveldb/filter_policy.h</code> for detail.
+<p>
+<h1>checksums</h1>
+<p>
+<code>leveldb</code> associates checksums with all data it stores in the file system.
+there are two separate controls provided over how aggressively these
+checksums are verified:
+<p>
+<ul>
+<li> <code>readoptions::verify_checksums</code> may be set to true to force
+  checksum verification of all data that is read from the file system on
+  behalf of a particular read.  by default, no such verification is
+  done.
+<p>
+<li> <code>options::paranoid_checks</code> may be set to true before opening a
+  database to make the database implementation raise an error as soon as
+  it detects an internal corruption.  depending on which portion of the
+  database has been corrupted, the error may be raised when the database
+  is opened, or later by another database operation.  by default,
+  paranoid checking is off so that the database can be used even if
+  parts of its persistent storage have been corrupted.
+<p>
+  if a database is corrupted (perhaps it cannot be opened when
+  paranoid checking is turned on), the <code>leveldb::repairdb</code> function
+  may be used to recover as much of the data as possible
+<p>
+</ul>
+<h1>approximate sizes</h1>
+<p>
+the <code>getapproximatesizes</code> method can used to get the approximate
+number of bytes of file system space used by one or more key ranges.
+<p>
+<pre>
+   leveldb::range ranges[2];
+   ranges[0] = leveldb::range("a", "c");
+   ranges[1] = leveldb::range("x", "z");
+   uint64_t sizes[2];
+   leveldb::status s = db-&gt;getapproximatesizes(ranges, 2, sizes);
+</pre>
+the preceding call will set <code>sizes[0]</code> to the approximate number of
+bytes of file system space used by the key range <code>[a..c)</code> and
+<code>sizes[1]</code> to the approximate number of bytes used by the key range
+<code>[x..z)</code>.
+<p>
+<h1>environment</h1>
+<p>
+all file operations (and other operating system calls) issued by the
+<code>leveldb</code> implementation are routed through a <code>leveldb::env</code> object.
+sophisticated clients may wish to provide their own <code>env</code>
+implementation to get better control.  for example, an application may
+introduce artificial delays in the file io paths to limit the impact
+of <code>leveldb</code> on other activities in the system.
+<p>
+<pre>
+  class slowenv : public leveldb::env {
+    .. implementation of the env interface ...
+  };
+
+  slowenv env;
+  leveldb::options options;
+  options.env = &amp;env;
+  status s = leveldb::db::open(options, ...);
+</pre>
+<h1>porting</h1>
+<p>
+<code>leveldb</code> may be ported to a new platform by providing platform
+specific implementations of the types/methods/functions exported by
+<code>leveldb/port/port.h</code>.  see <code>leveldb/port/port_example.h</code> for more
+details.
+<p>
+in addition, the new platform may need a new default <code>leveldb::env</code>
+implementation.  see <code>leveldb/util/env_posix.h</code> for an example.
+
+<h1>other information</h1>
+
+<p>
+details about the <code>leveldb</code> implementation may be found in
+the following documents:
+<ul>
+<li> <a href="impl.html">implementation notes</a>
+<li> <a href="table_format.txt">format of an immutable table file</a>
+<li> <a href="log_format.txt">format of a log file</a>
+</ul>
+
+</body>
+</html>

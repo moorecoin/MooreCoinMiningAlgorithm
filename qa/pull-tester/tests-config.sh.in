@@ -1,0 +1,16 @@
+#!/bin/bash
+# copyright (c) 2013-2014 the bitcoin core developers
+# distributed under the mit software license, see the accompanying
+# file copying or http://www.opensource.org/licenses/mit-license.php.
+
+builddir="@abs_top_builddir@"
+exeext="@exeext@"
+
+# these will turn into comments if they were disabled when configuring.
+@enable_wallet_true@enable_wallet=1
+@build_bitcoin_utils_true@enable_utils=1
+@build_bitcoind_true@enable_bitcoind=1
+
+real_bitcoind="$builddir/src/bitcoind${exeext}"
+real_bitcoincli="$builddir/src/bitcoin-cli${exeext}"
+

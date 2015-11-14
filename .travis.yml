@@ -1,0 +1,69 @@
+# errata:
+# - a travis bug causes caches to trample eachother when using the same
+#   compiler key (which we don't use anyway). this is worked around for now by
+#   replacing the "compilers" with a build name prefixed by the no-op ":"
+#   command. see: https://github.com/travis-ci/casher/issues/6
+
+os: linux
+language: cpp
+env:
+  global:
+    - makejobs=-j3
+    - run_tests=false
+    - boost_test_random=1$travis_build_id
+    - ccache_size=100m
+    - ccache_tempdir=/tmp/.ccache-temp
+    - ccache_compress=1
+    - base_outdir=$travis_build_dir/out
+    - sdk_url=https://bitcoincore.org/depends-sources/sdks
+    - python_debug=1
+    - winedebug=fixme-all
+cache:
+  apt: true
+  directories:
+  - depends/built
+  - depends/sdk-sources
+  - $home/.ccache
+matrix:
+  fast_finish: true
+  include:
+    - compiler: ": arm"
+      env: host=arm-linux-gnueabihf packages="g++-arm-linux-gnueabihf" dep_opts="no_qt=1" goal="install" bitcoin_config="--enable-glibc-back-compat --enable-reduce-exports"
+    - compiler: ": win32"
+      env: host=i686-w64-mingw32 packages="nsis gcc-mingw-w64-i686 g++-mingw-w64-i686 binutils-mingw-w64-i686 mingw-w64-dev wine bc" run_tests=true goal="deploy" bitcoin_config="--enable-gui --enable-reduce-exports" makejobs="-j2"
+    - compiler: ": 32-bit + dash"
+      env: host=i686-pc-linux-gnu packages="g++-multilib bc" run_tests=true goal="install" bitcoin_config="--enable-glibc-back-compat --enable-reduce-exports ldflags=-static-libstdc++" use_shell="/bin/dash"
+    - compiler: ": win64"
+      env: host=x86_64-w64-mingw32 packages="nsis gcc-mingw-w64-x86-64 g++-mingw-w64-x86-64 binutils-mingw-w64-x86-64 mingw-w64-dev wine bc" run_tests=true goal="deploy" bitcoin_config="--enable-gui --enable-reduce-exports" makejobs="-j2"
+    - compiler: ": bitcoind"
+      env: host=x86_64-unknown-linux-gnu packages="bc" dep_opts="no_qt=1 no_upnp=1 debug=1" run_tests=true goal="install" bitcoin_config="--enable-glibc-back-compat --enable-reduce-exports cppflags=-ddebug_lockorder"
+    - compiler: ": no wallet"
+      env: host=x86_64-unknown-linux-gnu dep_opts="no_wallet=1" run_tests=true goal="install" bitcoin_config="--enable-glibc-back-compat --enable-reduce-exports"
+    - compiler: ": cross-mac"
+      env: host=x86_64-apple-darwin11 packages="cmake libcap-dev libz-dev libbz2-dev" bitcoin_config="--enable-reduce-exports" osx_sdk=10.9 goal="deploy"
+install:
+    - if [ -n "$packages" ]; then travis_retry sudo apt-get update; fi
+    - if [ -n "$packages" ]; then travis_retry sudo apt-get install --no-install-recommends --no-upgrade -qq $packages; fi
+before_script:
+    - unset cc; unset cxx
+    - mkdir -p depends/sdks depends/sdk-sources
+    - if [ -n "$osx_sdk" -a ! -f depends/sdk-sources/macosx${osx_sdk}.sdk.tar.gz ]; then wget $sdk_url/macosx${osx_sdk}.sdk.tar.gz -o depends/sdk-sources/macosx${osx_sdk}.sdk.tar.gz; fi
+    - if [ -n "$osx_sdk" -a -f depends/sdk-sources/macosx${osx_sdk}.sdk.tar.gz ]; then tar -c depends/sdks -xf depends/sdk-sources/macosx${osx_sdk}.sdk.tar.gz; fi
+    - make $makejobs -c depends host=$host $dep_opts
+script:
+    - if [ -n "$use_shell" ]; then export config_shell="$use_shell"; fi
+    - outdir=$base_outdir/$travis_pull_request/$travis_job_number-$host
+    - bitcoin_config_all="--disable-dependency-tracking --prefix=$travis_build_dir/depends/$host --bindir=$outdir/bin --libdir=$outdir/lib"
+    - depends/$host/native/bin/ccache --max-size=$ccache_size
+    - if [ "$travis_pull_request" != "false" ]; then export ccache_readonly=1; fi
+    - test -n "$use_shell" && eval '"$use_shell" -c "./autogen.sh"' || ./autogen.sh
+    - ./configure --cache-file=config.cache $bitcoin_config_all $bitcoin_config || ( cat config.log && false)
+    - make distdir package=bitcoin version=$host
+    - cd bitcoin-$host
+    - ./configure --cache-file=../config.cache $bitcoin_config_all $bitcoin_config || ( cat config.log && false)
+    - make $makejobs $goal || ( echo "build failure. verbose build follows." && make $goal v=1 ; false )
+    - export ld_library_path=$travis_build_dir/depends/$host/lib
+    - if [ "$run_tests" = "true" ]; then make check; fi
+    - if [ "$run_tests" = "true" ]; then qa/pull-tester/rpc-tests.sh; fi
+after_script:
+    - if [ "$travis_pull_request" != "false" ]; then (echo "upload goes here. something like: scp -r $base_outdir server" || echo "upload failed"); fi

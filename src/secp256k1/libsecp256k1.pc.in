@@ -1,0 +1,13 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+name: libsecp256k1
+description: optimized c library for ec operations on curve secp256k1
+url: https://github.com/bitcoin/secp256k1
+version: @package_version@
+cflags: -i${includedir}
+libs.private: @secp_libs@
+libs: -l${libdir} -lsecp256k1
+

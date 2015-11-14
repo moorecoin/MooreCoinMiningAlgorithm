@@ -1,0 +1,190 @@
+<ts language="ms_my" version="2.1">
+<context>
+    <name>addressbookpage</name>
+    <message>
+        <source>create a new address</source>
+        <translation>cipta alamat baru</translation>
+    </message>
+    <message>
+        <source>&amp;new</source>
+        <translation>&amp;baru</translation>
+    </message>
+    <message>
+        <source>copy the currently selected address to the system clipboard</source>
+        <translation>salin alamat terpilih ke dalam sistem papan klip</translation>
+    </message>
+    <message>
+        <source>&amp;copy</source>
+        <translation>&amp;salin</translation>
+    </message>
+    <message>
+        <source>&amp;copy address</source>
+        <translation>&amp;salin alamat</translation>
+    </message>
+    <message>
+        <source>&amp;export</source>
+        <translation>&amp;eksport</translation>
+    </message>
+    <message>
+        <source>&amp;delete</source>
+        <translation>&amp;padam</translation>
+    </message>
+    <message>
+        <source>choose the address to send coins to</source>
+        <translation>pilih alamat untuk menghantar syiling</translation>
+    </message>
+    <message>
+        <source>choose the address to receive coins with</source>
+        <translation>pilih alamat untuk menerima syiling</translation>
+    </message>
+    <message>
+        <source>c&amp;hoose</source>
+        <translation>&amp;pilih</translation>
+    </message>
+    <message>
+        <source>comma separated file (*.csv)</source>
+        <translation>fail yang dipisahkan dengan koma</translation>
+    </message>
+    </context>
+<context>
+    <name>addresstablemodel</name>
+    <message>
+        <source>address</source>
+        <translation>alamat</translation>
+    </message>
+    </context>
+<context>
+    <name>askpassphrasedialog</name>
+    </context>
+<context>
+    <name>bitcoingui</name>
+    <message>
+        <source>&amp;options...</source>
+        <translation>pilihan</translation>
+    </message>
+    </context>
+<context>
+    <name>clientmodel</name>
+    </context>
+<context>
+    <name>coincontroldialog</name>
+    </context>
+<context>
+    <name>editaddressdialog</name>
+    <message>
+        <source>edit address</source>
+        <translation>alamat</translation>
+    </message>
+    <message>
+        <source>&amp;address</source>
+        <translation>alamat</translation>
+    </message>
+    </context>
+<context>
+    <name>freespacechecker</name>
+    </context>
+<context>
+    <name>helpmessagedialog</name>
+    </context>
+<context>
+    <name>intro</name>
+    </context>
+<context>
+    <name>openuridialog</name>
+    </context>
+<context>
+    <name>optionsdialog</name>
+    </context>
+<context>
+    <name>overviewpage</name>
+    </context>
+<context>
+    <name>paymentserver</name>
+    </context>
+<context>
+    <name>peertablemodel</name>
+    </context>
+<context>
+    <name>qobject</name>
+    </context>
+<context>
+    <name>qrimagewidget</name>
+    </context>
+<context>
+    <name>rpcconsole</name>
+    </context>
+<context>
+    <name>receivecoinsdialog</name>
+    </context>
+<context>
+    <name>receiverequestdialog</name>
+    <message>
+        <source>address</source>
+        <translation>alamat</translation>
+    </message>
+    </context>
+<context>
+    <name>recentrequeststablemodel</name>
+    </context>
+<context>
+    <name>sendcoinsdialog</name>
+    <message>
+        <source>balance:</source>
+        <translation>baki</translation>
+    </message>
+    </context>
+<context>
+    <name>sendcoinsentry</name>
+    </context>
+<context>
+    <name>shutdownwindow</name>
+    </context>
+<context>
+    <name>signverifymessagedialog</name>
+    </context>
+<context>
+    <name>splashscreen</name>
+    </context>
+<context>
+    <name>trafficgraphwidget</name>
+    </context>
+<context>
+    <name>transactiondesc</name>
+    </context>
+<context>
+    <name>transactiondescdialog</name>
+    </context>
+<context>
+    <name>transactiontablemodel</name>
+    </context>
+<context>
+    <name>transactionview</name>
+    <message>
+        <source>comma separated file (*.csv)</source>
+        <translation>fail yang dipisahkan dengan koma</translation>
+    </message>
+    <message>
+        <source>address</source>
+        <translation>alamat</translation>
+    </message>
+    </context>
+<context>
+    <name>unitdisplaystatusbarcontrol</name>
+    </context>
+<context>
+    <name>walletframe</name>
+    </context>
+<context>
+    <name>walletmodel</name>
+    </context>
+<context>
+    <name>walletview</name>
+    <message>
+        <source>&amp;export</source>
+        <translation>&amp;eksport</translation>
+    </message>
+    </context>
+<context>
+    <name>bitcoin-core</name>
+    </context>
+</ts>

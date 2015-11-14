@@ -1,0 +1,48 @@
+bin_programs += qt/test/test_moorecoin-qt
+tests += qt/test/test_moorecoin-qt
+
+test_qt_moc_cpp = qt/test/moc_uritests.cpp
+
+if enable_wallet
+test_qt_moc_cpp += qt/test/moc_paymentservertests.cpp
+endif
+
+test_qt_h = \
+  qt/test/uritests.h \
+  qt/test/paymentrequestdata.h \
+  qt/test/paymentservertests.h
+
+qt_test_test_moorecoin_qt_cppflags = $(moorecoin_includes) $(moorecoin_qt_includes) \
+  $(qt_includes) $(qt_test_includes) $(protobuf_cflags)
+
+qt_test_test_moorecoin_qt_sources = \
+  qt/test/test_main.cpp \
+  qt/test/uritests.cpp \
+  $(test_qt_h)
+if enable_wallet
+qt_test_test_moorecoin_qt_sources += \
+  qt/test/paymentservertests.cpp
+endif
+
+nodist_qt_test_test_moorecoin_qt_sources = $(test_qt_moc_cpp)
+
+qt_test_test_moorecoin_qt_ldadd = $(libmoorecoinqt) $(libmoorecoin_server)
+if enable_wallet
+qt_test_test_moorecoin_qt_ldadd += $(libmoorecoin_wallet)
+endif
+qt_test_test_moorecoin_qt_ldadd += $(libmoorecoin_cli) $(libmoorecoin_common) $(libmoorecoin_util) $(libmoorecoin_crypto) $(libmoorecoin_univalue) $(libleveldb) \
+  $(libmemenv) $(boost_libs) $(qt_dbus_libs) $(qt_test_libs) $(qt_libs) \
+  $(qr_libs) $(protobuf_libs) $(bdb_libs) $(ssl_libs) $(crypto_libs) $(miniupnpc_libs) $(libsecp256k1)
+qt_test_test_moorecoin_qt_ldflags = $(reldflags) $(am_ldflags) $(qt_ldflags) $(libtool_app_ldflags)
+
+clean_moorecoin_qt_test = $(test_qt_moc_cpp) qt/test/*.gcda qt/test/*.gcno
+
+cleanfiles += $(clean_moorecoin_qt_test)
+
+test_moorecoin_qt : qt/test/test_moorecoin-qt$(exeext)
+
+test_moorecoin_qt_check : qt/test/test_moorecoin-qt$(exeext) force
+	$(make) check-tests tests=$^
+
+test_moorecoin_qt_clean: force
+	rm -f $(clean_moorecoin_qt_test) $(qt_test_test_moorecoin_qt_objects)

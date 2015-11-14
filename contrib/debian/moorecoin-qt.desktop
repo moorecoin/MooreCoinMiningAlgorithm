@@ -1,0 +1,12 @@
+[desktop entry]
+encoding=utf-8
+name=bitcoin
+comment=bitcoin p2p cryptocurrency
+comment[fr]=bitcoin, monnaie virtuelle cryptographique pair 脿 pair
+comment[tr]=bitcoin, e艧ten e艧e kriptografik sanal para birimi
+exec=bitcoin-qt %u
+terminal=false
+type=application
+icon=bitcoin128
+mimetype=x-scheme-handler/bitcoin;
+categories=office;finance;

@@ -1,0 +1,45 @@
+--- 
+name: moorecoin
+urls:
+- http://moorecoin.org/moorecoin-latest-win32-gitian.zip
+rss:
+- url: http://sourceforge.net/api/file/index/project-id/244765/mtime/desc/limit/100/rss
+  xpath: //item/link/text()
+  pattern: moorecoin-\d+.\d+.\d+-win32-gitian.zip
+signers:
+  0a82509767c7d4a5d14da2301ae1d35043e08e54:
+    name: bluematt
+    key: bluematt
+  bf6273faef7cc0ba1f562e50989f6b3048a116b5:
+    name: devrandom
+    key: devrandom
+  e463a93f5f3117eede6c7316bd02942421f4889f:
+    name: luke-jr
+    key: luke-jr
+  d762373d24904a3e42f33b08b9a408e71daac974:
+    name: "pieter wuille"
+    key: sipa
+  77e72e69da7ee0a148c06b21b34821d4944de5f7:
+    name: tcatm
+    key: tcatm
+  01cdf4627a3b88aae4a571c87588242fbe38d3a8:
+    name: "gavin andresen"
+    key: gavinandresen
+  71a3b16735405025d447e8f274810b012346c9a6:
+    name: "wladimir j. van der laan"
+    key: laanwj
+  aec1884398647c47413c1c3fb1179eb7347dc10d:
+    name: "warren togami"
+    key: wtogami
+  9692b91bbf0e8d34dfd33b1882c5c009628ecf0c:
+    name: michagogo
+    key: michagogo
+  e944ae667cf960b1004bc32fca662be18b877a60:
+    name: "andreas schildbach"
+    key: aschildbach
+  c060a6635913d98a3587d7db1c2491ffeb0ef770:
+    name: "cory fields"
+    key: "cfields"
+  37ec7d7b0a217cdb4b4e007e7fab114267e4fa04:
+    name: "peter todd"
+    key: "petertodd"

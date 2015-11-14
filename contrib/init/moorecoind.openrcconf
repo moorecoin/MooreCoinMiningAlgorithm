@@ -1,0 +1,27 @@
+# /etc/conf.d/bitcoind: config file for /etc/init.d/bitcoind
+
+# config file location
+#bitcoind_configfile="/etc/bitcoin/bitcoin.conf"
+
+# what directory to write pidfile to?  (created and owned by $bitcoind_user)
+#bitcoind_piddir="/var/run/bitcoind"
+
+# what filename to give the pidfile
+#bitcoind_pidfile="${bitcoind_piddir}/bitcoind.pid"
+
+# where to write bitcoind data (be mindful that the blockchain is large)
+#bitcoind_datadir="/var/lib/bitcoind"
+
+# user and group to own bitcoind process
+#bitcoind_user="bitcoin"
+#bitcoind_group="bitcoin"
+
+# path to bitcoind executable
+#bitcoind_bin="/usr/bin/bitcoind"
+
+# nice value to run bitcoind under
+#bitcoind_nice=0
+
+# additional options (avoid -conf and -datadir, use flags above)
+bitcoind_opts="-disablewallet"
+

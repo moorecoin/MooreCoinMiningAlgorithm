@@ -1,0 +1,89 @@
+.th bitcoin.conf "5" "january 2011" "bitcoin.conf 3.19"
+.sh name
+bitcoin.conf \- bitcoin configuration file
+.sh synopsis
+all command-line options (except for '\-conf') may be specified in a configuration file, and all configuration file options may also be specified on the command line. command-line options override values set in the configuration file.
+.tp
+the configuration file is a list of 'setting=value' pairs, one per line, with optional comments starting with the '#' character.
+.tp
+the configuration file is not automatically created; you can create it using your favorite plain-text editor. by default, bitcoind(1) will look for a file named bitcoin.conf(5) in the bitcoin data directory, but both the data directory and the configuration file path may be changed using the '\-datadir' and '\-conf' command-line arguments.
+.sh location
+bitcoin.conf should be located in $home/.bitcoin
+.sh network-related settings
+.tp
+.tp
+\fbtestnet=\fr[\fi'1'\fr|\fi'0'\fr]
+enable or disable run on the test network instead of the real *bitcoin* network.
+.tp
+\fbproxy=\fr\fi'127.0.0.1:9050'\fr
+connect via a socks4 proxy.
+.tp
+\fbaddnode=\fr\fi'10.0.0.2:8333'\fr
+use as many *addnode=* settings as you like to connect to specific peers.
+.tp
+\fbconnect=\fr\fi'10.0.0.1:8333'\fr
+use as many *connect=* settings as you like to connect only to specific peers.
+.tp
+\frmaxconnections=\fr\fi'value'\fr
+maximum number of inbound+outbound connections.
+.sh json-rpc options
+.tp
+\fbserver=\fr[\fi'1'\fr|\fi'0'\fr]
+tells *bitcoin* to accept or not accept json-rpc commands.
+.tp
+\fbrpcuser=\fr\fi'username'\fr
+you must set *rpcuser* to secure the json-rpc api.
+.tp
+\fbrpcpassword=\fr\fi'password'\fr
+you must set *rpcpassword* to secure the json-rpc api.
+.tp
+\fbrpcallowip=\fr\fi'192.168.1.*'\fr
+by default, only rpc connections from localhost are allowed. specify as many *rpcallowip=* settings as you like to allow connections from other hosts (and you may use * as a wildcard character).
+.tp
+\fbrpcport=\fr\fi'8332'\fr
+listen for rpc connections on this tcp port.
+.tp
+\fbrpcconnect=\fr\fi'127.0.0.1'\fr
+you can use *bitcoin* or *bitcoind(1)* to send commands to *bitcoin*/*bitcoind(1)* running on another host using this option.
+.tp
+\fbrpcssl=\fr\fi'1'\fr
+use secure sockets layer (also known as tls or https) to communicate with *bitcoin* '\-server' or *bitcoind(1)*. example of openssl settings used when *rpcssl*='1':
+.tp
+\fb\-rpcsslciphers=\fr<ciphers>
+acceptable ciphers (default: tlsv1+high:\:!sslv2:\:!anull:\:!enull:\:!ah:\:!3des:\:@strength)
+.tp
+\fbrpcsslcertificatechainfile=\fr\fi'server.cert'\fr
+.tp
+\fbrpcsslprivatekeyfile=\fr\fi'server.pem'\fr
+.tp
+.sh miscellaneous options
+.tp
+\fbgen=\fr[\fi'0'\fr|\fi'1'\fr]
+enable or disable attempt to generate bitcoins.
+.tp
+\fb4way=\fr[\fi'0'\fr|\fi'1'\fr]
+enable or disable use sse instructions to try to generate bitcoins faster.
+.tp
+\fbkeypool=\fr\fi'100'\fr
+pre-generate this many public/private key pairs, so wallet backups will be valid for both prior transactions and several dozen future transactions.
+.tp
+\fbpaytxfee=\fr\fi'0.00'\fr
+pay an optional transaction fee every time you send bitcoins. transactions with fees are more likely than free transactions to be included in generated blocks, so may be validated sooner.
+.tp
+\fballowreceivebyip=\fr\fi'1'\fr
+allow direct connections for the 'pay via ip address' feature.
+.tp
+.sh user interface options
+.tp
+\fbmin=\fr[\fi'0'\fr|\fi'1'\fr]
+enable or disable start bitcoind minimized.
+.tp
+\fbminimizetotray=\fr[\fi'0'\fr|\fi'1'\fr]
+enable or disable minimize to the system tray.
+.sh "see also"
+bitcoind(1)
+.sh author
+this manual page was written by micah anderson <micah@debian.org> for the debian system (but may be used by others). permission is granted to copy, distribute and/or modify this document under the terms of the gnu general public license, version 3 or any later version published by the free software foundation.
+
+on debian systems, the complete text of the gnu general public license can be found in /usr/share/common-licenses/gpl.
+

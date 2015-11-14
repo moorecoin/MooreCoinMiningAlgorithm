@@ -1,0 +1,58 @@
+source: moorecoin
+section: utils
+priority: optional
+maintainer: jonas smedegaard <dr@jones.dk>
+uploaders: micah anderson <micah@debian.org>
+build-depends: debhelper,
+ devscripts,
+ automake,
+ libtool,
+ bash-completion,
+ libboost-system-dev (>> 1.35) | libboost-system1.35-dev,
+ libdb4.8++-dev,
+ libssl-dev,
+ pkg-config,
+ libminiupnpc8-dev | libminiupnpc-dev (>> 1.6),
+ libboost-filesystem-dev (>> 1.35) | libboost-filesystem1.35-dev,
+ libboost-program-options-dev (>> 1.35) | libboost-program-options1.35-dev,
+ libboost-thread-dev (>> 1.35) | libboost-thread1.35-dev,
+ libboost-test-dev (>> 1.35) | libboost-test1.35-dev,
+ qt4-qmake,
+ libqt4-dev,
+ libqrencode-dev,
+ libprotobuf-dev, protobuf-compiler
+standards-version: 3.9.2
+homepage: http://www.moorecoin.org/
+vcs-git: git://github.com/moorecoin/moorecoin.git
+vcs-browser: http://github.com/moorecoin/moorecoin
+
+package: moorecoind
+architecture: any
+depends: ${shlibs:depends}, ${misc:depends}
+description: peer-to-peer network based digital currency - daemon
+ moorecoin is a free open source peer-to-peer electronic cash system that
+ is completely decentralized, without the need for a central server or
+ trusted parties.  users hold the crypto keys to their own money and
+ transact directly with each other, with the help of a p2p network to
+ check for double-spending.
+ .
+ full transaction history is stored locally at each client.  this
+ requires 20+ gb of space, slowly growing.
+ .
+ this package provides the daemon, moorecoind, and the cli tool
+ moorecoin-cli to interact with the daemon.
+
+package: moorecoin-qt
+architecture: any
+depends: ${shlibs:depends}, ${misc:depends}
+description: peer-to-peer network based digital currency - qt gui
+ moorecoin is a free open source peer-to-peer electronic cash system that
+ is completely decentralized, without the need for a central server or
+ trusted parties.  users hold the crypto keys to their own money and
+ transact directly with each other, with the help of a p2p network to
+ check for double-spending.
+ .
+ full transaction history is stored locally at each client.  this
+ requires 20+ gb of space, slowly growing.
+ .
+ this package provides moorecoin-qt, a gui for moorecoin based on qt.

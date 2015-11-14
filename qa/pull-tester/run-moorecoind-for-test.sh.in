@@ -1,0 +1,36 @@
+#!/bin/bash
+# copyright (c) 2013-2014 the bitcoin core developers
+# distributed under the mit software license, see the accompanying
+# file copying or http://www.opensource.org/licenses/mit-license.php.
+#
+datadir="@abs_top_builddir@/.bitcoin"
+rm -rf "$datadir"
+mkdir -p "$datadir"/regtest
+touch "$datadir/regtest/debug.log"
+tail -q -n 1 -f "$datadir/regtest/debug.log" | grep -m 1 -q "done loading" &
+waiter=$!
+port=`expr 10000 + $$ % 55536`
+"@abs_top_builddir@/src/bitcoind@exeext@" -connect=0.0.0.0 -datadir="$datadir" -rpcuser=user -rpcpassword=pass -listen -keypool=3 -debug -debug=net -logtimestamps -checkmempool=0 -relaypriority=0 -port=$port -whitelist=127.0.0.1 -regtest -rpcport=`expr $port + 1` &
+bitcoind=$!
+
+#install a watchdog.
+(sleep 10 && kill -0 $waiter 2>/dev/null && kill -9 $bitcoind $$)&
+wait $waiter
+
+if [ -n "$timeout" ]; then
+  timeout "$timeout"s "$@" $port
+  return=$?
+else
+  "$@" $port
+  return=$?
+fi
+
+(sleep 15 && kill -0 $bitcoind 2>/dev/null && kill -9 $bitcoind $$)&
+kill $bitcoind && wait $bitcoind
+
+# timeout returns 124 on timeout, otherwise the return value of the child
+
+# if $return is not 0, the test failed. dump the tail of the debug log.
+if [ $return -ne 0 ]; then tail -n 200 $datadir/regtest/debug.log; fi
+
+exit $return

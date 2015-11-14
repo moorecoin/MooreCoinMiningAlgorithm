@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui version="4.0">
+ <class>transactiondescdialog</class>
+ <widget class="qdialog" name="transactiondescdialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>620</width>
+    <height>250</height>
+   </rect>
+  </property>
+  <property name="windowtitle">
+   <string>transaction details</string>
+  </property>
+  <layout class="qvboxlayout" name="verticallayout">
+   <item>
+    <widget class="qtextedit" name="detailtext">
+     <property name="tooltip">
+      <string>this pane shows a detailed description of the transaction</string>
+     </property>
+     <property name="readonly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="qdialogbuttonbox" name="buttonbox">
+     <property name="orientation">
+      <enum>qt::horizontal</enum>
+     </property>
+     <property name="standardbuttons">
+      <set>qdialogbuttonbox::close</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonbox</sender>
+   <signal>accepted()</signal>
+   <receiver>transactiondescdialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonbox</sender>
+   <signal>rejected()</signal>
+   <receiver>transactiondescdialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

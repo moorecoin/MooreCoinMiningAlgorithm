@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui version="4.0">
+ <class>askpassphrasedialog</class>
+ <widget class="qdialog" name="askpassphrasedialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>598</width>
+    <height>222</height>
+   </rect>
+  </property>
+  <property name="sizepolicy">
+   <sizepolicy hsizetype="preferred" vsizetype="minimum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumsize">
+   <size>
+    <width>550</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="windowtitle">
+   <string>passphrase dialog</string>
+  </property>
+  <layout class="qvboxlayout" name="verticallayout">
+   <property name="sizeconstraint">
+    <enum>qlayout::setminimumsize</enum>
+   </property>
+   <item>
+    <widget class="qlabel" name="warninglabel">
+     <property name="text">
+      <string notr="true">placeholder text</string>
+     </property>
+     <property name="textformat">
+      <enum>qt::richtext</enum>
+     </property>
+     <property name="wordwrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="qformlayout" name="formlayout">
+     <property name="sizeconstraint">
+      <enum>qlayout::setminimumsize</enum>
+     </property>
+     <property name="fieldgrowthpolicy">
+      <enum>qformlayout::allnonfixedfieldsgrow</enum>
+     </property>
+     <item row="0" column="0">
+      <widget class="qlabel" name="passlabel1">
+       <property name="text">
+        <string>enter passphrase</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="qlineedit" name="passedit1">
+       <property name="echomode">
+        <enum>qlineedit::password</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="qlabel" name="passlabel2">
+       <property name="text">
+        <string>new passphrase</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="qlineedit" name="passedit2">
+       <property name="echomode">
+        <enum>qlineedit::password</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="qlabel" name="passlabel3">
+       <property name="text">
+        <string>repeat new passphrase</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="qlineedit" name="passedit3">
+       <property name="echomode">
+        <enum>qlineedit::password</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="qlabel" name="capslabel">
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>qt::aligncenter</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="qdialogbuttonbox" name="buttonbox">
+     <property name="orientation">
+      <enum>qt::horizontal</enum>
+     </property>
+     <property name="standardbuttons">
+      <set>qdialogbuttonbox::cancel|qdialogbuttonbox::ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonbox</sender>
+   <signal>accepted()</signal>
+   <receiver>askpassphrasedialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonbox</sender>
+   <signal>rejected()</signal>
+   <receiver>askpassphrasedialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

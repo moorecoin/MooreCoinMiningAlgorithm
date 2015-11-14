@@ -1,0 +1,38 @@
+---
+name: "bitcoin-dmg-signer"
+suites:
+- "precise"
+architectures:
+- "amd64"
+packages:
+- "libc6:i386"
+- "faketime"
+reference_datetime: "2015-06-01 00:00:00"
+remotes:
+- "url": "https://github.com/bitcoin/bitcoin-detached-sigs.git"
+  "dir": "signature"
+files:
+- "bitcoin-osx-unsigned.tar.gz"
+script: |
+  wrap_dir=$home/wrapped
+  mkdir -p ${wrap_dir}
+  export path=`pwd`:$path
+  faketime_progs="dmg genisoimage"
+
+  # create global faketime wrappers
+  for prog in ${faketime_progs}; do
+    echo '#!/bin/bash' > ${wrap_dir}/${prog}
+    echo "real=\`which -a ${prog} | grep -v ${wrap_dir}/${prog} | head -1\`" >> ${wrap_dir}/${prog}
+    echo 'export ld_preload=/usr/lib/faketime/libfaketime.so.1' >> ${wrap_dir}/${prog}
+    echo "export faketime=\"${reference_datetime}\"" >> ${wrap_dir}/${prog}
+    echo "\$real \$@" >> $wrap_dir/${prog}
+    chmod +x ${wrap_dir}/${prog}
+  done
+
+  unsigned=bitcoin-osx-unsigned.tar.gz
+  signed=bitcoin-osx-signed.dmg
+
+  tar -xf ${unsigned}
+  ./detached-sig-apply.sh ${unsigned} signature/osx
+  ${wrap_dir}/genisoimage -no-cache-inodes -d -l -probe -v "bitcoin-core" -no-pad -r -apple -o uncompressed.dmg signed-app
+  ${wrap_dir}/dmg dmg uncompressed.dmg ${outdir}/${signed}

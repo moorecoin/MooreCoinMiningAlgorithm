@@ -1,0 +1,213 @@
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="doc.css" />
+<title>leveldb file layout and compactions</title>
+</head>
+
+<body>
+
+<h1>files</h1>
+
+the implementation of leveldb is similar in spirit to the
+representation of a single
+<a href="http://research.google.com/archive/bigtable.html">
+bigtable tablet (section 5.3)</a>.
+however the organization of the files that make up the representation
+is somewhat different and is explained below.
+
+<p>
+each database is represented by a set of files stored in a directory.
+there are several different types of files as documented below:
+<p>
+<h2>log files</h2>
+<p>
+a log file (*.log) stores a sequence of recent updates.  each update
+is appended to the current log file.  when the log file reaches a
+pre-determined size (approximately 4mb by default), it is converted
+to a sorted table (see below) and a new log file is created for future
+updates.
+<p>
+a copy of the current log file is kept in an in-memory structure (the
+<code>memtable</code>).  this copy is consulted on every read so that read
+operations reflect all logged updates.
+<p>
+<h2>sorted tables</h2>
+<p>
+a sorted table (*.sst) stores a sequence of entries sorted by key.
+each entry is either a value for the key, or a deletion marker for the
+key.  (deletion markers are kept around to hide obsolete values
+present in older sorted tables).
+<p>
+the set of sorted tables are organized into a sequence of levels.  the
+sorted table generated from a log file is placed in a special <code>young</code>
+level (also called level-0).  when the number of young files exceeds a
+certain threshold (currently four), all of the young files are merged
+together with all of the overlapping level-1 files to produce a
+sequence of new level-1 files (we create a new level-1 file for every
+2mb of data.)
+<p>
+files in the young level may contain overlapping keys.  however files
+in other levels have distinct non-overlapping key ranges.  consider
+level number l where l >= 1.  when the combined size of files in
+level-l exceeds (10^l) mb (i.e., 10mb for level-1, 100mb for level-2,
+...), one file in level-l, and all of the overlapping files in
+level-(l+1) are merged to form a set of new files for level-(l+1).
+these merges have the effect of gradually migrating new updates from
+the young level to the largest level using only bulk reads and writes
+(i.e., minimizing expensive seeks).
+
+<h2>manifest</h2>
+<p>
+a manifest file lists the set of sorted tables that make up each
+level, the corresponding key ranges, and other important metadata.
+a new manifest file (with a new number embedded in the file name)
+is created whenever the database is reopened.  the manifest file is
+formatted as a log, and changes made to the serving state (as files
+are added or removed) are appended to this log.
+<p>
+<h2>current</h2>
+<p>
+current is a simple text file that contains the name of the latest
+manifest file.
+<p>
+<h2>info logs</h2>
+<p>
+informational messages are printed to files named log and log.old.
+<p>
+<h2>others</h2>
+<p>
+other files used for miscellaneous purposes may also be present
+(lock, *.dbtmp).
+
+<h1>level 0</h1>
+when the log file grows above a certain size (1mb by default):
+<ul>
+<li>create a brand new memtable and log file and direct future updates here
+<li>in the background:
+<ul>
+<li>write the contents of the previous memtable to an sstable
+<li>discard the memtable
+<li>delete the old log file and the old memtable
+<li>add the new sstable to the young (level-0) level.
+</ul>
+</ul>
+
+<h1>compactions</h1>
+
+<p>
+when the size of level l exceeds its limit, we compact it in a
+background thread.  the compaction picks a file from level l and all
+overlapping files from the next level l+1.  note that if a level-l
+file overlaps only part of a level-(l+1) file, the entire file at
+level-(l+1) is used as an input to the compaction and will be
+discarded after the compaction.  aside: because level-0 is special
+(files in it may overlap each other), we treat compactions from
+level-0 to level-1 specially: a level-0 compaction may pick more than
+one level-0 file in case some of these files overlap each other.
+
+<p>
+a compaction merges the contents of the picked files to produce a
+sequence of level-(l+1) files.  we switch to producing a new
+level-(l+1) file after the current output file has reached the target
+file size (2mb).  we also switch to a new output file when the key
+range of the current output file has grown enough to overlap more than
+ten level-(l+2) files.  this last rule ensures that a later compaction
+of a level-(l+1) file will not pick up too much data from level-(l+2).
+
+<p>
+the old files are discarded and the new files are added to the serving
+state.
+
+<p>
+compactions for a particular level rotate through the key space.  in
+more detail, for each level l, we remember the ending key of the last
+compaction at level l.  the next compaction for level l will pick the
+first file that starts after this key (wrapping around to the
+beginning of the key space if there is no such file).
+
+<p>
+compactions drop overwritten values.  they also drop deletion markers
+if there are no higher numbered levels that contain a file whose range
+overlaps the current key.
+
+<h2>timing</h2>
+
+level-0 compactions will read up to four 1mb files from level-0, and
+at worst all the level-1 files (10mb).  i.e., we will read 14mb and
+write 14mb.
+
+<p>
+other than the special level-0 compactions, we will pick one 2mb file
+from level l.  in the worst case, this will overlap ~ 12 files from
+level l+1 (10 because level-(l+1) is ten times the size of level-l,
+and another two at the boundaries since the file ranges at level-l
+will usually not be aligned with the file ranges at level-l+1).  the
+compaction will therefore read 26mb and write 26mb.  assuming a disk
+io rate of 100mb/s (ballpark range for modern drives), the worst
+compaction cost will be approximately 0.5 second.
+
+<p>
+if we throttle the background writing to something small, say 10% of
+the full 100mb/s speed, a compaction may take up to 5 seconds.  if the
+user is writing at 10mb/s, we might build up lots of level-0 files
+(~50 to hold the 5*10mb).  this may significantly increase the cost of
+reads due to the overhead of merging more files together on every
+read.
+
+<p>
+solution 1: to reduce this problem, we might want to increase the log
+switching threshold when the number of level-0 files is large.  though
+the downside is that the larger this threshold, the more memory we will
+need to hold the corresponding memtable.
+
+<p>
+solution 2: we might want to decrease write rate artificially when the
+number of level-0 files goes up.
+
+<p>
+solution 3: we work on reducing the cost of very wide merges.
+perhaps most of the level-0 files will have their blocks sitting
+uncompressed in the cache and we will only need to worry about the
+o(n) complexity in the merging iterator.
+
+<h2>number of files</h2>
+
+instead of always making 2mb files, we could make larger files for
+larger levels to reduce the total file count, though at the expense of
+more bursty compactions.  alternatively, we could shard the set of
+files into multiple directories.
+
+<p>
+an experiment on an <code>ext3</code> filesystem on feb 04, 2011 shows
+the following timings to do 100k file opens in directories with
+varying number of files:
+<table class="datatable">
+<tr><th>files in directory</th><th>microseconds to open a file</th></tr>
+<tr><td>1000</td><td>9</td>
+<tr><td>10000</td><td>10</td>
+<tr><td>100000</td><td>16</td>
+</table>
+so maybe even the sharding is not necessary on modern filesystems?
+
+<h1>recovery</h1>
+
+<ul>
+<li> read current to find name of the latest committed manifest
+<li> read the named manifest file
+<li> clean up stale files
+<li> we could open all sstables here, but it is probably better to be lazy...
+<li> convert log chunk to a new level-0 sstable
+<li> start directing new writes to a new log file with recovered sequence#
+</ul>
+
+<h1>garbage collection of files</h1>
+
+<code>deleteobsoletefiles()</code> is called at the end of every
+compaction and at the end of recovery.  it finds the names of all
+files in the database.  it deletes all log files that are not the
+current log file.  it deletes all table files that are not referenced
+from some level and are not the output of an active compaction.
+
+</body>
+</html>

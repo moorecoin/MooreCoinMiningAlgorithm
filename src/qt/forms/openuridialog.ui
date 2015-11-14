@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui version="4.0">
+ <class>openuridialog</class>
+ <widget class="qdialog" name="openuridialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>564</width>
+    <height>109</height>
+   </rect>
+  </property>
+  <property name="windowtitle">
+   <string>open uri</string>
+  </property>
+  <layout class="qvboxlayout" name="verticallayout">
+   <item>
+    <widget class="qlabel" name="label_2">
+     <property name="text">
+      <string>open payment request from uri or file</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="qhboxlayout" name="horizontallayout">
+     <item>
+      <widget class="qlabel" name="label">
+       <property name="text">
+        <string>uri:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="qvalidatedlineedit" name="uriedit"/>
+     </item>
+     <item>
+      <widget class="qpushbutton" name="selectfilebutton">
+       <property name="tooltip">
+        <string>select payment request file</string>
+       </property>
+       <property name="text">
+        <string notr="true">鈥?/string>
+       </property>
+       <property name="autodefault">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="verticalspacer">
+     <property name="orientation">
+      <enum>qt::vertical</enum>
+     </property>
+     <property name="sizehint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="qdialogbuttonbox" name="buttonbox">
+     <property name="orientation">
+      <enum>qt::horizontal</enum>
+     </property>
+     <property name="standardbuttons">
+      <set>qdialogbuttonbox::cancel|qdialogbuttonbox::ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>qvalidatedlineedit</class>
+   <extends>qlineedit</extends>
+   <header>qvalidatedlineedit.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonbox</sender>
+   <signal>accepted()</signal>
+   <receiver>openuridialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonbox</sender>
+   <signal>rejected()</signal>
+   <receiver>openuridialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

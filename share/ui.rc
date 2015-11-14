@@ -1,0 +1,15 @@
+bitcoin               icon    "pixmaps/bitcoin.ico"
+
+#include "wx/msw/wx.rc"
+
+check                 icon    "pixmaps/check.ico"
+send16                bitmap  "pixmaps/send16.bmp"
+send16mask            bitmap  "pixmaps/send16mask.bmp"
+send16masknoshadow    bitmap  "pixmaps/send16masknoshadow.bmp"
+send20                bitmap  "pixmaps/send20.bmp"
+send20mask            bitmap  "pixmaps/send20mask.bmp"
+addressbook16         bitmap  "pixmaps/addressbook16.bmp"
+addressbook16mask     bitmap  "pixmaps/addressbook16mask.bmp"
+addressbook20         bitmap  "pixmaps/addressbook20.bmp"
+addressbook20mask     bitmap  "pixmaps/addressbook20mask.bmp"
+favicon               icon    "pixmaps/favicon.ico"

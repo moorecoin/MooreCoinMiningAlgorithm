@@ -1,0 +1,602 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui version="4.0">
+ <class>optionsdialog</class>
+ <widget class="qdialog" name="optionsdialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>560</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="windowtitle">
+   <string>options</string>
+  </property>
+  <property name="modal">
+   <bool>true</bool>
+  </property>
+  <layout class="qvboxlayout" name="verticallayout">
+   <item>
+    <widget class="qtabwidget" name="tabwidget">
+     <property name="currentindex">
+      <number>0</number>
+     </property>
+     <widget class="qwidget" name="tabmain">
+      <attribute name="title">
+       <string>&amp;main</string>
+      </attribute>
+      <layout class="qvboxlayout" name="verticallayout_main">
+       <item>
+        <widget class="qcheckbox" name="bitcoinatstartup">
+         <property name="tooltip">
+          <string>automatically start bitcoin core after logging in to the system.</string>
+         </property>
+         <property name="text">
+          <string>&amp;start bitcoin core on system login</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="qhboxlayout" name="horizontallayout_2_main">
+         <item>
+          <widget class="qlabel" name="databasecachelabel">
+           <property name="text">
+            <string>size of &amp;database cache</string>
+           </property>
+           <property name="textformat">
+            <enum>qt::plaintext</enum>
+           </property>
+           <property name="buddy">
+            <cstring>databasecache</cstring>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="qspinbox" name="databasecache"/>
+         </item>
+         <item>
+          <widget class="qlabel" name="databasecacheunitlabel">
+           <property name="text">
+            <string>mb</string>
+           </property>
+           <property name="textformat">
+            <enum>qt::plaintext</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalspacer_2_main">
+           <property name="orientation">
+            <enum>qt::horizontal</enum>
+           </property>
+           <property name="sizehint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="qhboxlayout" name="horizontallayout_3_main">
+         <item>
+          <widget class="qlabel" name="threadsscriptveriflabel">
+           <property name="text">
+            <string>number of script &amp;verification threads</string>
+           </property>
+           <property name="textformat">
+            <enum>qt::plaintext</enum>
+           </property>
+           <property name="buddy">
+            <cstring>threadsscriptverif</cstring>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="qspinbox" name="threadsscriptverif">
+           <property name="tooltip">
+            <string>(0 = auto, &lt;0 = leave that many cores free)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalspacer_3_main">
+           <property name="orientation">
+            <enum>qt::horizontal</enum>
+           </property>
+           <property name="sizehint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalspacer_main">
+         <property name="orientation">
+          <enum>qt::vertical</enum>
+         </property>
+         <property name="sizehint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="qwidget" name="tabwallet">
+      <attribute name="title">
+       <string>w&amp;allet</string>
+      </attribute>
+      <layout class="qvboxlayout" name="verticallayout_wallet">
+       <item>
+        <widget class="qgroupbox" name="groupbox">
+         <property name="title">
+          <string>expert</string>
+         </property>
+         <layout class="qvboxlayout" name="verticallayout_2">
+          <item>
+           <widget class="qcheckbox" name="coincontrolfeatures">
+            <property name="tooltip">
+             <string>whether to show coin control features or not.</string>
+            </property>
+            <property name="text">
+             <string>enable coin &amp;control features</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="qcheckbox" name="spendzeroconfchange">
+            <property name="tooltip">
+             <string>if you disable the spending of unconfirmed change, the change from a transaction cannot be used until that transaction has at least one confirmation. this also affects how your balance is computed.</string>
+            </property>
+            <property name="text">
+             <string>&amp;spend unconfirmed change</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalspacer_wallet">
+         <property name="orientation">
+          <enum>qt::vertical</enum>
+         </property>
+         <property name="sizehint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="qwidget" name="tabnetwork">
+      <attribute name="title">
+       <string>&amp;network</string>
+      </attribute>
+      <layout class="qvboxlayout" name="verticallayout_network">
+       <item>
+        <widget class="qcheckbox" name="mapportupnp">
+         <property name="tooltip">
+          <string>automatically open the bitcoin client port on the router. this only works when your router supports upnp and it is enabled.</string>
+         </property>
+         <property name="text">
+          <string>map port using &amp;upnp</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="qcheckbox" name="allowincoming">
+         <property name="tooltip">
+          <string>accept connections from outside</string>
+         </property>
+         <property name="text">
+          <string>allow incoming connections</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="qcheckbox" name="connectsocks">
+         <property name="tooltip">
+          <string>connect to the bitcoin network through a socks5 proxy.</string>
+         </property>
+         <property name="text">
+          <string>&amp;connect through socks5 proxy (default proxy):</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="qhboxlayout" name="horizontallayout_1_network">
+         <item>
+          <widget class="qlabel" name="proxyiplabel">
+           <property name="text">
+            <string>proxy &amp;ip:</string>
+           </property>
+           <property name="textformat">
+            <enum>qt::plaintext</enum>
+           </property>
+           <property name="buddy">
+            <cstring>proxyip</cstring>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="qvalidatedlineedit" name="proxyip">
+           <property name="minimumsize">
+            <size>
+             <width>140</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumsize">
+            <size>
+             <width>140</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="tooltip">
+            <string>ip address of the proxy (e.g. ipv4: 127.0.0.1 / ipv6: ::1)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="qlabel" name="proxyportlabel">
+           <property name="text">
+            <string>&amp;port:</string>
+           </property>
+           <property name="textformat">
+            <enum>qt::plaintext</enum>
+           </property>
+           <property name="buddy">
+            <cstring>proxyport</cstring>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="qlineedit" name="proxyport">
+           <property name="minimumsize">
+            <size>
+             <width>55</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumsize">
+            <size>
+             <width>55</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="tooltip">
+            <string>port of the proxy (e.g. 9050)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalspacer_1_network">
+           <property name="orientation">
+            <enum>qt::horizontal</enum>
+           </property>
+           <property name="sizehint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalspacer_network">
+         <property name="orientation">
+          <enum>qt::vertical</enum>
+         </property>
+         <property name="sizehint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="qwidget" name="tabwindow">
+      <attribute name="title">
+       <string>&amp;window</string>
+      </attribute>
+      <layout class="qvboxlayout" name="verticallayout_window">
+       <item>
+        <widget class="qcheckbox" name="minimizetotray">
+         <property name="tooltip">
+          <string>show only a tray icon after minimizing the window.</string>
+         </property>
+         <property name="text">
+          <string>&amp;minimize to the tray instead of the taskbar</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="qcheckbox" name="minimizeonclose">
+         <property name="tooltip">
+          <string>minimize instead of exit the application when the window is closed. when this option is enabled, the application will be closed only after selecting exit in the menu.</string>
+         </property>
+         <property name="text">
+          <string>m&amp;inimize on close</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalspacer_window">
+         <property name="orientation">
+          <enum>qt::vertical</enum>
+         </property>
+         <property name="sizehint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="qwidget" name="tabdisplay">
+      <attribute name="title">
+       <string>&amp;display</string>
+      </attribute>
+      <layout class="qvboxlayout" name="verticallayout_display">
+       <item>
+        <layout class="qhboxlayout" name="horizontallayout_1_display">
+         <item>
+          <widget class="qlabel" name="langlabel">
+           <property name="text">
+            <string>user interface &amp;language:</string>
+           </property>
+           <property name="textformat">
+            <enum>qt::plaintext</enum>
+           </property>
+           <property name="buddy">
+            <cstring>lang</cstring>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="qvaluecombobox" name="lang">
+           <property name="tooltip">
+            <string>the user interface language can be set here. this setting will take effect after restarting bitcoin core.</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="qhboxlayout" name="horizontallayout_2_display">
+         <item>
+          <widget class="qlabel" name="unitlabel">
+           <property name="text">
+            <string>&amp;unit to show amounts in:</string>
+           </property>
+           <property name="textformat">
+            <enum>qt::plaintext</enum>
+           </property>
+           <property name="buddy">
+            <cstring>unit</cstring>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="qvaluecombobox" name="unit">
+           <property name="tooltip">
+            <string>choose the default subdivision unit to show in the interface and when sending coins.</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="qhboxlayout" name="horizontallayout_3_display">
+         <item>
+          <widget class="qlabel" name="thirdpartytxurlslabel">
+           <property name="tooltip">
+            <string>third party urls (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the url is replaced by transaction hash. multiple urls are separated by vertical bar |.</string>
+           </property>
+           <property name="text">
+            <string>third party transaction urls</string>
+           </property>
+           <property name="buddy">
+            <cstring>thirdpartytxurls</cstring>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="qlineedit" name="thirdpartytxurls">
+           <property name="tooltip">
+            <string>third party urls (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the url is replaced by transaction hash. multiple urls are separated by vertical bar |.</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalspacer_display">
+         <property name="orientation">
+          <enum>qt::vertical</enum>
+         </property>
+         <property name="sizehint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="qframe" name="frame">
+     <layout class="qvboxlayout" name="verticallayout_bottom">
+      <item>
+       <layout class="qhboxlayout" name="horizontallayout_bottom">
+        <item>
+         <widget class="qlabel" name="overriddenbycommandlineinfolabel">
+          <property name="text">
+           <string>active command-line options that override above options:</string>
+          </property>
+          <property name="textformat">
+           <enum>qt::plaintext</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalspacer_bottom">
+          <property name="orientation">
+           <enum>qt::horizontal</enum>
+          </property>
+          <property name="sizehint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="qlabel" name="overriddenbycommandlinelabel">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="textformat">
+         <enum>qt::plaintext</enum>
+        </property>
+        <property name="wordwrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <layout class="qhboxlayout" name="horizontallayout_buttons">
+     <item>
+      <widget class="qpushbutton" name="resetbutton">
+       <property name="tooltip">
+        <string>reset all client options to default.</string>
+       </property>
+       <property name="text">
+        <string>&amp;reset options</string>
+       </property>
+       <property name="autodefault">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalspacer_1">
+       <property name="orientation">
+        <enum>qt::horizontal</enum>
+       </property>
+       <property name="sizehint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>48</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="qlabel" name="statuslabel">
+       <property name="minimumsize">
+        <size>
+         <width>200</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="textformat">
+        <enum>qt::plaintext</enum>
+       </property>
+       <property name="wordwrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalspacer_2">
+       <property name="orientation">
+        <enum>qt::horizontal</enum>
+       </property>
+       <property name="sizehint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>48</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="qpushbutton" name="okbutton">
+       <property name="text">
+        <string>&amp;ok</string>
+       </property>
+       <property name="autodefault">
+        <bool>false</bool>
+       </property>
+       <property name="default">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="qpushbutton" name="cancelbutton">
+       <property name="text">
+        <string>&amp;cancel</string>
+       </property>
+       <property name="autodefault">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>qvalidatedlineedit</class>
+   <extends>qlineedit</extends>
+   <header>qvalidatedlineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>qvaluecombobox</class>
+   <extends>qcombobox</extends>
+   <header>qvaluecombobox.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

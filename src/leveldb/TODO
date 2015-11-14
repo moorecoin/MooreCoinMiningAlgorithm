@@ -1,0 +1,14 @@
+ss
+- stats
+
+db
+- maybe implement db::bulkdeleteforrange(start_key, end_key)
+  that would blow away files whose ranges are entirely contained
+  within [start_key..end_key]?  for chrome, deletion of obsolete
+  object stores, etc. can be done in the background anyway, so
+  probably not that important.
+- there have been requests for multiget.
+
+after a range is completely deleted, what gets rid of the
+corresponding files if we do no future changes to that range.  make
+the conditions for triggering compactions fire in more situations?

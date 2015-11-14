@@ -1,0 +1,24 @@
+#!/usr/bin/make -f
+# -*- mode: makefile; coding: utf-8 -*-
+
+#deb_make_check_target = test_moorecoin
+#build/moorecoind::
+#	$(if $(filter nocheck,$(deb_build_options)),,src/test_moorecoin)
+
+deb_install_examples_moorecoind += debian/examples/*
+deb_install_manpages_moorecoind += debian/manpages/*
+
+%:
+	dh --with bash-completion $@
+
+override_dh_auto_clean:
+	if [ -f makefile ]; then $(make) distclean; fi
+	rm -rf makefile.in aclocal.m4 configure src/makefile.in src/moorecoin-config.h.in src/build-aux src/qt/makefile.in src/qt/test/makefile.in src/test/makefile.in
+
+# yea, autogen should be run on the source archive, but i like doing git archive
+override_dh_auto_configure:
+	./autogen.sh
+	./configure
+
+override_dh_auto_test:
+	make check

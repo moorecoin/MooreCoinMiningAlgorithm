@@ -1,0 +1,115 @@
+---
+name: "bitcoin-win-0.12"
+enable_cache: true
+suites:
+- "precise"
+architectures:
+- "amd64"
+packages: 
+- "g++"
+- "git-core"
+- "pkg-config"
+- "autoconf2.13"
+- "libtool"
+- "automake"
+- "faketime"
+- "bsdmainutils"
+- "mingw-w64"
+- "g++-mingw-w64"
+- "nsis"
+- "zip"
+reference_datetime: "2015-06-01 00:00:00"
+remotes:
+- "url": "https://github.com/bitcoin/bitcoin.git"
+  "dir": "bitcoin"
+files: []
+script: |
+  wrap_dir=$home/wrapped
+  hosts="x86_64-w64-mingw32 i686-w64-mingw32"
+  configflags="--enable-upnp-default --enable-reduce-exports"
+  faketime_host_progs="g++ ar ranlib nm windres strip"
+  faketime_progs="date makensis zip"
+
+  export qt_rcc_test=1
+  export gzip="-9n"
+  export tar_options="--mtime="$reference_date\\\ $reference_time""
+  export tz="utc"
+  export build_dir=`pwd`
+  mkdir -p ${wrap_dir}
+  if test -n "$gbuild_cache_enabled"; then
+    export sources_path=${gbuild_common_cache}
+    export base_cache=${gbuild_package_cache}
+    mkdir -p ${base_cache} ${sources_path}
+  fi
+
+  # create global faketime wrappers
+  for prog in ${faketime_progs}; do
+    echo '#!/bin/bash' > ${wrap_dir}/${prog}
+    echo "real=\`which -a ${prog} | grep -v ${wrap_dir}/${prog} | head -1\`" >> ${wrap_dir}/${prog}
+    echo 'export ld_preload=/usr/lib/faketime/libfaketime.so.1' >> ${wrap_dir}/${prog}
+    echo "export faketime=\"${reference_datetime}\"" >> ${wrap_dir}/${prog}
+    echo "\$real \$@" >> $wrap_dir/${prog}
+    chmod +x ${wrap_dir}/${prog}
+  done
+
+  # create per-host faketime wrappers
+  for i in $hosts; do
+    for prog in ${faketime_host_progs}; do
+        echo '#!/bin/bash' > ${wrap_dir}/${i}-${prog}
+        echo "real=\`which -a ${i}-${prog} | grep -v ${wrap_dir}/${i}-${prog} | head -1\`" >> ${wrap_dir}/${i}-${prog}
+        echo 'export ld_preload=/usr/lib/faketime/libfaketime.so.1' >> ${wrap_dir}/${i}-${prog}
+        echo "export faketime=\"${reference_datetime}\"" >> ${wrap_dir}/${i}-${prog}
+        echo "\$real \$@" >> $wrap_dir/${i}-${prog}
+        chmod +x ${wrap_dir}/${i}-${prog}
+    done
+  done
+  export path=${wrap_dir}:${path}
+
+  cd bitcoin
+  baseprefix=`pwd`/depends
+  # build dependencies for each host
+  for i in $hosts; do
+    make ${makeopts} -c ${baseprefix} host="${i}"
+  done
+
+  # create the release tarball using (arbitrarily) the first host
+  ./autogen.sh
+  ./configure --prefix=${baseprefix}/`echo "${hosts}" | awk '{print $1;}'`
+  make dist
+  sourcedist=`echo bitcoin-*.tar.gz`
+  distname=`echo ${sourcedist} | sed 's/.tar.*//'`
+
+  # correct tar file order
+  mkdir -p temp
+  pushd temp
+  tar xf ../$sourcedist
+  find bitcoin-* | sort | tar --no-recursion --mode='u+rw,go+r-w,a+x' --owner=0 --group=0 -c -t - | gzip -9n > ../$sourcedist
+  popd
+
+  origpath="$path"
+  # extract the release tarball into a dir for each host and build
+  for i in ${hosts}; do
+    export path=${baseprefix}/${i}/native/bin:${origpath}
+    mkdir -p distsrc-${i}
+    cd distsrc-${i}
+    installpath=`pwd`/installed/${distname}
+    mkdir -p ${installpath}
+    tar --strip-components=1 -xf ../$sourcedist
+
+    ./configure --prefix=${baseprefix}/${i} --bindir=${installpath}/bin --includedir=${installpath}/include --libdir=${installpath}/lib --disable-ccache --disable-maintainer-mode --disable-dependency-tracking ${configflags}
+    make ${makeopts}
+    make deploy
+    make install-strip
+    cp -f bitcoin-*setup*.exe $outdir/
+    cd installed
+    mv ${distname}/bin/*.dll ${distname}/lib/
+    find . -name "lib*.la" -delete
+    find . -name "lib*.a" -delete
+    rm -rf ${distname}/lib/pkgconfig
+    find ${distname} -type f | sort | zip -x@ ${outdir}/${distname}-${i}.zip
+    cd ../..
+  done
+  mkdir -p $outdir/src
+  mv $sourcedist $outdir/src
+  mv ${outdir}/${distname}-x86_64-*.zip ${outdir}/${distname}-win64.zip
+  mv ${outdir}/${distname}-i686-*.zip ${outdir}/${distname}-win32.zip

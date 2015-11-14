@@ -1,0 +1,118 @@
+---
+name: "bitcoin-linux-0.12"
+enable_cache: true
+suites:
+- "precise"
+architectures:
+- "amd64"
+packages: 
+- "g++-multilib"
+- "git-core"
+- "pkg-config"
+- "autoconf2.13"
+- "libtool"
+- "automake"
+- "faketime"
+- "bsdmainutils"
+- "binutils-gold"
+- "libstdc++6-4.6-pic"
+reference_datetime: "2015-06-01 00:00:00"
+remotes:
+- "url": "https://github.com/bitcoin/bitcoin.git"
+  "dir": "bitcoin"
+files: []
+script: |
+  wrap_dir=$home/wrapped
+  hosts="i686-pc-linux-gnu x86_64-unknown-linux-gnu"
+  configflags="--enable-upnp-default --enable-glibc-back-compat --enable-reduce-exports ldflags=-static-libstdc++"
+  faketime_host_progs=""
+  faketime_progs="date ar ranlib nm strip"
+
+  export qt_rcc_test=1
+  export gzip="-9n"
+  export tar_options="--mtime="$reference_date\\\ $reference_time""
+  export tz="utc"
+  export build_dir=`pwd`
+  mkdir -p ${wrap_dir}
+  if test -n "$gbuild_cache_enabled"; then
+    export sources_path=${gbuild_common_cache}
+    export base_cache=${gbuild_package_cache}
+    mkdir -p ${base_cache} ${sources_path}
+  fi
+
+  # create global faketime wrappers
+  for prog in ${faketime_progs}; do
+    echo '#!/bin/bash' > ${wrap_dir}/${prog}
+    echo "real=\`which -a ${prog} | grep -v ${wrap_dir}/${prog} | head -1\`" >> ${wrap_dir}/${prog}
+    echo 'export ld_preload=/usr/lib/faketime/libfaketime.so.1' >> ${wrap_dir}/${prog}
+    echo "export faketime=\"${reference_datetime}\"" >> ${wrap_dir}/${prog}
+    echo "\$real \$@" >> $wrap_dir/${prog}
+    chmod +x ${wrap_dir}/${prog}
+  done
+
+  # create per-host faketime wrappers
+  for i in $hosts; do
+    for prog in ${faketime_host_progs}; do
+        echo '#!/bin/bash' > ${wrap_dir}/${i}-${prog}
+        echo "real=\`which -a ${i}-${prog} | grep -v ${wrap_dir}/${i}-${prog} | head -1\`" >> ${wrap_dir}/${i}-${prog}
+        echo 'export ld_preload=/usr/lib/faketime/libfaketime.so.1' >> ${wrap_dir}/${i}-${prog}
+        echo "export faketime=\"${reference_datetime}\"" >> ${wrap_dir}/${i}-${prog}
+        echo "\$real \$@" >> $wrap_dir/${i}-${prog}
+        chmod +x ${wrap_dir}/${i}-${prog}
+    done
+  done
+  export path=${wrap_dir}:${path}
+
+  cd bitcoin
+  baseprefix=`pwd`/depends
+  # build dependencies for each host
+  for i in $hosts; do
+    make ${makeopts} -c ${baseprefix} host="${i}"
+  done
+
+  # ubuntu precise hack: not an issue in later versions.
+  # precise's libstdc++.a is non-pic. there's an optional libstdc++6-4.6-pic
+  #   package which provides libstdc++_pic.a, but the linker can't find it.
+  # symlink it to a path that will be included in our link-line so that the
+  # linker picks it up before the default libstdc++.a.
+  # this is only necessary for 64bit.
+  ln -s /usr/lib/gcc/x86_64-linux-gnu/4.6/libstdc++_pic.a ${baseprefix}/x86_64-unknown-linux-gnu/lib/libstdc++.a
+
+  # create the release tarball using (arbitrarily) the first host
+  ./autogen.sh
+  ./configure --prefix=${baseprefix}/`echo "${hosts}" | awk '{print $1;}'`
+  make dist
+  sourcedist=`echo bitcoin-*.tar.gz`
+  distname=`echo ${sourcedist} | sed 's/.tar.*//'`
+  # correct tar file order
+  mkdir -p temp
+  pushd temp
+  tar xf ../$sourcedist
+  find bitcoin-* | sort | tar --no-recursion --mode='u+rw,go+r-w,a+x' --owner=0 --group=0 -c -t - | gzip -9n > ../$sourcedist
+  popd
+
+  origpath="$path"
+  # extract the release tarball into a dir for each host and build
+  for i in ${hosts}; do
+    export path=${baseprefix}/${i}/native/bin:${origpath}
+    mkdir -p distsrc-${i}
+    cd distsrc-${i}
+    installpath=`pwd`/installed/${distname}
+    mkdir -p ${installpath}
+    tar --strip-components=1 -xf ../$sourcedist
+
+    ./configure --prefix=${baseprefix}/${i} --bindir=${installpath}/bin --includedir=${installpath}/include --libdir=${installpath}/lib --disable-ccache --disable-maintainer-mode --disable-dependency-tracking ${configflags}
+    make ${makeopts}
+    make install-strip
+    cd installed
+    find . -name "lib*.la" -delete
+    find . -name "lib*.a" -delete
+    rm -rf ${distname}/lib/pkgconfig
+    find ${distname} | sort | tar --no-recursion --mode='u+rw,go+r-w,a+x' --owner=0 --group=0 -c -t - | gzip -9n > ${outdir}/${distname}-${i}.tar.gz
+    cd ../../
+  done
+  mkdir -p $outdir/src
+  mv $sourcedist $outdir/src
+  mv ${outdir}/${distname}-x86_64-*.tar.gz ${outdir}/${distname}-linux64.tar.gz
+  mv ${outdir}/${distname}-i686-*.tar.gz ${outdir}/${distname}-linux32.tar.gz
+

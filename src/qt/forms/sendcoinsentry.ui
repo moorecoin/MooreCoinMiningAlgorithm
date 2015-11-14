@@ -1,0 +1,1275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui version="4.0">
+ <class>sendcoinsentry</class>
+ <widget class="qstackedwidget" name="sendcoinsentry">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>729</width>
+    <height>150</height>
+   </rect>
+  </property>
+  <property name="focuspolicy">
+   <enum>qt::tabfocus</enum>
+  </property>
+  <property name="autofillbackground">
+   <bool>false</bool>
+  </property>
+  <widget class="qframe" name="sendcoins">
+   <property name="tooltip">
+    <string>this is a normal payment.</string>
+   </property>
+   <property name="frameshape">
+    <enum>qframe::noframe</enum>
+   </property>
+   <layout class="qgridlayout" name="gridlayout">
+    <property name="topmargin">
+     <number>8</number>
+    </property>
+    <property name="bottommargin">
+     <number>4</number>
+    </property>
+    <property name="horizontalspacing">
+     <number>12</number>
+    </property>
+    <property name="verticalspacing">
+     <number>8</number>
+    </property>
+    <item row="0" column="0">
+     <widget class="qlabel" name="paytolabel">
+      <property name="text">
+       <string>pay &amp;to:</string>
+      </property>
+      <property name="alignment">
+       <set>qt::alignright|qt::aligntrailing|qt::alignvcenter</set>
+      </property>
+      <property name="buddy">
+       <cstring>payto</cstring>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <layout class="qhboxlayout" name="paytolayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="qvalidatedlineedit" name="payto">
+        <property name="tooltip">
+         <string>the bitcoin address to send the payment to</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="qtoolbutton" name="addressbookbutton">
+        <property name="tooltip">
+         <string>choose previously used address</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../bitcoin.qrc">
+          <normaloff>:/icons/address-book</normaloff>:/icons/address-book</iconset>
+        </property>
+        <property name="iconsize">
+         <size>
+          <width>22</width>
+          <height>22</height>
+         </size>
+        </property>
+        <property name="shortcut">
+         <string>alt+a</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="qtoolbutton" name="pastebutton">
+        <property name="tooltip">
+         <string>paste address from clipboard</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../bitcoin.qrc">
+          <normaloff>:/icons/editpaste</normaloff>:/icons/editpaste</iconset>
+        </property>
+        <property name="iconsize">
+         <size>
+          <width>22</width>
+          <height>22</height>
+         </size>
+        </property>
+        <property name="shortcut">
+         <string>alt+p</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="qtoolbutton" name="deletebutton">
+        <property name="tooltip">
+         <string>remove this entry</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../bitcoin.qrc">
+          <normaloff>:/icons/remove</normaloff>:/icons/remove</iconset>
+        </property>
+        <property name="iconsize">
+         <size>
+          <width>22</width>
+          <height>22</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="1" column="0">
+     <widget class="qlabel" name="labelllabel">
+      <property name="text">
+       <string>&amp;label:</string>
+      </property>
+      <property name="alignment">
+       <set>qt::alignright|qt::aligntrailing|qt::alignvcenter</set>
+      </property>
+      <property name="buddy">
+       <cstring>addaslabel</cstring>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="qlineedit" name="addaslabel">
+      <property name="tooltip">
+       <string>enter a label for this address to add it to the list of used addresses</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="qlabel" name="amountlabel">
+      <property name="text">
+       <string>a&amp;mount:</string>
+      </property>
+      <property name="alignment">
+       <set>qt::alignright|qt::aligntrailing|qt::alignvcenter</set>
+      </property>
+      <property name="buddy">
+       <cstring>payamount</cstring>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <layout class="qhboxlayout" name="horizontallayoutamount" stretch="0,1">
+      <item>
+       <widget class="bitcoinamountfield" name="payamount"/>
+      </item>
+      <item>
+       <widget class="qcheckbox" name="checkboxsubtractfeefromamount">
+        <property name="tooltip">
+         <string>the fee will be deducted from the amount being sent. the recipient will receive less bitcoins than you enter in the amount field. if multiple recipients are selected, the fee is split equally.</string>
+        </property>
+        <property name="text">
+         <string>s&amp;ubtract fee from amount</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="3" column="0">
+     <widget class="qlabel" name="messagelabel">
+      <property name="text">
+       <string>message:</string>
+      </property>
+      <property name="alignment">
+       <set>qt::alignright|qt::aligntrailing|qt::alignvcenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="qlabel" name="messagetextlabel">
+      <property name="tooltip">
+       <string>a message that was attached to the bitcoin: uri which will be stored with the transaction for your reference. note: this message will not be sent over the bitcoin network.</string>
+      </property>
+      <property name="textformat">
+       <enum>qt::plaintext</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0" colspan="2">
+     <widget class="line" name="line">
+      <property name="orientation">
+       <enum>qt::horizontal</enum>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="qframe" name="sendcoins_unauthenticatedpaymentrequest">
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="windowtext">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="button">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="light">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="midlight">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>191</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="dark">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>127</red>
+         <green>127</green>
+         <blue>63</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="mid">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>170</red>
+         <green>170</green>
+         <blue>84</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="text">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="brighttext">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="buttontext">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="base">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="window">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="shadow">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="alternatebase">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>191</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="tooltipbase">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>220</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="tooltiptext">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="windowtext">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="button">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="light">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="midlight">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>191</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="dark">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>127</red>
+         <green>127</green>
+         <blue>63</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="mid">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>170</red>
+         <green>170</green>
+         <blue>84</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="text">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="brighttext">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="buttontext">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="base">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="window">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="shadow">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="alternatebase">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>191</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="tooltipbase">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>220</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="tooltiptext">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="windowtext">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>127</red>
+         <green>127</green>
+         <blue>63</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="button">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="light">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="midlight">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>191</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="dark">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>127</red>
+         <green>127</green>
+         <blue>63</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="mid">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>170</red>
+         <green>170</green>
+         <blue>84</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="text">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>127</red>
+         <green>127</green>
+         <blue>63</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="brighttext">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="buttontext">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>127</red>
+         <green>127</green>
+         <blue>63</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="base">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="window">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="shadow">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="alternatebase">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="tooltipbase">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>220</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="tooltiptext">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
+   <property name="tooltip">
+    <string>this is an unauthenticated payment request.</string>
+   </property>
+   <property name="autofillbackground">
+    <bool>true</bool>
+   </property>
+   <property name="frameshape">
+    <enum>qframe::noframe</enum>
+   </property>
+   <layout class="qgridlayout" name="gridlayout_is">
+    <property name="spacing">
+     <number>12</number>
+    </property>
+    <item row="0" column="0">
+     <widget class="qlabel" name="paytolabel_is">
+      <property name="text">
+       <string>pay to:</string>
+      </property>
+      <property name="alignment">
+       <set>qt::alignright|qt::aligntrailing|qt::alignvcenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <layout class="qhboxlayout" name="paytolayout_is">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="qlabel" name="payto_is"/>
+      </item>
+      <item>
+       <widget class="qtoolbutton" name="deletebutton_is">
+        <property name="tooltip">
+         <string>remove this entry</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../bitcoin.qrc">
+          <normaloff>:/icons/remove</normaloff>:/icons/remove</iconset>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="1" column="0">
+     <widget class="qlabel" name="memolabel_is">
+      <property name="text">
+       <string>memo:</string>
+      </property>
+      <property name="alignment">
+       <set>qt::alignright|qt::aligntrailing|qt::alignvcenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="qlabel" name="memotextlabel_is">
+      <property name="textformat">
+       <enum>qt::plaintext</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="qlabel" name="amountlabel_is">
+      <property name="text">
+       <string>a&amp;mount:</string>
+      </property>
+      <property name="alignment">
+       <set>qt::alignright|qt::aligntrailing|qt::alignvcenter</set>
+      </property>
+      <property name="buddy">
+       <cstring>payamount_is</cstring>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="bitcoinamountfield" name="payamount_is">
+      <property name="acceptdrops">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="qframe" name="sendcoins_authenticatedpaymentrequest">
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="windowtext">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="button">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>140</red>
+         <green>232</green>
+         <blue>119</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="light">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>230</red>
+         <green>255</green>
+         <blue>224</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="midlight">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>185</red>
+         <green>243</green>
+         <blue>171</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="dark">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>70</red>
+         <green>116</green>
+         <blue>59</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="mid">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>93</red>
+         <green>155</green>
+         <blue>79</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="text">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="brighttext">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>155</red>
+         <green>255</green>
+         <blue>147</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="buttontext">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="base">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>119</red>
+         <green>255</green>
+         <blue>233</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="window">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>140</red>
+         <green>232</green>
+         <blue>119</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="shadow">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="alternatebase">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>197</red>
+         <green>243</green>
+         <blue>187</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="norole">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>125</red>
+         <green>194</green>
+         <blue>122</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="tooltipbase">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>220</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="tooltiptext">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="windowtext">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="button">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>140</red>
+         <green>232</green>
+         <blue>119</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="light">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>230</red>
+         <green>255</green>
+         <blue>224</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="midlight">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>185</red>
+         <green>243</green>
+         <blue>171</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="dark">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>70</red>
+         <green>116</green>
+         <blue>59</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="mid">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>93</red>
+         <green>155</green>
+         <blue>79</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="text">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="brighttext">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>155</red>
+         <green>255</green>
+         <blue>147</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="buttontext">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="base">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>119</red>
+         <green>255</green>
+         <blue>233</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="window">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>140</red>
+         <green>232</green>
+         <blue>119</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="shadow">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="alternatebase">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>197</red>
+         <green>243</green>
+         <blue>187</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="norole">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>125</red>
+         <green>194</green>
+         <blue>122</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="tooltipbase">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>220</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="tooltiptext">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="windowtext">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>70</red>
+         <green>116</green>
+         <blue>59</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="button">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>140</red>
+         <green>232</green>
+         <blue>119</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="light">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>230</red>
+         <green>255</green>
+         <blue>224</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="midlight">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>185</red>
+         <green>243</green>
+         <blue>171</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="dark">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>70</red>
+         <green>116</green>
+         <blue>59</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="mid">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>93</red>
+         <green>155</green>
+         <blue>79</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="text">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>70</red>
+         <green>116</green>
+         <blue>59</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="brighttext">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>155</red>
+         <green>255</green>
+         <blue>147</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="buttontext">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>70</red>
+         <green>116</green>
+         <blue>59</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="base">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>140</red>
+         <green>232</green>
+         <blue>119</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="window">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>140</red>
+         <green>232</green>
+         <blue>119</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="shadow">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="alternatebase">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>140</red>
+         <green>232</green>
+         <blue>119</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="norole">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>125</red>
+         <green>194</green>
+         <blue>122</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="tooltipbase">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>220</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="tooltiptext">
+       <brush brushstyle="solidpattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
+   <property name="tooltip">
+    <string>this is an authenticated payment request.</string>
+   </property>
+   <property name="autofillbackground">
+    <bool>true</bool>
+   </property>
+   <property name="frameshape">
+    <enum>qframe::noframe</enum>
+   </property>
+   <layout class="qgridlayout" name="gridlayout_s">
+    <property name="spacing">
+     <number>12</number>
+    </property>
+    <item row="0" column="0">
+     <widget class="qlabel" name="paytolabel_s">
+      <property name="text">
+       <string>pay to:</string>
+      </property>
+      <property name="alignment">
+       <set>qt::alignright|qt::aligntrailing|qt::alignvcenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <layout class="qhboxlayout" name="paytolayout_s">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="qlabel" name="payto_s">
+        <property name="textformat">
+         <enum>qt::plaintext</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="qtoolbutton" name="deletebutton_s">
+        <property name="tooltip">
+         <string>remove this entry</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../bitcoin.qrc">
+          <normaloff>:/icons/remove</normaloff>:/icons/remove</iconset>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="1" column="0">
+     <widget class="qlabel" name="memolabel_s">
+      <property name="text">
+       <string>memo:</string>
+      </property>
+      <property name="alignment">
+       <set>qt::alignright|qt::aligntrailing|qt::alignvcenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="qlabel" name="memotextlabel_s">
+      <property name="textformat">
+       <enum>qt::plaintext</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="qlabel" name="amountlabel_s">
+      <property name="text">
+       <string>a&amp;mount:</string>
+      </property>
+      <property name="alignment">
+       <set>qt::alignright|qt::aligntrailing|qt::alignvcenter</set>
+      </property>
+      <property name="buddy">
+       <cstring>payamount_s</cstring>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="bitcoinamountfield" name="payamount_s">
+      <property name="acceptdrops">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>qvalidatedlineedit</class>
+   <extends>qlineedit</extends>
+   <header>qvalidatedlineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>bitcoinamountfield</class>
+   <extends>qlineedit</extends>
+   <header>bitcoinamountfield.h</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>payto</tabstop>
+  <tabstop>addressbookbutton</tabstop>
+  <tabstop>pastebutton</tabstop>
+  <tabstop>deletebutton</tabstop>
+  <tabstop>addaslabel</tabstop>
+  <tabstop>payamount</tabstop>
+  <tabstop>payamount_is</tabstop>
+  <tabstop>deletebutton_is</tabstop>
+  <tabstop>payamount_s</tabstop>
+  <tabstop>deletebutton_s</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../bitcoin.qrc"/>
+ </resources>
+ <connections/>
+</ui>

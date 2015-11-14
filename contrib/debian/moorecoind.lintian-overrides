@@ -1,0 +1,2 @@
+# linked code is expat - only debian packaging is gpl-2+
+bitcoind: possible-gpl-code-linked-with-openssl

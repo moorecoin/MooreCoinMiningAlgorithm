@@ -1,0 +1,231 @@
+#!/bin/sh
+#
+# detects os we're compiling on and outputs a file specified by the first
+# argument, which in turn gets read while processing makefile.
+#
+# the output will set the following variables:
+#   cc                          c compiler path
+#   cxx                         c++ compiler path
+#   platform_ldflags            linker flags
+#   platform_libs               libraries flags
+#   platform_shared_ext         extension for shared libraries
+#   platform_shared_ldflags     flags for building shared library
+#                               this flag is embedded just before the name
+#                               of the shared library without intervening spaces
+#   platform_shared_cflags      flags for compiling objects for shared library
+#   platform_ccflags            c compiler flags
+#   platform_cxxflags           c++ compiler flags.  will contain:
+#   platform_shared_versioned   set to 'true' if platform supports versioned
+#                               shared libraries, empty otherwise.
+#
+# the platform_ccflags and platform_cxxflags might include the following:
+#
+#       -dleveldb_atomic_present     if <atomic> is present
+#       -dleveldb_platform_posix     for posix-based platforms
+#       -dsnappy                     if the snappy library is present
+#
+
+output=$1
+prefix=$2
+if test -z "$output" || test -z "$prefix"; then
+  echo "usage: $0 <output-filename> <directory_prefix>" >&2
+  exit 1
+fi
+
+# delete existing output, if it exists
+rm -f $output
+touch $output
+
+if test -z "$cc"; then
+    cc=cc
+fi
+
+if test -z "$cxx"; then
+    cxx=g++
+fi
+
+if test -z "$tmpdir"; then
+    tmpdir=/tmp
+fi
+
+# detect os
+if test -z "$target_os"; then
+    target_os=`uname -s`
+fi
+
+common_flags=
+cross_compile=
+platform_ccflags=
+platform_cxxflags=
+platform_ldflags=
+platform_libs=
+platform_shared_ext="so"
+platform_shared_ldflags="-shared -wl,-soname -wl,"
+platform_shared_cflags="-fpic"
+platform_shared_versioned=true
+
+memcmp_flag=
+if [ "$cxx" = "g++" ]; then
+    # use libc's memcmp instead of gcc's memcmp.  this results in ~40%
+    # performance improvement on readrandom under gcc 4.4.3 on linux/x86.
+    memcmp_flag="-fno-builtin-memcmp"
+fi
+
+case "$target_os" in
+    cygwin_*)
+        platform=os_linux
+        common_flags="$memcmp_flag -lpthread -dos_linux -dcygwin"
+        platform_ldflags="-lpthread"
+        port_file=port/port_posix.cc
+        ;;
+    darwin)
+        platform=os_macosx
+        common_flags="$memcmp_flag -dos_macosx"
+        platform_shared_ext=dylib
+        [ -z "$install_path" ] && install_path=`pwd`
+        platform_shared_ldflags="-dynamiclib -install_name $install_path/"
+        port_file=port/port_posix.cc
+        ;;
+    linux)
+        platform=os_linux
+        common_flags="$memcmp_flag -pthread -dos_linux"
+        platform_ldflags="-pthread"
+        port_file=port/port_posix.cc
+        ;;
+    sunos)
+        platform=os_solaris
+        common_flags="$memcmp_flag -d_reentrant -dos_solaris"
+        platform_libs="-lpthread -lrt"
+        port_file=port/port_posix.cc
+        ;;
+    freebsd)
+        platform=os_freebsd
+        common_flags="$memcmp_flag -d_reentrant -dos_freebsd"
+        platform_libs="-lpthread"
+        port_file=port/port_posix.cc
+        ;;
+    gnu/kfreebsd)
+        platform=os_kfreebsd
+        common_flags="$memcmp_flag -d_reentrant -dos_kfreebsd"
+        platform_libs="-lpthread"
+        port_file=port/port_posix.cc
+        ;;
+    netbsd)
+        platform=os_netbsd
+        common_flags="$memcmp_flag -d_reentrant -dos_netbsd"
+        platform_libs="-lpthread -lgcc_s"
+        port_file=port/port_posix.cc
+        ;;
+    openbsd)
+        platform=os_openbsd
+        common_flags="$memcmp_flag -d_reentrant -dos_openbsd"
+        platform_ldflags="-pthread"
+        port_file=port/port_posix.cc
+        ;;
+    dragonfly)
+        platform=os_dragonflybsd
+        common_flags="$memcmp_flag -d_reentrant -dos_dragonflybsd"
+        platform_libs="-lpthread"
+        port_file=port/port_posix.cc
+        ;;
+    os_android_crosscompile)
+        platform=os_android
+        common_flags="$memcmp_flag -d_reentrant -dos_android -dleveldb_platform_posix"
+        platform_ldflags=""  # all pthread features are in the android c library
+        port_file=port/port_posix.cc
+        cross_compile=true
+        ;;
+    hp-ux)
+        platform=os_hpux
+        common_flags="$memcmp_flag -d_reentrant -dos_hpux"
+        platform_ldflags="-pthread"
+        port_file=port/port_posix.cc
+        # man ld: +h internal_name
+        platform_shared_ldflags="-shared -wl,+h -wl,"
+        ;;
+    ios)
+        platform=ios
+        common_flags="$memcmp_flag -dos_macosx"
+        [ -z "$install_path" ] && install_path=`pwd`
+        port_file=port/port_posix.cc
+        platform_shared_ext=
+        platform_shared_ldflags=
+        platform_shared_cflags=
+        platform_shared_versioned=
+        ;;
+    os_windows_crosscompile | native_windows)
+        platform=os_windows
+        common_flags="-fno-builtin-memcmp -d_reentrant -dos_windows -dleveldb_platform_windows -dwinver=0x0500 -d__use_mingw_ansi_stdio=1"
+        platform_sources="util/env_win.cc"
+        platform_libs="-lshlwapi"
+        port_file=port/port_win.cc
+        cross_compile=true
+        ;;
+    *)
+        echo "unknown platform!" >&2
+        exit 1
+esac
+
+# we want to make a list of all cc files within util, db, table, and helpers
+# except for the test and benchmark files. by default, find will output a list
+# of all files matching either rule, so we need to append -print to make the
+# prune take effect.
+dirs="$prefix/db $prefix/util $prefix/table"
+
+set -f # temporarily disable globbing so that our patterns aren't expanded
+prune_test="-name *test*.cc -prune"
+prune_bench="-name *_bench.cc -prune"
+prune_tool="-name leveldb_main.cc -prune"
+portable_files=`find $dirs $prune_test -o $prune_bench -o $prune_tool -o -name '*.cc' -print | sort | sed "s,^$prefix/,," | tr "\n" " "`
+
+set +f # re-enable globbing
+
+# the sources consist of the portable files, plus the platform-specific port
+# file.
+echo "sources=$portable_files $port_file" >> $output
+echo "memenv_sources=helpers/memenv/memenv.cc" >> $output
+
+if [ "$cross_compile" = "true" ]; then
+    # cross-compiling; do not try any compilation tests.
+    true
+else
+    cxxoutput="${tmpdir}/leveldb_build_detect_platform-cxx.$$"
+
+    # if -std=c++0x works, use <atomic> as fallback for when memory barriers
+    # are not available.
+    $cxx $cxxflags -std=c++0x -x c++ - -o $cxxoutput 2>/dev/null  <<eof
+      #include <atomic>
+      int main() {}
+eof
+    if [ "$?" = 0 ]; then
+        common_flags="$common_flags -dleveldb_platform_posix -dleveldb_atomic_present"
+        platform_cxxflags="-std=c++0x"
+    else
+        common_flags="$common_flags -dleveldb_platform_posix"
+    fi
+
+    # test whether tcmalloc is available
+    $cxx $cxxflags -x c++ - -o $cxxoutput -ltcmalloc 2>/dev/null  <<eof
+      int main() {}
+eof
+    if [ "$?" = 0 ]; then
+        platform_libs="$platform_libs -ltcmalloc"
+    fi
+
+    rm -f $cxxoutput 2>/dev/null
+fi
+
+platform_ccflags="$platform_ccflags $common_flags"
+platform_cxxflags="$platform_cxxflags $common_flags"
+
+echo "cc=$cc" >> $output
+echo "cxx=$cxx" >> $output
+echo "platform=$platform" >> $output
+echo "platform_ldflags=$platform_ldflags" >> $output
+echo "platform_libs=$platform_libs" >> $output
+echo "platform_ccflags=$platform_ccflags" >> $output
+echo "platform_cxxflags=$platform_cxxflags" >> $output
+echo "platform_shared_cflags=$platform_shared_cflags" >> $output
+echo "platform_shared_ext=$platform_shared_ext" >> $output
+echo "platform_shared_ldflags=$platform_shared_ldflags" >> $output
+echo "platform_shared_versioned=$platform_shared_versioned" >> $output

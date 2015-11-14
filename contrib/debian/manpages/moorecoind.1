@@ -1,0 +1,209 @@
+.th bitcoind "1" "january 2011" "bitcoind 3.19" 
+.sh name
+bitcoind \- peer-to-peer network based digital currency
+.sh synopsis
+bitcoin [options] <command> [params]  
+.tp
+bitcoin [options] help <command> \- get help for a command
+.sh description
+this  manual page documents the bitcoind program. bitcoin is a peer-to-peer digital currency. peer-to-peer (p2p) means that there is no central authority to issue new money or keep track of transactions. instead, these tasks are managed collectively by the nodes of the network. advantages:
+
+bitcoins can be sent easily through the internet, without having to trust middlemen. transactions are designed to be irreversible. be safe from instability caused by fractional reserve banking and central banks. the limited inflation of the bitcoin system鈥檚 money supply is distributed evenly (by cpu power) throughout the network, not monopolized by banks.
+
+.sh options
+.tp
+\fb\-conf=\fr<file>
+specify configuration file (default: bitcoin.conf)
+.tp
+\fb\-gen\fr
+generate coins
+.tp
+\fb\-gen\fr=\fi0\fr
+don't generate coins
+.tp
+\fb\-min\fr
+start minimized
+.tp
+\fb\-datadir=\fr<dir>
+specify data directory
+.tp
+\fb\-proxy=\fr<ip:port>
+connect through socks5 proxy
+.tp
+\fb\-addnode=\fr<ip>
+add a node to connect to
+.tp
+\fb\-connect=\fr<ip>
+connect only to the specified node
+.tp
+\fb\-paytxfee=\fr<amt>
+fee per kb to add to transactions you send
+.tp
+\fb\-server\fr
+accept command line and json\-rpc commands
+.tp
+\fb\-daemon\fr
+run in the background as a daemon and accept commands
+.tp
+\fb\-testnet\fr
+use the test network
+.tp
+\fb\-rpcuser=\fr<user>
+username for json\-rpc connections
+.tp
+\fb\-rpcpassword=\fr<pw>
+password for json\-rpc connections
+.tp
+\fb\-rpcport=\fr<port>
+listen for json\-rpc connections on <port>
+.tp
+\fb\-rpcallowip=\fr<ip>
+allow json\-rpc connections from specified ip address
+.tp
+\fb\-rpcconnect=\fr<ip>
+send commands to node running on <ip>
+.pp
+ssl options: (see the bitcoin wiki for ssl setup instructions)
+.tp
+\fb\-rpcssl\fr=\fi1\fr
+use openssl (https) for json\-rpc connections
+.tp
+\fb\-rpcsslcertificatchainfile=\fr<file.cert>
+server certificate file (default: server.cert)
+.tp
+\fb\-rpcsslprivatekeyfile=\fr<file.pem>
+server private key (default: server.pem)
+.tp
+\fb\-rpcsslciphers=\fr<ciphers>
+acceptable ciphers (default: tlsv1+high:\:!sslv2:\:!anull:\:!enull:\:!ah:\:!3des:\:@strength)
+.tp
+\-?
+this help message
+.sh commands
+.tp
+\fbbackupwallet 'destination'\fr
+safely copies *wallet.dat* to 'destination', which can be a directory or a path with filename.
+.tp
+\fbgetaccount 'bitcoinaddress'\fr
+deprecated. returns the account associated with the given address.
+.tp
+\fbsetaccount 'bitcoinaddress' ['account']\fr
+deprecated. sets the ['account'] associated with the given address. ['account'] may be omitted to remove an address from ['account'].
+.tp
+\fbgetaccountaddress 'account'\fr
+deprecated. returns a new bitcoin address for 'account'.
+.tp
+\fbgetaddressesbyaccount 'account'\fr
+deprecated. returns the list of addresses associated with the given 'account'.
+.tp
+\fbgetbalance 'account'\fr
+returns the server's available balance, or the balance for 'account' (accounts are deprecated).
+.tp
+\fbgetblockcount\fr
+returns the number of blocks in the longest block chain.
+.tp
+\fbgetblocknumber\fr
+returns the block number of the latest block in the longest block chain.
+.tp
+\fbgetconnectioncount\fr
+returns the number of connections to other nodes.
+.tp
+\fbgetdifficulty\fr
+returns the proof-of-work difficulty as a multiple of the minimum difficulty.
+.tp
+\fbgetgenerate\fr
+returns boolean true if server is trying to generate bitcoins, false otherwise.
+.tp
+\fbsetgenerate 'generate' ['genproclimit']\fr
+generation is limited to ['genproclimit'] processors, \-1 is unlimited.
+.tp
+\fbgethashespersec\fr
+returns a recent hashes per second performance measurement while generating.
+.tp
+\fbgetinfo\fr
+returns an object containing server information.
+.tp
+\fbgetnewaddress 'account'\fr
+returns a new bitcoin address for receiving payments. if 'account' is specified (deprecated), it is added to the address book so payments received with the address will be credited to 'account'.
+.tp
+\fbgetreceivedbyaccount 'account' ['minconf=1']\fr
+deprecated. returns the total amount received by addresses associated with 'account' in transactions with at least ['minconf'] confirmations.
+.tp
+\fbgetreceivedbyaddress 'bitcoinaddress' ['minconf=1']\fr
+returns the total amount received by 'bitcoinaddress' in transactions with at least ['minconf'] confirmations.
+.tp
+\fbgettransaction 'txid'\fr
+returns information about a specific transaction, given hexadecimal transaction id.
+.tp
+\fbgetwork 'data'\fr
+if 'data' is specified, tries to solve the block and returns true if it was successful. if 'data' is not specified, returns formatted hash 'data' to work on:
+
+    "midstate" : precomputed hash state after hashing the first half of the data.
+    "data"     : block data.
+    "hash1"    : formatted hash buffer for second hash.
+    "target"   : little endian hash target.
+.tp
+\fbhelp 'command'\fr
+list commands, or get help for a command.
+.tp
+\fblistaccounts ['minconf=1']\fr
+deprecated. list accounts and their current balances.
+     *note: requires bitcoin 0.3.20 or later.
+.tp
+\fblistreceivedbyaccount ['minconf=1'] ['includeempty=false']\fr
+['minconf'] is the minimum number of confirmations before payments are included. ['includeempty'] whether to include addresses that haven't received any payments. returns an array of objects containing:
+
+    "account"       : deprecated. the account of the receiving address.
+    "amount"        : total amount received by the address.
+    "confirmations" : number of confirmations of the most recent transaction included.
+.tp
+\fblistreceivedbyaddress ['minconf=1'] ['includeempty=false']\fr
+['minconf'] is the minimum number of confirmations before payments are included. ['includeempty'] whether to include addresses that haven't received any payments. returns an array of objects containing:
+
+    "address"       : receiving address.
+    "account"       : deprecated. the account of the receiving address.
+    "amount"        : total amount received by the address.
+    "confirmations" : number of confirmations of the most recent transaction included.
+.tp
+\fblisttransactions 'account' ['count=10']\fr
+returns a list of the last ['count'] transactions for 'account' \- for all accounts if 'account' is not specified or is "*". each entry in the list may contain:
+
+    "category"      : will be generate, send, receive, or move.
+    "amount"        : amount of transaction.
+    "fee"           : fee (if any) paid (only for send transactions).
+    "confirmations" : number of confirmations (only for generate/send/receive).
+    "txid"          : transaction id (only for generate/send/receive).
+    "otheraccount"  : account funds were moved to or from (only for move).
+    "message"       : message associated with transaction (only for send).
+    "to"            : message-to associated with transaction (only for send).
+
+    *note: requires bitcoin 0.3.20 or later.
+.tp
+\fbmove <'fromaccount'> <'toaccount'> <'amount'> ['minconf=1'] ['comment']\fr
+deprecated. moves funds between accounts.
+.tp
+\fbsendfrom* <'account'> <'bitcoinaddress'> <'amount'> ['minconf=1'] ['comment'] ['comment-to']\fr
+deprecated. sends amount from account's balance to 'bitcoinaddress'. this method will fail if there is less than amount bitcoins with ['minconf'] confirmations in the account's balance (unless account is the empty-string-named default account; it behaves like the *sendtoaddress* method). returns transaction id on success.
+.tp     
+\fbsendtoaddress 'bitcoinaddress' 'amount' ['comment'] ['comment-to']\fr
+sends amount from the server's available balance to 'bitcoinaddress'. amount is a real and is rounded to the nearest 0.01. returns transaction id on success.
+.tp    
+\fbstop\fr
+stops the bitcoin server.
+.tp    
+\fbvalidateaddress 'bitcoinaddress'\fr
+checks that 'bitcoinaddress' looks like a proper bitcoin address. returns an object containing:
+
+    "isvalid" : true or false.
+    "ismine"  : true if the address is in the server's wallet.
+    "address" : bitcoinaddress.
+
+    *note: ismine and address are only returned if the address is valid.
+
+.sh "see also"
+bitcoin.conf(5)
+.sh author
+this manual page was written by micah anderson <micah@debian.org> for the debian system (but may be used by others). permission is granted to copy, distribute and/or modify this document under the terms of the gnu general public license, version 3 or any later version published by the free software foundation.
+
+on debian systems, the complete text of the gnu general public license can be found in /usr/share/common-licenses/gpl.
+

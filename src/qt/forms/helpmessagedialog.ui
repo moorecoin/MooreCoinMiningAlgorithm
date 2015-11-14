@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui version="4.0">
+ <class>helpmessagedialog</class>
+ <widget class="qdialog" name="helpmessagedialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>780</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="windowtitle">
+   <string notr="true">bitcoin core - command-line options</string>
+  </property>
+  <layout class="qhboxlayout" name="horizontallayout_2">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftmargin">
+    <number>12</number>
+   </property>
+   <property name="topmargin">
+    <number>12</number>
+   </property>
+   <property name="rightmargin">
+    <number>12</number>
+   </property>
+   <property name="bottommargin">
+    <number>12</number>
+   </property>
+   <item>
+    <layout class="qvboxlayout" name="verticallayoutlogo" stretch="0,0">
+     <property name="leftmargin">
+      <number>0</number>
+     </property>
+     <property name="topmargin">
+      <number>4</number>
+     </property>
+     <property name="rightmargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="qlabel" name="aboutlogo">
+       <property name="sizepolicy">
+        <sizepolicy hsizetype="preferred" vsizetype="ignored">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumsize">
+        <size>
+         <width>100</width>
+         <height>100</height>
+        </size>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../bitcoin.qrc">:/icons/bitcoin</pixmap>
+       </property>
+       <property name="scaledcontents">
+        <bool>true</bool>
+       </property>
+       <property name="alignment">
+        <set>qt::alignleading|qt::alignleft|qt::aligntop</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="qframe" name="frame">
+       <property name="frameshape">
+        <enum>qframe::noframe</enum>
+       </property>
+       <property name="frameshadow">
+        <enum>qframe::raised</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="qvboxlayout" name="verticallayout">
+     <item>
+      <widget class="qtextedit" name="helpmessage">
+       <property name="readonly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="qscrollarea" name="scrollarea">
+       <property name="frameshape">
+        <enum>qframe::noframe</enum>
+       </property>
+       <property name="verticalscrollbarpolicy">
+        <enum>qt::scrollbaralwayson</enum>
+       </property>
+       <property name="widgetresizable">
+        <bool>true</bool>
+       </property>
+       <widget class="qwidget" name="scrollareawidgetcontents">
+        <layout class="qvboxlayout" name="verticallayout_2">
+         <item>
+          <widget class="qlabel" name="aboutmessage">
+           <property name="cursor">
+            <cursorshape>ibeamcursor</cursorshape>
+           </property>
+           <property name="textformat">
+            <enum>qt::plaintext</enum>
+           </property>
+           <property name="alignment">
+            <set>qt::alignleading|qt::alignleft|qt::aligntop</set>
+           </property>
+           <property name="openexternallinks">
+            <bool>true</bool>
+           </property>
+           <property name="textinteractionflags">
+            <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+     <item>
+      <spacer name="verticalspacer">
+       <property name="orientation">
+        <enum>qt::vertical</enum>
+       </property>
+       <property name="sizetype">
+        <enum>qsizepolicy::fixed</enum>
+       </property>
+       <property name="sizehint" stdset="0">
+        <size>
+         <width>4</width>
+         <height>4</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="qdialogbuttonbox" name="okbutton">
+       <property name="orientation">
+        <enum>qt::horizontal</enum>
+       </property>
+       <property name="standardbuttons">
+        <set>qdialogbuttonbox::ok</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../bitcoin.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>okbutton</sender>
+   <signal>accepted()</signal>
+   <receiver>helpmessagedialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>okbutton</sender>
+   <signal>rejected()</signal>
+   <receiver>helpmessagedialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

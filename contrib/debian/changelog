@@ -1,0 +1,429 @@
+moorecoin (0.10.0-precise1) precise; urgency=medium
+
+  * new upstream releases.
+
+ -- matt corallo (bluematt) <matt@mattcorallo.com>  wed, 18 feb 2015 13:22:00 -1000
+
+moorecoin (0.9.4-precise1) precise; urgency=high
+
+  * new upstream releases.
+
+ -- matt corallo (laptop - only while traveling) <matt@mattcorallo.com>  mon, 12 jan 2015 23:30:00 -1000
+
+moorecoin (0.9.3-precise1) precise; urgency=medium
+
+  * new upstream releases.
+
+ -- matt corallo (bluematt) <matt@mattcorallo.com>  fri, 26 sep 2014 12:01:00 -0700
+
+moorecoin (0.9.1-precise1) precise; urgency=medium
+
+  * new upstream release.
+  * backport pull #4019
+
+ -- matt corallo <matt@bluematt.me>  sat, 19 apr 2014 17:29:00 -0400
+
+moorecoin (0.9.0-precise1) precise; urgency=medium
+
+  * new upstream release.
+
+ -- matt corallo <matt@bluematt.me>  thu, 20 mar 2014 13:10:00 -0400
+
+moorecoin (0.8.6-precise1) precise; urgency=medium
+
+  * new upstream release.
+  * make .desktop paths non-fixed (suggested by prusnak@github)
+
+ -- matt corallo <matt@bluematt.me>  fri, 13 dec 2013 13:31:00 -0400
+
+moorecoin (0.8.5-precise1) precise; urgency=medium
+
+  * new upstream release.
+
+ -- matt corallo <matt@bluematt.me>  sun, 15 sep 2013 14:02:00 -0400
+
+moorecoin (0.8.4-precise1) precise; urgency=medium
+
+  * new upstream release.
+
+ -- matt corallo <matt@bluematt.me>  wed, 4 sep 2013 10:25:00 -0400
+
+moorecoin (0.8.3-natty1) natty; urgency=low
+
+  * new upstream release.
+
+ -- matt corallo <matt@bluematt.me>  wed, 26 jun 2013 00:18:00 +0100
+
+moorecoin (0.8.2-natty1) natty; urgency=low
+
+  * new upstream release.
+
+ -- matt corallo <matt@bluematt.me>  wed, 29 mar 2013 23:23:00 +0100
+
+moorecoin (0.8.1-natty3) natty; urgency=low
+
+  * new pixmaps
+
+ -- jonas schnelli <jonas.schnelli@include7.ch>  mon, 13 may 2013 16:14:00 +0100
+
+moorecoin (0.8.1-natty2) natty; urgency=low
+
+  * remove dumb broken launcher script
+
+ -- matt corallo <matt@bluematt.me>  sun, 24 mar 2013 20:01:00 -0400
+
+moorecoin (0.8.1-natty1) natty; urgency=low
+
+  * new upstream release.
+
+ -- matt corallo <matt@bluematt.me>  tue, 19 mar 2013 13:03:00 -0400
+
+moorecoin (0.8.0-natty1) natty; urgency=low
+
+  * new upstream release.
+
+ -- matt corallo <matt@bluematt.me>  sat, 23 feb 2013 16:01:00 -0500
+
+moorecoin (0.7.2-natty1) natty; urgency=low
+
+  * new upstream release.
+
+ -- matt corallo <matt@bluematt.me>  sat, 15 dec 2012 10:59:00 -0400
+
+moorecoin (0.7.1-natty1) natty; urgency=low
+
+  * new upstream release.
+
+ -- matt corallo <matt@bluematt.me>  wed, 24 oct 2012 15:06:00 -0400
+
+moorecoin (0.7.0-natty1) natty; urgency=low
+
+  * new upstream release.
+
+ -- matt corallo <matt@bluematt.me>  mon, 17 sep 2012 13:45:00 +0200
+
+moorecoin (0.6.3-natty1) natty; urgency=low
+
+  * new upstream release.
+
+ -- matt corallo <matt@bluematt.me>  mon, 25 jun 2012 23:47:00 +0200
+
+moorecoin (0.6.2-natty1) natty; urgency=low
+
+  * update package description and launch scripts.
+
+ -- matt corallo <matt@bluematt.me>  sat, 2 jun 2012 16:41:00 +0200
+
+moorecoin (0.6.2-natty0) natty; urgency=low
+
+  * new upstream release.
+
+ -- matt corallo <matt@bluematt.me>  tue, 8 may 2012 16:27:00 -0500
+
+moorecoin (0.6.1-natty0) natty; urgency=low
+
+  * new upstream release.
+
+ -- matt corallo <matt@bluematt.me>  sun, 6 may 2012 20:09:00 -0500
+
+moorecoin (0.6.0-natty0) natty; urgency=low
+
+  * new upstream release.
+  * add gnome/kde support for moorecoin-qt's moorecoin: uri support.
+    thanks to luke-jr for the kde .protocol file.
+
+ -- matt corallo <matt@bluematt.me>  sat, 31 mar 2012 15:35:00 -0500
+
+moorecoin (0.5.3-natty1) natty; urgency=low
+
+  * mark for upload to ppa.
+
+ -- matt corallo <matt@bluematt.me>  wed, 14 mar 2012 23:06:00 -0400
+
+moorecoin (0.5.3-natty0) natty; urgency=low
+
+  * new upstream release.
+
+ -- luke dashjr <luke+moorecoin+deb@dashjr.org>  tue, 10 jan 2012 15:57:00 -0500
+
+moorecoin (0.5.2-natty1) natty; urgency=low
+
+  * remove mentions on anonymity in package descriptions and manpage.
+    these should never have been there, moorecoin isnt anonymous without
+    a ton of work that virtually no users will ever be willing and
+    capable of doing
+
+ -- matt corallo <matt@bluematt.me>  sat, 7 jan 2012 13:37:00 -0500
+
+moorecoin (0.5.2-natty0) natty; urgency=low
+
+  * new upstream release.
+
+ -- luke dashjr <luke+moorecoin+deb@dashjr.org>  fri, 16 dec 2011 17:57:00 -0500
+
+moorecoin (0.5.1-natty0) natty; urgency=low
+
+  * new upstream release.
+
+ -- matt corallo <matt@bluematt.me>  fri, 16 dec 2011 13:27:00 -0500
+
+moorecoin (0.5.0-natty0) natty; urgency=low
+
+  * new upstream release.
+
+ -- matt corallo <matt@bluematt.me>  mon, 21 nov 2011 11:32:00 -0500
+
+moorecoin (0.5.0~rc7-natty0) natty; urgency=low
+
+  * new upstream release candidate.
+
+ -- matt corallo <matt@bluematt.me>  sun, 20 nov 2011 17:08:00 -0500
+
+moorecoin (0.5.0~rc3-natty0) natty; urgency=low
+
+  * new upstream release candidate.
+  * don't set rpcpassword for moorecoin-qt.
+
+ -- matt corallo <matt@bluematt.me>  tue, 8 nov 2011 11:56:00 -0400
+
+moorecoin (0.5.0~rc1-natty1) natty; urgency=low
+
+  * add test_moorecoin to build test
+  * fix clean
+  * remove uneccessary build-dependancies
+
+ -- matt corallo <matt@bluematt.me>  wed, 26 oct 2011 14:37:18 -0400
+
+moorecoin (0.5.0~rc1-natty0) natty; urgency=low
+
+  * mark for natty
+  * fix broken build
+  * fix copyright listing
+  * remove moorecoin: url handler until moorecoin actually has support for it (oops)
+
+ -- matt corallo <matt@bluematt.me>  wed, 26 oct 2011 14:37:18 -0400
+
+moorecoin (0.5.0~rc1-2) experimental; urgency=low
+
+  * add moorecoin-qt
+
+ -- matt corallo <matt@bluematt.me>  tue, 25 oct 2011 15:24:18 -0400
+
+moorecoin (0.5.0~rc1-1) experimental; urgency=low
+
+  * new upstream prerelease.
+  * add github as alternate upstream source in watch file.
+  * stop build-depending on libcrypto++-dev, and drop patch 1000:
+    upstream no longer use crypto++.
+  * drop patch 1003: upstream builds dynamic by default now.
+  * update copyright file: drop notes on longer included sources.
+
+ -- jonas smedegaard <dr@jones.dk>  fri, 14 oct 2011 00:16:18 +0200
+
+moorecoin (0.4.0-1) unstable; urgency=low
+
+  * new upstream release.
+  * stop repackaging source tarballs: no dfsg-violating stripping left.
+  * update copyright file:
+    + add github url to source.
+  * drop dpkg-source local-options hint: declared options are default
+    since dpkg-source 1.16.1.
+    + add irc url to upstream-contact.
+    + add comment on moorecoin developers to catch-all files section.
+    + add files sections for newly readded src/cryptopp/* (new custom
+      bsd-like license), and newly added doc/build-osx.txt and
+      src/makefile.osx (expat).
+  * bump debhelper compatibility level to 7.
+  * suppress binary icns and gpg files.
+  * enable regression tests:
+    + build-depend on libboost-test-dev.
+    + extend patch 1003 to also dynamically link test binary.
+    + build and invoke test binary unless tests are disabled.
+  * tighten build-dependency on cdbs: recent version needed to support
+    debhelper 7.
+  * relax build-depend unversioned on debhelper: needed version
+    satisfied even in oldstable.
+  * stop suppress optional build-dependencies: satisfied in stable.
+    build-depend on devscripts (enabling copyright-check).
+
+ -- jonas smedegaard <dr@jones.dk>  wed, 05 oct 2011 01:48:53 +0200
+
+moorecoin (0.3.24~dfsg-1) unstable; urgency=low
+
+  * new upstream release.
+
+  [ jonas smedegaard ]
+  * improve various usage hints:
+    + explicitly mention in long description that moorecoind contains
+      daemon and command-line interface.
+    + extend readme.debian with section on lack of gui, and add primary
+      headline.
+    + avoid installing upstream readme: contains no parts relevant for
+      debian usage.
+    thanks to richard for suggestions (see bug#629443).
+  * favor final releases over prereleases in rules and watch file.
+    thanks to jan dittberner.
+  * track -src (not -linux) tarballs in rules and watch file.
+    thanks to jan dittberner.
+  * drop patches 1004 and 1005 (integrated upstream) and simplify
+    cxxflags in rules file.
+  * stop stripping no longer included source-less binaries from upstream
+    tarballs.
+
+  [ jan dittberner ]
+  * refresh debian/patches/1000_use_system_crypto++.patch
+
+ -- jonas smedegaard <dr@jones.dk>  tue, 19 jul 2011 15:08:54 +0200
+
+moorecoin (0.3.21~dfsg-2) unstable; urgency=low
+
+  * enable upnp support:
+    + drop patch 1006.
+    + build-depend on libminiupnpc-dev.
+    thanks to matt corallo.
+
+ -- jonas smedegaard <dr@jones.dk>  sat, 28 may 2011 15:52:44 +0200
+
+moorecoin (0.3.21~dfsg-1) unstable; urgency=low
+
+  * new upstream release.
+  * refresh patches.
+  * drop patch 1002: no longer needed, as upstream use pkgconfig now.
+  * add patch 1006 to really unset use_upnp as aparently intended.
+  * adjust cleanup rule to preserve .gitignore files.
+  * update copyright file:
+    + bump format to draft 174 of dep-5.
+    + shorten comments.
+  * bump policy compliance to standards-version 3.9.2.
+  * shorten vcs-browser paragraph in control file.
+  * fix mention daemon (not cli tools) in short description.
+  * stop conflicting with or replace moorecoin-cli: only transitional, no
+    longer needed.
+  * link against unversioned berkeleydb. update news and readme.debian
+    accordingly (and improve wording while at it).
+    closes: bug#621425. thanks to ond艡ej sur媒.
+  * this release also implicitly updates linkage against libcrypto++,
+    which closes: bug#626953, #627024.
+  * disable linkage against not yet debian packaged miniupnp.
+  * silence seemingly harmless noise about unused variables.
+
+ -- jonas smedegaard <dr@jones.dk>  tue, 17 may 2011 15:31:24 +0200
+
+moorecoin (0.3.20.2~dfsg-2) unstable; urgency=medium
+
+  * fix have wrapper script execute real binary (not loop executing
+    itself).
+    closes: bug#617290. thanks to philippe gauthier and etienne laurin.
+  * set urgency=medium as the only (user-exposed) binary is useless
+    without this fix and has been for some time.
+
+ -- jonas smedegaard <dr@jones.dk>  wed, 16 mar 2011 09:11:06 +0100
+
+moorecoin (0.3.20.2~dfsg-1) unstable; urgency=low
+
+  * new upstream release.
+  * fix provide and replace former package name moorecoin-cli.
+    closes: bug#618439. thanks to shane wegner.
+
+ -- jonas smedegaard <dr@jones.dk>  tue, 15 mar 2011 11:41:43 +0100
+
+moorecoin (0.3.20.01~dfsg-1) unstable; urgency=low
+
+  * new upstream release.
+
+  [ micah anderson ]
+  * add myself as uploader.
+
+  [ jonas smedegaard ]
+  * add wrapper for moorecoind to ease initial startup.
+  * update patches:
+    + drop patch 2002: applied upstream.
+    + add patch 1005 to add phtread linker option.
+      closes: bug#615619. thanks to shane wegner.
+    + refresh patches.
+  * extend copyright years in rules file header.
+  * rewrite copyright file using draft svn166 of dep5 format.
+  * rename binary package to moorecoind (from bincoin-cli).
+    closes: bug#614025. thanks to luke-jr.
+
+ -- jonas smedegaard <dr@jones.dk>  tue, 01 mar 2011 15:55:04 +0100
+
+moorecoin (0.3.19~dfsg-6) unstable; urgency=low
+
+  * fix override agressive optimizations.
+  * fix tighten build-dependencies to really fit backporting to lenny:
+    + add fallback build-dependency on libdb4.6++-dev.
+    + tighten unversioned boost build-dependencies to recent versions,
+      to force use of versioned boost when backporting to lenny.
+    ...needs more love, though: actual build fails.
+
+ -- jonas smedegaard <dr@jones.dk>  mon, 17 jan 2011 19:48:35 +0100
+
+moorecoin (0.3.19~dfsg-5) unstable; urgency=low
+
+  * fix lower boost fallback-build-dependencies to 1.35, really
+    available in lenny.
+  * correct comment in rules file regarding reason for versioned boost
+    fallback-build-dependency.
+  * add patch 2002 adding -mt decoration to boost flags, to ease
+    backporting to lenny.
+  * respect deb_build_options, and suppress arch-specific optimizations:
+    + add patch 1004 to allow overriding optimization flags.
+    + set optimization flags conditionally at build time.
+    + drop patch 2002 unconditionally suppressing arch-optimizations.
+
+ -- jonas smedegaard <dr@jones.dk>  mon, 17 jan 2011 16:04:48 +0100
+
+moorecoin (0.3.19~dfsg-4) unstable; urgency=low
+
+  [ micah anderson ]
+  * provide example moorecoin.conf.
+  * add moorecoind(1) and moorecoin.conf(5) man pages.
+
+  [ jonas smedegaard ]
+  * ease backporting:
+    + suppress optional build-dependencies.
+    + add fallback build-dependencies on the most recent boost libs
+    available in lenny (where unversioned boost libs are missing).
+  * add micah as copyright holder for manpages, licensed as gpl-3+.
+  * bump copyright format to subversion candidate draft 162 of dep5.
+
+ -- jonas smedegaard <dr@jones.dk>  mon, 17 jan 2011 14:00:48 +0100
+
+moorecoin (0.3.19~dfsg-3) unstable; urgency=low
+
+  * document in copyright file files excluded from repackaged source.
+  * update copyright file:
+    + bump dep5 format hint to subversion draft rev. 153.
+    + consistently wrap at 72 chars.
+    + refer to gpl-2 file (not gpl symlink).
+  * link against berkeley db 4.8 (not 4.7):
+    + build-depend on libdb4.8++-dev (and on on libdb4.7++-dev).
+    + suggest libdb4.8-util and db4.7-util.
+    + add readme.debian note on (untested) upgrade routine.
+    + add news entry on changed db version, referring to readme.debian.
+
+ -- jonas smedegaard <dr@jones.dk>  fri, 07 jan 2011 22:50:57 +0100
+
+moorecoin (0.3.19~dfsg-2) unstable; urgency=low
+
+  * adjust build options to use optimized miner only for amd64. fixes
+    ftbfs on i386 (and other archs, if compiling anywhere else at all).
+  * avoid static linking.
+  * adjust patch 2001 to avoid only arch-specific optimizations (keep
+    -o3).
+  * extend long description to mention disk consumption and initial use
+    of irc.
+  all of above changes thanks to helmuth grohne.
+  * add lintian override regarding openssl and gpl: linked code is expat
+    - only debian packaging is gpl-2+.
+
+ -- jonas smedegaard <dr@jones.dk>  wed, 29 dec 2010 00:27:54 +0100
+
+moorecoin (0.3.19~dfsg-1) unstable; urgency=low
+
+  [ jonas smedegaard ]
+  * initial release.
+    closes: bug#578157.
+
+ -- jonas smedegaard <dr@jones.dk>  tue, 28 dec 2010 15:49:22 +0100

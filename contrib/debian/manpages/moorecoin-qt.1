@@ -1,0 +1,203 @@
+.th bitcoin-qt "1" "april 2013" "bitcoin-qt 1"
+.sh name
+bitcoin-qt \- peer-to-peer network based digital currency
+.sh description
+.ss "usage:"
+.ip
+bitcoin\-qt [command\-line options]
+.sh options
+.tp
+\-?
+this help message
+.tp
+\fb\-conf=\fr<file>
+specify configuration file (default: bitcoin.conf)
+.tp
+\fb\-pid=\fr<file>
+specify pid file (default: bitcoind.pid)
+.tp
+\fb\-gen\fr
+generate coins
+.tp
+\fb\-gen\fr=\fi0\fr
+don't generate coins
+.tp
+\fb\-datadir=\fr<dir>
+specify data directory
+.tp
+\fb\-dbcache=\fr<n>
+set database cache size in megabytes (default: 25)
+.tp
+\fb\-timeout=\fr<n>
+specify connection timeout in milliseconds (default: 5000)
+.tp
+\fb\-proxy=\fr<ip:port>
+connect through socks5 proxy
+.tp
+\fb\-tor=\fr<ip:port>
+use proxy to reach tor hidden services (default: same as \fb\-proxy\fr)
+.tp
+\fb\-dns\fr
+allow dns lookups for \fb\-addnode\fr, \fb\-seednode\fr and \fb\-connect\fr
+.tp
+\fb\-port=\fr<port>
+listen for connections on <port> (default: 8333 or testnet: 18333)
+.tp
+\fb\-maxconnections=\fr<n>
+maintain at most <n> connections to peers (default: 125)
+.tp
+\fb\-addnode=\fr<ip>
+add a node to connect to and attempt to keep the connection open
+.tp
+\fb\-connect=\fr<ip>
+connect only to the specified node(s)
+.tp
+\fb\-seednode=\fr<ip>
+connect to a node to retrieve peer addresses, and disconnect
+.tp
+\fb\-externalip=\fr<ip>
+specify your own public address
+.tp
+\fb\-onlynet=\fr<net>
+only connect to nodes in network <net> (ipv4, ipv6 or tor)
+.tp
+\fb\-discover\fr
+discover own ip address (default: 1 when listening and no \fb\-externalip\fr)
+.tp
+\fb\-checkpoints\fr
+only accept block chain matching built\-in checkpoints (default: 1)
+.tp
+\fb\-listen\fr
+accept connections from outside (default: 1 if no \fb\-proxy\fr or \fb\-connect\fr)
+.tp
+\fb\-bind=\fr<addr>
+bind to given address and always listen on it. use [host]:port notation for ipv6
+.tp
+\fb\-dnsseed\fr
+find peers using dns lookup (default: 1 unless \fb\-connect\fr)
+.tp
+\fb\-banscore=\fr<n>
+threshold for disconnecting misbehaving peers (default: 100)
+.tp
+\fb\-bantime=\fr<n>
+number of seconds to keep misbehaving peers from reconnecting (default: 86400)
+.tp
+\fb\-maxreceivebuffer=\fr<n>
+maximum per\-connection receive buffer, <n>*1000 bytes (default: 5000)
+.tp
+\fb\-maxsendbuffer=\fr<n>
+maximum per\-connection send buffer, <n>*1000 bytes (default: 1000)
+.tp
+\fb\-upnp\fr
+use upnp to map the listening port (default: 1 when listening)
+.tp
+\fb\-paytxfee=\fr<amt>
+fee per kb to add to transactions you send
+.tp
+\fb\-server\fr
+accept command line and json\-rpc commands
+.tp
+\fb\-testnet\fr
+use the test network
+.tp
+\fb\-debug\fr
+output extra debugging information. implies all other \fb\-debug\fr* options
+.tp
+\fb\-debugnet\fr
+output extra network debugging information
+.tp
+\fb\-logtimestamps\fr
+prepend debug output with timestamp
+.tp
+\fb\-shrinkdebugfile\fr
+shrink debug.log file on client startup (default: 1 when no \fb\-debug\fr)
+.tp
+\fb\-printtoconsole\fr
+send trace/debug info to console instead of debug.log file
+.tp
+\fb\-rpcuser=\fr<user>
+username for json\-rpc connections
+.tp
+\fb\-rpcpassword=\fr<pw>
+password for json\-rpc connections
+.tp
+\fb\-rpcport=\fr<port>
+listen for json\-rpc connections on <port> (default: 8332 or testnet: 18332)
+.tp
+\fb\-rpcallowip=\fr<ip>
+allow json\-rpc connections from specified ip address
+.tp
+\fb\-rpcthreads=\fr<n>
+set the number of threads to service rpc calls (default: 4)
+.tp
+\fb\-blocknotify=\fr<cmd>
+execute command when the best block changes (%s in cmd is replaced by block hash)
+.tp
+\fb\-walletnotify=\fr<cmd>
+execute command when a wallet transaction changes (%s in cmd is replaced by txid)
+.tp
+\fb\-alertnotify=\fr<cmd>
+execute command when a relevant alert is received (%s in cmd is replaced by message)
+.tp
+\fb\-upgradewallet\fr
+upgrade wallet to latest format
+.tp
+\fb\-keypool=\fr<n>
+set key pool size to <n> (default: 100)
+.tp
+\fb\-rescan\fr
+rescan the block chain for missing wallet transactions
+.tp
+\fb\-salvagewallet\fr
+attempt to recover private keys from a corrupt wallet.dat
+.tp
+\fb\-checkblocks=\fr<n>
+how many blocks to check at startup (default: 288, 0 = all)
+.tp
+\fb\-checklevel=\fr<n>
+how thorough the block verification is (0\-4, default: 3)
+.tp
+\fb\-txindex\fr
+maintain a full transaction index (default: 0)
+.tp
+\fb\-loadblock=\fr<file>
+imports blocks from external blk000??.dat file
+.tp
+\fb\-reindex\fr
+rebuild block chain index from current blk000??.dat files
+.tp
+\fb\-par=\fr<n>
+set the number of script verification threads (1\-16, 0=auto, default: 0)
+.ss "block creation options:"
+.tp
+\fb\-blockminsize=\fr<n>
+set minimum block size in bytes (default: 0)
+.tp
+\fb\-blockmaxsize=\fr<n>
+set maximum block size in bytes (default: 250000)
+.hp
+\fb\-blockprioritysize=\fr<n> set maximum size of high\-priority/low\-fee transactions in bytes (default: 27000)
+.pp
+ssl options: (see the bitcoin wiki for ssl setup instructions)
+.tp
+\fb\-rpcssl\fr
+use openssl (https) for json\-rpc connections
+.tp
+\fb\-rpcsslcertificatechainfile=\fr<file.cert>
+server certificate file (default: server.cert)
+.tp
+\fb\-rpcsslprivatekeyfile=\fr<file.pem>
+server private key (default: server.pem)
+.tp
+\fb\-rpcsslciphers=\fr<ciphers>
+acceptable ciphers (default: tlsv1+high:!sslv2:!anull:!enull:!ah:!3des:@strength)
+.ss "ui options:"
+.tp
+\fb\-lang=\fr<lang>
+set language, for example "de_de" (default: system locale)
+.tp
+\fb\-min\fr
+start minimized
+.tp
+\fb\-splash\fr
+show splash screen on startup (default: 1)

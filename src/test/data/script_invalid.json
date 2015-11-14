@@ -1,0 +1,814 @@
+[
+["format is: [scriptsig, scriptpubkey, flags, ... comments]"],
+["it is evaluated as if there was a crediting coinbase transaction with two 0"],
+["pushes as scriptsig, and one output of 0 satoshi and given scriptpubkey,"],
+["followed by a spending transaction which spends this output as only input (and"],
+["correct prevout hash), using the given scriptsig. all nlocktimes are 0, all"],
+["nsequences are max."],
+
+["", "depth", "p2sh,strictenc",   "test the test: we should have an empty stack after scriptsig evaluation"],
+["  ", "depth", "p2sh,strictenc", "and multiple spaces should not change that."],
+["   ", "depth", "p2sh,strictenc"],
+["    ", "depth", "p2sh,strictenc"],
+
+["", "", "p2sh,strictenc"],
+["", "nop", "p2sh,strictenc"],
+["", "nop depth", "p2sh,strictenc"],
+["nop", "", "p2sh,strictenc"],
+["nop", "depth", "p2sh,strictenc"],
+["nop","nop", "p2sh,strictenc"],
+["nop","nop depth", "p2sh,strictenc"],
+
+["depth", "", "p2sh,strictenc"],
+
+["0x4c01","0x01 nop", "p2sh,strictenc", "pushdata1 with not enough bytes"],
+["0x4d0200ff","0x01 nop", "p2sh,strictenc", "pushdata2 with not enough bytes"],
+["0x4e03000000ffff","0x01 nop", "p2sh,strictenc", "pushdata4 with not enough bytes"],
+
+["1", "if 0x50 endif 1", "p2sh,strictenc", "0x50 is reserved"],
+["0x52", "0x5f add 0x60 equal", "p2sh,strictenc", "0x51 through 0x60 push 1 through 16 onto stack"],
+["0","nop", "p2sh,strictenc"],
+["1", "if ver else 1 endif", "p2sh,strictenc", "ver non-functional"],
+["0", "if verif else 1 endif", "p2sh,strictenc", "verif illegal everywhere"],
+["0", "if else 1 else verif endif", "p2sh,strictenc", "verif illegal everywhere"],
+["0", "if vernotif else 1 endif", "p2sh,strictenc", "vernotif illegal everywhere"],
+["0", "if else 1 else vernotif endif", "p2sh,strictenc", "vernotif illegal everywhere"],
+
+["1 if", "1 endif", "p2sh,strictenc", "if/endif can't span scriptsig/scriptpubkey"],
+["1 if 0 endif", "1 endif", "p2sh,strictenc"],
+["1 else 0 endif", "1", "p2sh,strictenc"],
+["0 notif", "123", "p2sh,strictenc"],
+
+["0", "dup if endif", "p2sh,strictenc"],
+["0", "if 1 endif", "p2sh,strictenc"],
+["0", "dup if else endif", "p2sh,strictenc"],
+["0", "if 1 else endif", "p2sh,strictenc"],
+["0", "notif else 1 endif", "p2sh,strictenc"],
+
+["0 1", "if if 1 else 0 endif endif", "p2sh,strictenc"],
+["0 0", "if if 1 else 0 endif endif", "p2sh,strictenc"],
+["1 0", "if if 1 else 0 endif else if 0 else 1 endif endif", "p2sh,strictenc"],
+["0 1", "if if 1 else 0 endif else if 0 else 1 endif endif", "p2sh,strictenc"],
+
+["0 0", "notif if 1 else 0 endif endif", "p2sh,strictenc"],
+["0 1", "notif if 1 else 0 endif endif", "p2sh,strictenc"],
+["1 1", "notif if 1 else 0 endif else if 0 else 1 endif endif", "p2sh,strictenc"],
+["0 0", "notif if 1 else 0 endif else if 0 else 1 endif endif", "p2sh,strictenc"],
+
+["1", "if return else else 1 endif", "p2sh,strictenc", "multiple elses"],
+["1", "if 1 else else return endif", "p2sh,strictenc"],
+
+["1", "endif", "p2sh,strictenc", "malformed if/else/endif sequence"],
+["1", "else endif", "p2sh,strictenc"],
+["1", "endif else", "p2sh,strictenc"],
+["1", "endif else if", "p2sh,strictenc"],
+["1", "if else endif else", "p2sh,strictenc"],
+["1", "if else endif else endif", "p2sh,strictenc"],
+["1", "if endif endif", "p2sh,strictenc"],
+["1", "if else else endif endif", "p2sh,strictenc"],
+
+["1", "return", "p2sh,strictenc"],
+["1", "dup if return endif", "p2sh,strictenc"],
+
+["1", "return 'data'", "p2sh,strictenc", "canonical prunable txout format"],
+["0 if", "return endif 1", "p2sh,strictenc", "still prunable because if/endif can't span scriptsig/scriptpubkey"],
+
+["0", "verify 1", "p2sh,strictenc"],
+["1", "verify", "p2sh,strictenc"],
+["1", "verify 0", "p2sh,strictenc"],
+
+["1 toaltstack", "fromaltstack 1", "p2sh,strictenc", "alt stack not shared between sig/pubkey"],
+
+["ifdup", "depth 0 equal", "p2sh,strictenc"],
+["drop", "depth 0 equal", "p2sh,strictenc"],
+["dup", "depth 0 equal", "p2sh,strictenc"],
+["1", "dup 1 add 2 equalverify 0 equal", "p2sh,strictenc"],
+["nop", "nip", "p2sh,strictenc"],
+["nop", "1 nip", "p2sh,strictenc"],
+["nop", "1 0 nip", "p2sh,strictenc"],
+["nop", "over 1", "p2sh,strictenc"],
+["1", "over", "p2sh,strictenc"],
+["0 1", "over depth 3 equalverify", "p2sh,strictenc"],
+["19 20 21", "pick 19 equalverify depth 2 equal", "p2sh,strictenc"],
+["nop", "0 pick", "p2sh,strictenc"],
+["1", "-1 pick", "p2sh,strictenc"],
+["19 20 21", "0 pick 20 equalverify depth 3 equal", "p2sh,strictenc"],
+["19 20 21", "1 pick 21 equalverify depth 3 equal", "p2sh,strictenc"],
+["19 20 21", "2 pick 22 equalverify depth 3 equal", "p2sh,strictenc"],
+["nop", "0 roll", "p2sh,strictenc"],
+["1", "-1 roll", "p2sh,strictenc"],
+["19 20 21", "0 roll 20 equalverify depth 2 equal", "p2sh,strictenc"],
+["19 20 21", "1 roll 21 equalverify depth 2 equal", "p2sh,strictenc"],
+["19 20 21", "2 roll 22 equalverify depth 2 equal", "p2sh,strictenc"],
+["nop", "rot 1", "p2sh,strictenc"],
+["nop", "1 rot 1", "p2sh,strictenc"],
+["nop", "1 2 rot 1", "p2sh,strictenc"],
+["nop", "0 1 2 rot", "p2sh,strictenc"],
+["nop", "swap 1", "p2sh,strictenc"],
+["1", "swap 1", "p2sh,strictenc"],
+["0 1", "swap 1 equalverify", "p2sh,strictenc"],
+["nop", "tuck 1", "p2sh,strictenc"],
+["1", "tuck 1", "p2sh,strictenc"],
+["1 0", "tuck depth 3 equalverify swap 2drop", "p2sh,strictenc"],
+["nop", "2dup 1", "p2sh,strictenc"],
+["1", "2dup 1", "p2sh,strictenc"],
+["nop", "3dup 1", "p2sh,strictenc"],
+["1", "3dup 1", "p2sh,strictenc"],
+["1 2", "3dup 1", "p2sh,strictenc"],
+["nop", "2over 1", "p2sh,strictenc"],
+["1", "2 3 2over 1", "p2sh,strictenc"],
+["nop", "2swap 1", "p2sh,strictenc"],
+["1", "2 3 2swap 1", "p2sh,strictenc"],
+
+["'a' 'b'", "cat", "p2sh,strictenc", "cat disabled"],
+["'a' 'b' 0", "if cat else 1 endif", "p2sh,strictenc", "cat disabled"],
+["'abc' 1 1", "substr", "p2sh,strictenc", "substr disabled"],
+["'abc' 1 1 0", "if substr else 1 endif", "p2sh,strictenc", "substr disabled"],
+["'abc' 2 0", "if left else 1 endif", "p2sh,strictenc", "left disabled"],
+["'abc' 2 0", "if right else 1 endif", "p2sh,strictenc", "right disabled"],
+
+["nop", "size 1", "p2sh,strictenc"],
+
+["'abc'", "if invert else 1 endif", "p2sh,strictenc", "invert disabled"],
+["1 2 0 if and else 1 endif", "nop", "p2sh,strictenc", "and disabled"],
+["1 2 0 if or else 1 endif", "nop", "p2sh,strictenc", "or disabled"],
+["1 2 0 if xor else 1 endif", "nop", "p2sh,strictenc", "xor disabled"],
+["2 0 if 2mul else 1 endif", "nop", "p2sh,strictenc", "2mul disabled"],
+["2 0 if 2div else 1 endif", "nop", "p2sh,strictenc", "2div disabled"],
+["2 2 0 if mul else 1 endif", "nop", "p2sh,strictenc", "mul disabled"],
+["2 2 0 if div else 1 endif", "nop", "p2sh,strictenc", "div disabled"],
+["2 2 0 if mod else 1 endif", "nop", "p2sh,strictenc", "mod disabled"],
+["2 2 0 if lshift else 1 endif", "nop", "p2sh,strictenc", "lshift disabled"],
+["2 2 0 if rshift else 1 endif", "nop", "p2sh,strictenc", "rshift disabled"],
+
+["", "equal not", "p2sh,strictenc", "equal must error when there are no stack items"],
+["0", "equal not", "p2sh,strictenc", "equal must error when there are not 2 stack items"],
+["0 1","equal", "p2sh,strictenc"],
+["1 1 add", "0 equal", "p2sh,strictenc"],
+["11 1 add 12 sub", "11 equal", "p2sh,strictenc"],
+
+["2147483648 0 add", "nop", "p2sh,strictenc", "arithmetic operands must be in range [-2^31...2^31] "],
+["-2147483648 0 add", "nop", "p2sh,strictenc", "arithmetic operands must be in range [-2^31...2^31] "],
+["2147483647 dup add", "4294967294 numequal", "p2sh,strictenc", "numequal must be in numeric range"],
+["'abcdef' not", "0 equal", "p2sh,strictenc", "not is an arithmetic operand"],
+
+["2 dup mul", "4 equal", "p2sh,strictenc", "disabled"],
+["2 dup div", "1 equal", "p2sh,strictenc", "disabled"],
+["2 2mul", "4 equal", "p2sh,strictenc", "disabled"],
+["2 2div", "1 equal", "p2sh,strictenc", "disabled"],
+["7 3 mod", "1 equal", "p2sh,strictenc", "disabled"],
+["2 2 lshift", "8 equal", "p2sh,strictenc", "disabled"],
+["2 1 rshift", "1 equal", "p2sh,strictenc", "disabled"],
+
+["1","nop1 nop2 nop3 nop4 nop5 nop6 nop7 nop8 nop9 nop10 2 equal", "p2sh,strictenc"],
+["'nop_1_to_10' nop1 nop2 nop3 nop4 nop5 nop6 nop7 nop8 nop9 nop10","'nop_1_to_11' equal", "p2sh,strictenc"],
+
+["ensure 100% coverage of discouraged nops"],
+["1", "nop1",  "p2sh,discourage_upgradable_nops"],
+["1", "nop2",  "p2sh,discourage_upgradable_nops"],
+["1", "nop3",  "p2sh,discourage_upgradable_nops"],
+["1", "nop4",  "p2sh,discourage_upgradable_nops"],
+["1", "nop5",  "p2sh,discourage_upgradable_nops"],
+["1", "nop6",  "p2sh,discourage_upgradable_nops"],
+["1", "nop7",  "p2sh,discourage_upgradable_nops"],
+["1", "nop8",  "p2sh,discourage_upgradable_nops"],
+["1", "nop9",  "p2sh,discourage_upgradable_nops"],
+["1", "nop10", "p2sh,discourage_upgradable_nops"],
+
+["nop10", "1", "p2sh,discourage_upgradable_nops", "discouraged nop10 in scriptsig"],
+
+["1 0x01 0xb9", "hash160 0x14 0x15727299b05b45fdaf9ac9ecf7565cfe27c3e567 equal",
+ "p2sh,discourage_upgradable_nops", "discouraged nop10 in redeemscript"],
+
+["0x50","1", "p2sh,strictenc", "opcode 0x50 is reserved"],
+["1", "if 0xba else 1 endif", "p2sh,strictenc", "opcodes above nop10 invalid if executed"],
+["1", "if 0xbb else 1 endif", "p2sh,strictenc"],
+["1", "if 0xbc else 1 endif", "p2sh,strictenc"],
+["1", "if 0xbd else 1 endif", "p2sh,strictenc"],
+["1", "if 0xbe else 1 endif", "p2sh,strictenc"],
+["1", "if 0xbf else 1 endif", "p2sh,strictenc"],
+["1", "if 0xc0 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xc1 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xc2 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xc3 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xc4 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xc5 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xc6 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xc7 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xc8 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xc9 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xca else 1 endif", "p2sh,strictenc"],
+["1", "if 0xcb else 1 endif", "p2sh,strictenc"],
+["1", "if 0xcc else 1 endif", "p2sh,strictenc"],
+["1", "if 0xcd else 1 endif", "p2sh,strictenc"],
+["1", "if 0xce else 1 endif", "p2sh,strictenc"],
+["1", "if 0xcf else 1 endif", "p2sh,strictenc"],
+["1", "if 0xd0 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xd1 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xd2 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xd3 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xd4 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xd5 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xd6 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xd7 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xd8 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xd9 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xda else 1 endif", "p2sh,strictenc"],
+["1", "if 0xdb else 1 endif", "p2sh,strictenc"],
+["1", "if 0xdc else 1 endif", "p2sh,strictenc"],
+["1", "if 0xdd else 1 endif", "p2sh,strictenc"],
+["1", "if 0xde else 1 endif", "p2sh,strictenc"],
+["1", "if 0xdf else 1 endif", "p2sh,strictenc"],
+["1", "if 0xe0 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xe1 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xe2 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xe3 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xe4 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xe5 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xe6 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xe7 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xe8 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xe9 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xea else 1 endif", "p2sh,strictenc"],
+["1", "if 0xeb else 1 endif", "p2sh,strictenc"],
+["1", "if 0xec else 1 endif", "p2sh,strictenc"],
+["1", "if 0xed else 1 endif", "p2sh,strictenc"],
+["1", "if 0xee else 1 endif", "p2sh,strictenc"],
+["1", "if 0xef else 1 endif", "p2sh,strictenc"],
+["1", "if 0xf0 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xf1 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xf2 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xf3 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xf4 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xf5 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xf6 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xf7 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xf8 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xf9 else 1 endif", "p2sh,strictenc"],
+["1", "if 0xfa else 1 endif", "p2sh,strictenc"],
+["1", "if 0xfb else 1 endif", "p2sh,strictenc"],
+["1", "if 0xfc else 1 endif", "p2sh,strictenc"],
+["1", "if 0xfd else 1 endif", "p2sh,strictenc"],
+["1", "if 0xfe else 1 endif", "p2sh,strictenc"],
+["1", "if 0xff else 1 endif", "p2sh,strictenc"],
+
+["1 if 1 else", "0xff endif", "p2sh,strictenc", "invalid because scriptsig and scriptpubkey are processed separately"],
+
+["nop", "ripemd160", "p2sh,strictenc"],
+["nop", "sha1", "p2sh,strictenc"],
+["nop", "sha256", "p2sh,strictenc"],
+["nop", "hash160", "p2sh,strictenc"],
+["nop", "hash256", "p2sh,strictenc"],
+
+["nop",
+"'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'",
+"p2sh,strictenc",
+">520 byte push"],
+["0",
+"if 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb' endif 1",
+"p2sh,strictenc",
+">520 byte push in non-executed if branch"],
+["1",
+"0x61616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161",
+"p2sh,strictenc",
+">201 opcodes executed. 0x61 is nop"],
+["0",
+"if 0x6161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161 endif 1",
+"p2sh,strictenc",
+">201 opcodes including non-executed if branch. 0x61 is nop"],
+["1 2 3 4 5 0x6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f",
+"1 2 3 4 5 6 0x6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f",
+"p2sh,strictenc",
+">1,000 stack size (0x6f is 3dup)"],
+["1 2 3 4 5 0x6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f",
+"1 toaltstack 2 toaltstack 3 4 5 6 0x6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f",
+"p2sh,strictenc",
+">1,000 stack+altstack size"],
+["nop",
+"0 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb' 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb' 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb' 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb' 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb' 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb' 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb' 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb' 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb' 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb' 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb' 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb' 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb' 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb' 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb' 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb' 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb' 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb' 0x6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f 2dup 0x616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161",
+"p2sh,strictenc",
+"10,001-byte scriptpubkey"],
+
+["nop1","nop10", "p2sh,strictenc"],
+
+["1","ver", "p2sh,strictenc", "op_ver is reserved"],
+["1","verif", "p2sh,strictenc", "op_verif is reserved"],
+["1","vernotif", "p2sh,strictenc", "op_vernotif is reserved"],
+["1","reserved", "p2sh,strictenc", "op_reserved is reserved"],
+["1","reserved1", "p2sh,strictenc", "op_reserved1 is reserved"],
+["1","reserved2", "p2sh,strictenc", "op_reserved2 is reserved"],
+["1","0xba", "p2sh,strictenc", "0xba == op_nop10 + 1"],
+
+["2147483648", "1add 1", "p2sh,strictenc", "we cannot do math on 5-byte integers"],
+["2147483648", "negate 1", "p2sh,strictenc", "we cannot do math on 5-byte integers"],
+["-2147483648", "1add 1", "p2sh,strictenc", "because we use a sign bit, -2147483648 is also 5 bytes"],
+["2147483647", "1add 1sub 1", "p2sh,strictenc", "we cannot do math on 5-byte integers, even if the result is 4-bytes"],
+["2147483648", "1sub 1", "p2sh,strictenc", "we cannot do math on 5-byte integers, even if the result is 4-bytes"],
+
+["2147483648 1", "boolor 1", "p2sh,strictenc", "we cannot do boolor on 5-byte integers (but we can still do if etc)"],
+["2147483648 1", "booland 1", "p2sh,strictenc", "we cannot do booland on 5-byte integers"],
+
+["1", "1 endif", "p2sh,strictenc", "endif without if"],
+["1", "if 1", "p2sh,strictenc", "if without endif"],
+["1 if 1", "endif", "p2sh,strictenc", "ifs don't carry over"],
+
+["nop", "if 1 endif", "p2sh,strictenc", "the following tests check the if(stack.size() < n) tests in each opcode"],
+["nop", "notif 1 endif", "p2sh,strictenc", "they are here to catch copy-and-paste errors"],
+["nop", "verify 1", "p2sh,strictenc", "most of them are duplicated elsewhere,"],
+
+["nop", "toaltstack 1", "p2sh,strictenc", "but, hey, more is always better, right?"],
+["1", "fromaltstack", "p2sh,strictenc"],
+["1", "2drop 1", "p2sh,strictenc"],
+["1", "2dup", "p2sh,strictenc"],
+["1 1", "3dup", "p2sh,strictenc"],
+["1 1 1", "2over", "p2sh,strictenc"],
+["1 1 1 1 1", "2rot", "p2sh,strictenc"],
+["1 1 1", "2swap", "p2sh,strictenc"],
+["nop", "ifdup 1", "p2sh,strictenc"],
+["nop", "drop 1", "p2sh,strictenc"],
+["nop", "dup 1", "p2sh,strictenc"],
+["1", "nip", "p2sh,strictenc"],
+["1", "over", "p2sh,strictenc"],
+["1 1 1 3", "pick", "p2sh,strictenc"],
+["0", "pick 1", "p2sh,strictenc"],
+["1 1 1 3", "roll", "p2sh,strictenc"],
+["0", "roll 1", "p2sh,strictenc"],
+["1 1", "rot", "p2sh,strictenc"],
+["1", "swap", "p2sh,strictenc"],
+["1", "tuck", "p2sh,strictenc"],
+
+["nop", "size 1", "p2sh,strictenc"],
+
+["1", "equal 1", "p2sh,strictenc"],
+["1", "equalverify 1", "p2sh,strictenc"],
+
+["nop", "1add 1", "p2sh,strictenc"],
+["nop", "1sub 1", "p2sh,strictenc"],
+["nop", "negate 1", "p2sh,strictenc"],
+["nop", "abs 1", "p2sh,strictenc"],
+["nop", "not 1", "p2sh,strictenc"],
+["nop", "0notequal 1", "p2sh,strictenc"],
+
+["1", "add", "p2sh,strictenc"],
+["1", "sub", "p2sh,strictenc"],
+["1", "booland", "p2sh,strictenc"],
+["1", "boolor", "p2sh,strictenc"],
+["1", "numequal", "p2sh,strictenc"],
+["1", "numequalverify 1", "p2sh,strictenc"],
+["1", "numnotequal", "p2sh,strictenc"],
+["1", "lessthan", "p2sh,strictenc"],
+["1", "greaterthan", "p2sh,strictenc"],
+["1", "lessthanorequal", "p2sh,strictenc"],
+["1", "greaterthanorequal", "p2sh,strictenc"],
+["1", "min", "p2sh,strictenc"],
+["1", "max", "p2sh,strictenc"],
+["1 1", "within", "p2sh,strictenc"],
+
+["nop", "ripemd160 1", "p2sh,strictenc"],
+["nop", "sha1 1", "p2sh,strictenc"],
+["nop", "sha256 1", "p2sh,strictenc"],
+["nop", "hash160 1", "p2sh,strictenc"],
+["nop", "hash256 1", "p2sh,strictenc"],
+
+["increase checksig and checkmultisig negative test coverage"],
+["", "checksig not", "strictenc", "checksig must error when there are no stack items"],
+["0", "checksig not", "strictenc", "checksig must error when there are not 2 stack items"],
+["", "checkmultisig not", "strictenc", "checkmultisig must error when there are no stack items"],
+["", "-1 checkmultisig not", "strictenc", "checkmultisig must error when the specified number of pubkeys is negative"],
+["", "1 checkmultisig not", "strictenc", "checkmultisig must error when there are not enough pubkeys on the stack"],
+["", "-1 0 checkmultisig not", "strictenc", "checkmultisig must error when the specified number of signatures is negative"],
+["", "1 'pk1' 1 checkmultisig not", "strictenc", "checkmultisig must error when there are not enough signatures on the stack"],
+["", "'dummy' 'sig1' 1 'pk1' 1 checkmultisig if 1 endif", "", "checkmultisig must push false to stack when signature is invalid when not in strict enc mode"],
+
+["",
+"0 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig 0 0 checkmultisig",
+"p2sh,strictenc",
+"202 checkmultisigs, fails due to 201 op limit"],
+
+["1",
+"0 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify 0 0 checkmultisigverify",
+"p2sh,strictenc"],
+
+["",
+"nop nop nop nop nop nop nop nop nop nop nop nop nop 0 0 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 20 checkmultisig 0 0 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 20 checkmultisig 0 0 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 20 checkmultisig 0 0 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 20 checkmultisig 0 0 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 20 checkmultisig 0 0 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 20 checkmultisig 0 0 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 20 checkmultisig 0 0 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 20 checkmultisig 0 0 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 20 checkmultisig",
+"p2sh,strictenc",
+"fails due to 201 sig op limit"],
+
+["1",
+"nop nop nop nop nop nop nop nop nop nop nop nop nop 0 0 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 20 checkmultisigverify 0 0 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 20 checkmultisigverify 0 0 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 20 checkmultisigverify 0 0 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 20 checkmultisigverify 0 0 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 20 checkmultisigverify 0 0 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 20 checkmultisigverify 0 0 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 20 checkmultisigverify 0 0 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 20 checkmultisigverify 0 0 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 20 checkmultisigverify",
+"p2sh,strictenc"],
+
+
+["0 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21", "21 checkmultisig 1", "p2sh,strictenc", "npubkeys > 20"],
+["0 'sig' 1 0", "checkmultisig 1", "p2sh,strictenc", "nsigs > npubkeys"],
+
+
+["nop 0x01 1", "hash160 0x14 0xda1745e9b549bd0bfa1a569971c77eba30cd5a4b equal", "p2sh,strictenc", "tests for script.ispushonly()"],
+["nop1 0x01 1", "hash160 0x14 0xda1745e9b549bd0bfa1a569971c77eba30cd5a4b equal", "p2sh,strictenc"],
+
+["0 0x01 0x50", "hash160 0x14 0xece424a6bb6ddf4db592c0faed60685047a361b1 equal", "p2sh,strictenc", "op_reserved in p2sh should fail"],
+["0 0x01 ver", "hash160 0x14 0x0f4d7845db968f2a81b530b6f3c1d6246d4c7e01 equal", "p2sh,strictenc", "op_ver in p2sh should fail"],
+
+["0x00", "'00' equal", "p2sh,strictenc", "basic op_0 execution"],
+
+["minimaldata enforcement for pushdatas"],
+
+["0x4c 0x00", "drop 1", "minimaldata", "empty vector minimally represented by op_0"],
+["0x01 0x81", "drop 1", "minimaldata", "-1 minimally represented by op_1negate"],
+["0x01 0x01", "drop 1", "minimaldata", "1 to 16 minimally represented by op_1 to op_16"],
+["0x01 0x02", "drop 1", "minimaldata"],
+["0x01 0x03", "drop 1", "minimaldata"],
+["0x01 0x04", "drop 1", "minimaldata"],
+["0x01 0x05", "drop 1", "minimaldata"],
+["0x01 0x06", "drop 1", "minimaldata"],
+["0x01 0x07", "drop 1", "minimaldata"],
+["0x01 0x08", "drop 1", "minimaldata"],
+["0x01 0x09", "drop 1", "minimaldata"],
+["0x01 0x0a", "drop 1", "minimaldata"],
+["0x01 0x0b", "drop 1", "minimaldata"],
+["0x01 0x0c", "drop 1", "minimaldata"],
+["0x01 0x0d", "drop 1", "minimaldata"],
+["0x01 0x0e", "drop 1", "minimaldata"],
+["0x01 0x0f", "drop 1", "minimaldata"],
+["0x01 0x10", "drop 1", "minimaldata"],
+
+["0x4c 0x48 0x111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111", "drop 1", "minimaldata",
+ "pushdata1 of 72 bytes minimally represented by direct push"],
+
+["0x4d 0xff00 0x111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111", "drop 1", "minimaldata",
+ "pushdata2 of 255 bytes minimally represented by pushdata1"],
+
+["0x4e 0x00010000 0x11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111", "drop 1", "minimaldata",
+ "pushdata4 of 256 bytes minimally represented by pushdata2"],
+
+
+["minimaldata enforcement for numeric arguments"],
+
+["0x01 0x00", "not drop 1", "minimaldata", "numequals 0"],
+["0x02 0x0000", "not drop 1", "minimaldata", "numequals 0"],
+["0x01 0x80", "not drop 1", "minimaldata", "0x80 (negative zero) numequals 0"],
+["0x02 0x0080", "not drop 1", "minimaldata", "numequals 0"],
+["0x02 0x0500", "not drop 1", "minimaldata", "numequals 5"],
+["0x03 0x050000", "not drop 1", "minimaldata", "numequals 5"],
+["0x02 0x0580", "not drop 1", "minimaldata", "numequals -5"],
+["0x03 0x050080", "not drop 1", "minimaldata", "numequals -5"],
+["0x03 0xff7f80", "not drop 1", "minimaldata", "minimal encoding is 0xffff"],
+["0x03 0xff7f00", "not drop 1", "minimaldata", "minimal encoding is 0xff7f"],
+["0x04 0xffff7f80", "not drop 1", "minimaldata", "minimal encoding is 0xffffff"],
+["0x04 0xffff7f00", "not drop 1", "minimaldata", "minimal encoding is 0xffff7f"],
+
+["test every numeric-accepting opcode for correct handling of the numeric minimal encoding rule"],
+
+["1 0x02 0x0000", "pick drop", "minimaldata"],
+["1 0x02 0x0000", "roll drop 1", "minimaldata"],
+["0x02 0x0000", "1add drop 1", "minimaldata"],
+["0x02 0x0000", "1sub drop 1", "minimaldata"],
+["0x02 0x0000", "negate drop 1", "minimaldata"],
+["0x02 0x0000", "abs drop 1", "minimaldata"],
+["0x02 0x0000", "not drop 1", "minimaldata"],
+["0x02 0x0000", "0notequal drop 1", "minimaldata"],
+
+["0 0x02 0x0000", "add drop 1", "minimaldata"],
+["0x02 0x0000 0", "add drop 1", "minimaldata"],
+["0 0x02 0x0000", "sub drop 1", "minimaldata"],
+["0x02 0x0000 0", "sub drop 1", "minimaldata"],
+["0 0x02 0x0000", "booland drop 1", "minimaldata"],
+["0x02 0x0000 0", "booland drop 1", "minimaldata"],
+["0 0x02 0x0000", "boolor drop 1", "minimaldata"],
+["0x02 0x0000 0", "boolor drop 1", "minimaldata"],
+["0 0x02 0x0000", "numequal drop 1", "minimaldata"],
+["0x02 0x0000 1", "numequal drop 1", "minimaldata"],
+["0 0x02 0x0000", "numequalverify 1", "minimaldata"],
+["0x02 0x0000 0", "numequalverify 1", "minimaldata"],
+["0 0x02 0x0000", "numnotequal drop 1", "minimaldata"],
+["0x02 0x0000 0", "numnotequal drop 1", "minimaldata"],
+["0 0x02 0x0000", "lessthan drop 1", "minimaldata"],
+["0x02 0x0000 0", "lessthan drop 1", "minimaldata"],
+["0 0x02 0x0000", "greaterthan drop 1", "minimaldata"],
+["0x02 0x0000 0", "greaterthan drop 1", "minimaldata"],
+["0 0x02 0x0000", "lessthanorequal drop 1", "minimaldata"],
+["0x02 0x0000 0", "lessthanorequal drop 1", "minimaldata"],
+["0 0x02 0x0000", "greaterthanorequal drop 1", "minimaldata"],
+["0x02 0x0000 0", "greaterthanorequal drop 1", "minimaldata"],
+["0 0x02 0x0000", "min drop 1", "minimaldata"],
+["0x02 0x0000 0", "min drop 1", "minimaldata"],
+["0 0x02 0x0000", "max drop 1", "minimaldata"],
+["0x02 0x0000 0", "max drop 1", "minimaldata"],
+
+["0x02 0x0000 0 0", "within drop 1", "minimaldata"],
+["0 0x02 0x0000 0", "within drop 1", "minimaldata"],
+["0 0 0x02 0x0000", "within drop 1", "minimaldata"],
+
+["0 0 0x02 0x0000", "checkmultisig drop 1", "minimaldata"],
+["0 0x02 0x0000 0", "checkmultisig drop 1", "minimaldata"],
+["0 0x02 0x0000 0 1", "checkmultisig drop 1", "minimaldata"],
+["0 0 0x02 0x0000", "checkmultisigverify 1", "minimaldata"],
+["0 0x02 0x0000 0", "checkmultisigverify 1", "minimaldata"],
+
+
+["order of checkmultisig evaluation tests, inverted by swapping the order of"],
+["pubkeys/signatures so they fail due to the strictenc rules on validly encoded"],
+["signatures and pubkeys."],
+[
+    "0 0x47 0x3044022044dc17b0887c161bb67ba9635bf758735bdde503e4b0a0987f587f14a4e1143d022009a215772d49a85dae40d8ca03955af26ad3978a0ff965faa12915e9586249a501 0x47 0x3044022044dc17b0887c161bb67ba9635bf758735bdde503e4b0a0987f587f14a4e1143d022009a215772d49a85dae40d8ca03955af26ad3978a0ff965faa12915e9586249a501",
+    "2 0x21 0x02865c40293a680cb9c020e7b1e106d8c1916d3cef99aa431a56d253e69256dac0 0 2 checkmultisig not",
+    "strictenc",
+    "2-of-2 checkmultisig not with the first pubkey invalid, and both signatures validly encoded."
+],
+[
+    "0 0x47 0x3044022044dc17b0887c161bb67ba9635bf758735bdde503e4b0a0987f587f14a4e1143d022009a215772d49a85dae40d8ca03955af26ad3978a0ff965faa12915e9586249a501 1",
+    "2 0x21 0x02865c40293a680cb9c020e7b1e106d8c1916d3cef99aa431a56d253e69256dac0 0x21 0x02865c40293a680cb9c020e7b1e106d8c1916d3cef99aa431a56d253e69256dac0 2 checkmultisig not",
+    "strictenc",
+    "2-of-2 checkmultisig not with both pubkeys valid, but first signature invalid."
+],
+
+["increase dersig test coverage"],
+["0x4a 0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", "0 checksig not", "dersig", "overly long signature is incorrectly encoded for dersig"],
+["0x25 0x30220220000000000000000000000000000000000000000000000000000000000000000000", "0 checksig not", "dersig", "missing s is incorrectly encoded for dersig"],
+["0x27 0x3024021077777777777777777777777777777777020a7777777777777777777777777777777701", "0 checksig not", "dersig", "s with invalid s length is incorrectly encoded for dersig"],
+["0x27 0x302403107777777777777777777777777777777702107777777777777777777777777777777701", "0 checksig not", "dersig", "non-integer r is incorrectly encoded for dersig"],
+["0x27 0x302402107777777777777777777777777777777703107777777777777777777777777777777701", "0 checksig not", "dersig", "non-integer s is incorrectly encoded for dersig"],
+["0x17 0x3014020002107777777777777777777777777777777701", "0 checksig not", "dersig", "zero-length r is incorrectly encoded for dersig"],
+["0x17 0x3014021077777777777777777777777777777777020001", "0 checksig not", "dersig", "zero-length s is incorrectly encoded for dersig"],
+["0x27 0x302402107777777777777777777777777777777702108777777777777777777777777777777701", "0 checksig not", "dersig", "negative s is incorrectly encoded for dersig"],
+
+["automatically generated test cases"],
+[
+    "0x47 0x304402200a5c6163f07b8c3b013c4d1d6dba25e780b39658d79ba37af7057a3b7f15ffa102201fd9b4eaa9943f734928b99a83592c2e7bf342ea2680f6a2bb705167966b742001",
+    "0x41 0x0479be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8 checksig",
+    "",
+    "p2pk, bad sig"
+],
+[
+    "0x47 0x3044022034bb0494b50b8ef130e2185bb220265b9284ef5b4b8a8da4d8415df489c83b5102206259a26d9cc0a125ac26af6153b17c02956855ebe1467412f066e402f5f05d1201 0x21 0x03363d90d446b00c9c99ceac05b6262ee053441c7e55552ffe526bad8f83ff4640",
+    "dup hash160 0x14 0xc0834c0c158f53be706d234c38fd52de7eece656 equalverify checksig",
+    "",
+    "p2pkh, bad pubkey"
+],
+[
+    "0x47 0x304402204710a85181663b32d25c70ec2bbd14adff5ddfff6cb50d09e155ef5f541fc86c0220056b0cc949be9386ecc5f6c2ac0493269031dbb185781db90171b54ac127790201",
+    "0x41 0x048282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f5150811f8a8098557dfe45e8256e830b60ace62d613ac2f7b17bed31b6eaff6e26caf checksig",
+    "",
+    "p2pk anyonecanpay marked with normal hashtype"
+],
+[
+    "0x47 0x3044022003fef42ed6c7be8917441218f525a60e2431be978e28b7aca4d7a532cc413ae8022067a1f82c74e8d69291b90d148778405c6257bbcfc2353cc38a3e1f22bf44254601 0x23 0x210279be667ef9dcbbac54a06295ce870b07029bfcdb2dce28d959f2815b16f81798ac",
+    "hash160 0x14 0x23b0ad3477f2178bc0b3eed26e4e6316f4e83aa1 equal",
+    "p2sh",
+    "p2sh(p2pk), bad redeemscript"
+],
+[
+    "0x47 0x304402204e2eb034be7b089534ac9e798cf6a2c79f38bcb34d1b179efd6f2de0841735db022071461beb056b5a7be1819da6a3e3ce3662831ecc298419ca101eb6887b5dd6a401 0x19 0x76a9147cf9c846cd4882efec4bf07e44ebdad495c94f4b88ac",
+    "hash160 0x14 0x2df519943d5acc0ef5222091f9dfe3543f489a82 equal",
+    "p2sh",
+    "p2sh(p2pkh), bad sig"
+],
+[
+    "0 0x47 0x3044022051254b9fb476a52d85530792b578f86fea70ec1ffb4393e661bcccb23d8d63d3022076505f94a403c86097841944e044c70c2045ce90e36de51f7e9d3828db98a07501 0x47 0x304402200a358f750934b3feb822f1966bfcd8bbec9eeaa3a8ca941e11ee5960e181fa01022050bf6b5a8e7750f70354ae041cb68a7bade67ec6c3ab19eb359638974410626e01 0",
+    "3 0x21 0x0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798 0x21 0x038282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f51508 0x21 0x03363d90d447b00c9c99ceac05b6262ee053441c7e55552ffe526bad8f83ff4640 3 checkmultisig",
+    "",
+    "3-of-3, 2 sigs"
+],
+[
+    "0 0x47 0x304402205b7d2c2f177ae76cfbbf14d589c113b0b35db753d305d5562dd0b61cbf366cfb02202e56f93c4f08a27f986cd424ffc48a462c3202c4902104d4d0ff98ed28f4bf8001 0 0x4c69 0x52210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f8179821038282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f515082103363d90d447b00c9c99ceac05b6262ee053441c7e55552ffe526bad8f83ff464053ae",
+    "hash160 0x14 0xc9e4a896d149702d0d1695434feddd52e24ad78d equal",
+    "p2sh",
+    "p2sh(2-of-3), 1 sig"
+],
+[
+    "0x47 0x304402200060558477337b9022e70534f1fea71a318caf836812465a2509931c5e7c4987022078ec32bd50ac9e03a349ba953dfd9fe1c8d2dd8bdb1d38ddca844d3d5c78c11801",
+    "0x21 0x038282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f51508 checksig",
+    "dersig",
+    "p2pk with too much r padding"
+],
+[
+    "0x48 0x304502202de8c03fc525285c9c535631019a5f2af7c6454fa9eb392a3756a4917c420edd02210046130bf2baf7cfc065067c8b9e33a066d9c15edcea9feb0ca2d233e3597925b401",
+    "0x21 0x038282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f51508 checksig",
+    "dersig",
+    "p2pk with too much s padding"
+],
+[
+    "0x47 0x30440220d7a0417c3f6d1a15094d1cf2a3378ca0503eb8a57630953a9e2987e21ddd0a6502207a6266d686c99090920249991d3d42065b6d43eb70187b219c0db82e4f94d1a201",
+    "0x21 0x038282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f51508 checksig",
+    "dersig",
+    "p2pk with too little r padding"
+],
+[
+    "0x47 0x30440220005ece1335e7f757a1a1f476a7fb5bd90964e8a022489f890614a04acfb734c002206c12b8294a6513c7710e8c82d3c23d75cdbfe83200eb7efb495701958501a5d601",
+    "0x21 0x03363d90d447b00c9c99ceac05b6262ee053441c7e55552ffe526bad8f83ff4640 checksig not",
+    "dersig",
+    "p2pk not with bad sig with too much r padding"
+],
+[
+    "0x47 0x30440220005ece1335e7f657a1a1f476a7fb5bd90964e8a022489f890614a04acfb734c002206c12b8294a6513c7710e8c82d3c23d75cdbfe83200eb7efb495701958501a5d601",
+    "0x21 0x03363d90d447b00c9c99ceac05b6262ee053441c7e55552ffe526bad8f83ff4640 checksig not",
+    "",
+    "p2pk not with too much r padding but no dersig"
+],
+[
+    "0x47 0x30440220005ece1335e7f657a1a1f476a7fb5bd90964e8a022489f890614a04acfb734c002206c12b8294a6513c7710e8c82d3c23d75cdbfe83200eb7efb495701958501a5d601",
+    "0x21 0x03363d90d447b00c9c99ceac05b6262ee053441c7e55552ffe526bad8f83ff4640 checksig not",
+    "dersig",
+    "p2pk not with too much r padding"
+],
+[
+    "0x47 0x30440220d7a0417c3f6d1a15094d1cf2a3378ca0503eb8a57630953a9e2987e21ddd0a6502207a6266d686c99090920249991d3d42065b6d43eb70187b219c0db82e4f94d1a201",
+    "0x21 0x038282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f51508 checksig",
+    "dersig",
+    "bip66 example 1, with dersig"
+],
+[
+    "0x47 0x304402208e43c0b91f7c1e5bc58e41c8185f8a6086e111b0090187968a86f2822462d3c902200a58f4076b1133b18ff1dc83ee51676e44c60cc608d9534e0df5ace0424fc0be01",
+    "0x21 0x038282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f51508 checksig not",
+    "",
+    "bip66 example 2, without dersig"
+],
+[
+    "0x47 0x304402208e43c0b91f7c1e5bc58e41c8185f8a6086e111b0090187968a86f2822462d3c902200a58f4076b1133b18ff1dc83ee51676e44c60cc608d9534e0df5ace0424fc0be01",
+    "0x21 0x038282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f51508 checksig not",
+    "dersig",
+    "bip66 example 2, with dersig"
+],
+[
+    "0",
+    "0x21 0x038282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f51508 checksig",
+    "",
+    "bip66 example 3, without dersig"
+],
+[
+    "0",
+    "0x21 0x038282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f51508 checksig",
+    "dersig",
+    "bip66 example 3, with dersig"
+],
+[
+    "1",
+    "0x21 0x038282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f51508 checksig",
+    "",
+    "bip66 example 5, without dersig"
+],
+[
+    "1",
+    "0x21 0x038282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f51508 checksig",
+    "dersig",
+    "bip66 example 5, with dersig"
+],
+[
+    "1",
+    "0x21 0x038282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f51508 checksig not",
+    "dersig",
+    "bip66 example 6, with dersig"
+],
+[
+    "0 0x47 0x30440220cae00b1444babfbf6071b0ba8707f6bd373da3df494d6e74119b0430c5db810502205d5231b8c5939c8ff0c82242656d6e06edb073d42af336c99fe8837c36ea39d501 0x47 0x3044022027c2714269ca5aeecc4d70edc88ba5ee0e3da4986e9216028f489ab4f1b8efce022022bd545b4951215267e4c5ceabd4c5350331b2e4a0b6494c56f361fa5a57a1a201",
+    "2 0x21 0x038282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f51508 0x21 0x03363d90d447b00c9c99ceac05b6262ee053441c7e55552ffe526bad8f83ff4640 2 checkmultisig",
+    "dersig",
+    "bip66 example 7, with dersig"
+],
+[
+    "0 0x47 0x30440220b119d67d389315308d1745f734a51ff3ec72e06081e84e236fdf9dc2f5d2a64802204b04e3bc38674c4422ea317231d642b56dc09d214a1ecbbf16ecca01ed996e2201 0x47 0x3044022079ea80afd538d9ada421b5101febeb6bc874e01dde5bca108c1d0479aec339a4022004576db8f66130d1df686ccf00935703689d69cf539438da1edab208b0d63c4801",
+    "2 0x21 0x038282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f51508 0x21 0x03363d90d447b00c9c99ceac05b6262ee053441c7e55552ffe526bad8f83ff4640 2 checkmultisig not",
+    "",
+    "bip66 example 8, without dersig"
+],
+[
+    "0 0x47 0x30440220b119d67d389315308d1745f734a51ff3ec72e06081e84e236fdf9dc2f5d2a64802204b04e3bc38674c4422ea317231d642b56dc09d214a1ecbbf16ecca01ed996e2201 0x47 0x3044022079ea80afd538d9ada421b5101febeb6bc874e01dde5bca108c1d0479aec339a4022004576db8f66130d1df686ccf00935703689d69cf539438da1edab208b0d63c4801",
+    "2 0x21 0x038282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f51508 0x21 0x03363d90d447b00c9c99ceac05b6262ee053441c7e55552ffe526bad8f83ff4640 2 checkmultisig not",
+    "dersig",
+    "bip66 example 8, with dersig"
+],
+[
+    "0 0 0x47 0x3044022081aa9d436f2154e8b6d600516db03d78de71df685b585a9807ead4210bd883490220534bb6bdf318a419ac0749660b60e78d17d515558ef369bf872eff405b676b2e01",
+    "2 0x21 0x038282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f51508 0x21 0x03363d90d447b00c9c99ceac05b6262ee053441c7e55552ffe526bad8f83ff4640 2 checkmultisig",
+    "",
+    "bip66 example 9, without dersig"
+],
+[
+    "0 0 0x47 0x3044022081aa9d436f2154e8b6d600516db03d78de71df685b585a9807ead4210bd883490220534bb6bdf318a419ac0749660b60e78d17d515558ef369bf872eff405b676b2e01",
+    "2 0x21 0x038282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f51508 0x21 0x03363d90d447b00c9c99ceac05b6262ee053441c7e55552ffe526bad8f83ff4640 2 checkmultisig",
+    "dersig",
+    "bip66 example 9, with dersig"
+],
+[
+    "0 0 0x47 0x30440220da6f441dc3b4b2c84cfa8db0cd5b34ed92c9e01686de5a800d40498b70c0dcac02207c2cf91b0c32b860c4cd4994be36cfb84caf8bb7c3a8e4d96a31b2022c5299c501",
+    "2 0x21 0x038282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f51508 0x21 0x03363d90d447b00c9c99ceac05b6262ee053441c7e55552ffe526bad8f83ff4640 2 checkmultisig not",
+    "dersig",
+    "bip66 example 10, with dersig"
+],
+[
+    "0 0x47 0x30440220cae00b1444babfbf6071b0ba8707f6bd373da3df494d6e74119b0430c5db810502205d5231b8c5939c8ff0c82242656d6e06edb073d42af336c99fe8837c36ea39d501 0",
+    "2 0x21 0x038282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f51508 0x21 0x03363d90d447b00c9c99ceac05b6262ee053441c7e55552ffe526bad8f83ff4640 2 checkmultisig",
+    "",
+    "bip66 example 11, without dersig"
+],
+[
+    "0 0x47 0x30440220cae00b1444babfbf6071b0ba8707f6bd373da3df494d6e74119b0430c5db810502205d5231b8c5939c8ff0c82242656d6e06edb073d42af336c99fe8837c36ea39d501 0",
+    "2 0x21 0x038282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f51508 0x21 0x03363d90d447b00c9c99ceac05b6262ee053441c7e55552ffe526bad8f83ff4640 2 checkmultisig",
+    "dersig",
+    "bip66 example 11, with dersig"
+],
+[
+    "0x48 0x304402203e4516da7253cf068effec6b95c41221c0cf3a8e6ccb8cbf1725b562e9afde2c022054e1c258c2981cdfba5df1f46661fb6541c44f77ca0092f3600331abfffb12510101",
+    "0x21 0x03363d90d447b00c9c99ceac05b6262ee053441c7e55552ffe526bad8f83ff4640 checksig",
+    "dersig",
+    "p2pk with multi-byte hashtype, with dersig"
+],
+[
+    "0x48 0x304502203e4516da7253cf068effec6b95c41221c0cf3a8e6ccb8cbf1725b562e9afde2c022100ab1e3da73d67e32045a20e0b999e049978ea8d6ee5480d485fcf2ce0d03b2ef001",
+    "0x21 0x03363d90d447b00c9c99ceac05b6262ee053441c7e55552ffe526bad8f83ff4640 checksig",
+    "low_s",
+    "p2pk with high s"
+],
+[
+    "0x47 0x3044022057292e2d4dfe775becdd0a9e6547997c728cdf35390f6a017da56d654d374e4902206b643be2fc53763b4e284845bfea2c597d2dc7759941dce937636c9d341b71ed01",
+    "0x41 0x0679be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8 checksig",
+    "strictenc",
+    "p2pk with hybrid pubkey"
+],
+[
+    "0x47 0x30440220035d554e3153c14950c9993f41c496607a8e24093db0595be7bf875cf64fcf1f02204731c8c4e5daf15e706cec19cdd8f2c5b1d05490e11dab8465ed426569b6e92101",
+    "0x41 0x0679be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8 checksig not",
+    "",
+    "p2pk not with hybrid pubkey but no strictenc"
+],
+[
+    "0x47 0x30440220035d554e3153c14950c9993f41c496607a8e24093db0595be7bf875cf64fcf1f02204731c8c4e5daf15e706cec19cdd8f2c5b1d05490e11dab8465ed426569b6e92101",
+    "0x41 0x0679be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8 checksig not",
+    "strictenc",
+    "p2pk not with hybrid pubkey"
+],
+[
+    "0x47 0x30440220035d554e3153c04950c9993f41c496607a8e24093db0595be7bf875cf64fcf1f02204731c8c4e5daf15e706cec19cdd8f2c5b1d05490e11dab8465ed426569b6e92101",
+    "0x41 0x0679be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8 checksig not",
+    "strictenc",
+    "p2pk not with invalid hybrid pubkey"
+],
+[
+    "0 0x47 0x3044022079c7824d6c868e0e1a273484e28c2654a27d043c8a27f49f52cb72efed0759090220452bbbf7089574fa082095a4fc1b3a16bafcf97a3a34d745fafc922cce66b27201",
+    "1 0x21 0x038282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f51508 0x41 0x0679be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8 2 checkmultisig",
+    "strictenc",
+    "1-of-2 with the first 1 hybrid pubkey"
+],
+[
+    "0x47 0x304402206177d513ec2cda444c021a1f4f656fc4c72ba108ae063e157eb86dc3575784940220666fc66702815d0e5413bb9b1df22aed44f5f1efb8b99d41dd5dc9a5be6d205205",
+    "0x41 0x048282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f5150811f8a8098557dfe45e8256e830b60ace62d613ac2f7b17bed31b6eaff6e26caf checksig",
+    "strictenc",
+    "p2pk with undefined hashtype"
+],
+[
+    "0x47 0x304402207409b5b320296e5e2136a7b281a7f803028ca4ca44e2b83eebd46932677725de02202d4eea1c8d3c98e6f42614f54764e6e5e6542e213eb4d079737e9a8b6e9812ec05",
+    "0x41 0x048282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f5150811f8a8098557dfe45e8256e830b60ace62d613ac2f7b17bed31b6eaff6e26caf checksig not",
+    "strictenc",
+    "p2pk not with invalid sig and undefined hashtype"
+],
+[
+    "1 0x47 0x3044022051254b9fb476a52d85530792b578f86fea70ec1ffb4393e661bcccb23d8d63d3022076505f94a403c86097841944e044c70c2045ce90e36de51f7e9d3828db98a07501 0x47 0x304402200a358f750934b3feb822f1966bfcd8bbec9eeaa3a8ca941e11ee5960e181fa01022050bf6b5a8e7750f70354ae041cb68a7bade67ec6c3ab19eb359638974410626e01 0x47 0x304402200955d031fff71d8653221e85e36c3c85533d2312fc3045314b19650b7ae2f81002202a6bb8505e36201909d0921f01abff390ae6b7ff97bbf959f98aedeb0a56730901",
+    "3 0x21 0x0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798 0x21 0x038282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f51508 0x21 0x03363d90d447b00c9c99ceac05b6262ee053441c7e55552ffe526bad8f83ff4640 3 checkmultisig",
+    "nulldummy",
+    "3-of-3 with nonzero dummy"
+],
+[
+    "1 0x47 0x304402201bb2edab700a5d020236df174fefed78087697143731f659bea59642c759c16d022061f42cdbae5bcd3e8790f20bf76687443436e94a634321c16a72aa54cbc7c2ea01 0x47 0x304402204bb4a64f2a6e5c7fb2f07fef85ee56fde5e6da234c6a984262307a20e99842d702206f8303aaba5e625d223897e2ffd3f88ef1bcffef55f38dc3768e5f2e94c923f901 0x47 0x3044022040c2809b71fffb155ec8b82fe7a27f666bd97f941207be4e14ade85a1249dd4d02204d56c85ec525dd18e29a0533d5ddf61b6b1bb32980c2f63edf951aebf7a27bfe01",
+    "3 0x21 0x0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798 0x21 0x038282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f51508 0x21 0x03363d90d447b00c9c99ceac05b6262ee053441c7e55552ffe526bad8f83ff4640 3 checkmultisig not",
+    "nulldummy",
+    "3-of-3 not with invalid sig with nonzero dummy"
+],
+[
+    "0 0x47 0x304402200abeb4bd07f84222f474aed558cfbdfc0b4e96cde3c2935ba7098b1ff0bd74c302204a04c1ca67b2a20abee210cf9a21023edccbbf8024b988812634233115c6b73901 dup",
+    "2 0x21 0x038282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f51508 0x21 0x038282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f51508 2 checkmultisig",
+    "sigpushonly",
+    "2-of-2 with two identical keys and sigs pushed using op_dup"
+],
+[
+    "0x47 0x304402203e4516da7253cf068effec6b95c41221c0cf3a8e6ccb8cbf1725b562e9afde2c022054e1c258c2981cdfba5df1f46661fb6541c44f77ca0092f3600331abfffb125101 0x23 0x2103363d90d447b00c9c99ceac05b6262ee053441c7e55552ffe526bad8f83ff4640ac",
+    "0x21 0x03363d90d447b00c9c99ceac05b6262ee053441c7e55552ffe526bad8f83ff4640 checksig",
+    "",
+    "p2sh(p2pk) with non-push scriptsig but no sigpushonly"
+],
+[
+    "0x47 0x304402203e4516da7253cf068effec6b95c41221c0cf3a8e6ccb8cbf1725b562e9afde2c022054e1c258c2981cdfba5df1f46661fb6541c44f77ca0092f3600331abfffb125101 0x23 0x2103363d90d447b00c9c99ceac05b6262ee053441c7e55552ffe526bad8f83ff4640ac",
+    "0x21 0x03363d90d447b00c9c99ceac05b6262ee053441c7e55552ffe526bad8f83ff4640 checksig",
+    "sigpushonly",
+    "p2sh(p2pk) with non-push scriptsig"
+],
+[
+    "0 0x47 0x304402205451ce65ad844dbb978b8bdedf5082e33b43cae8279c30f2c74d9e9ee49a94f802203fe95a7ccf74da7a232ee523ef4a53cb4d14bdd16289680cdb97a63819b8f42f01 0x46 0x304402205451ce65ad844dbb978b8bdedf5082e33b43cae8279c30f2c74d9e9ee49a94f802203fe95a7ccf74da7a232ee523ef4a53cb4d14bdd16289680cdb97a63819b8f42f",
+    "2 0x21 0x02a673638cb9587cb68ea08dbef685c6f2d2a751a8b3c6f2a7e9a4999e6e4bfaf5 0x21 0x02a673638cb9587cb68ea08dbef685c6f2d2a751a8b3c6f2a7e9a4999e6e4bfaf5 0x21 0x02a673638cb9587cb68ea08dbef685c6f2d2a751a8b3c6f2a7e9a4999e6e4bfaf5 3 checkmultisig",
+    "p2sh,strictenc",
+    "2-of-3 with one valid and one invalid signature due to parse error, nsigs > validsigs"
+],
+[
+    "11 0x47 0x304402200a5c6163f07b8d3b013c4d1d6dba25e780b39658d79ba37af7057a3b7f15ffa102201fd9b4eaa9943f734928b99a83592c2e7bf342ea2680f6a2bb705167966b742001",
+    "0x41 0x0479be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8 checksig",
+    "cleanstack,p2sh",
+    "p2pk with unnecessary input"
+],
+[
+    "11 0x47 0x304402202f7505132be14872581f35d74b759212d9da40482653f1ffa3116c3294a4a51702206adbf347a2240ca41c66522b1a22a41693610b76a8e7770645dc721d1635854f01 0x43 0x410479be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8ac",
+    "hash160 0x14 0x31edc23bdafda4639e669f89ad6b2318dd79d032 equal",
+    "cleanstack,p2sh",
+    "p2sh with unnecessary input"
+],
+
+["the end"]
+]

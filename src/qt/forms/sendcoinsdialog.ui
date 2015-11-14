@@ -1,0 +1,1389 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui version="4.0">
+ <class>sendcoinsdialog</class>
+ <widget class="qdialog" name="sendcoinsdialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>850</width>
+    <height>526</height>
+   </rect>
+  </property>
+  <property name="windowtitle">
+   <string>send coins</string>
+  </property>
+  <layout class="qvboxlayout" name="verticallayout" stretch="0,1,0,0">
+   <property name="bottommargin">
+    <number>8</number>
+   </property>
+   <item>
+    <widget class="qframe" name="framecoincontrol">
+     <property name="sizepolicy">
+      <sizepolicy hsizetype="expanding" vsizetype="expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="maximumsize">
+      <size>
+       <width>16777215</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="frameshape">
+      <enum>qframe::styledpanel</enum>
+     </property>
+     <property name="frameshadow">
+      <enum>qframe::sunken</enum>
+     </property>
+     <layout class="qvboxlayout" name="verticallayoutcoincontrol2">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftmargin">
+       <number>0</number>
+      </property>
+      <property name="topmargin">
+       <number>0</number>
+      </property>
+      <property name="rightmargin">
+       <number>0</number>
+      </property>
+      <property name="bottommargin">
+       <number>6</number>
+      </property>
+      <item>
+       <layout class="qvboxlayout" name="verticallayoutcoincontrol" stretch="0,0,0,0,1">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftmargin">
+         <number>10</number>
+        </property>
+        <property name="topmargin">
+         <number>10</number>
+        </property>
+        <item>
+         <layout class="qhboxlayout" name="horizontallayoutcoincontrol1">
+          <property name="bottommargin">
+           <number>15</number>
+          </property>
+          <item>
+           <widget class="qlabel" name="labelcoincontrolfeatures">
+            <property name="sizepolicy">
+             <sizepolicy hsizetype="preferred" vsizetype="maximum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="stylesheet">
+             <string notr="true">font-weight:bold;</string>
+            </property>
+            <property name="text">
+             <string>coin control features</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="qhboxlayout" name="horizontallayoutcoincontrol2" stretch="0,0,0,0">
+          <property name="spacing">
+           <number>8</number>
+          </property>
+          <property name="bottommargin">
+           <number>10</number>
+          </property>
+          <item>
+           <widget class="qpushbutton" name="pushbuttoncoincontrol">
+            <property name="stylesheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>inputs...</string>
+            </property>
+            <property name="autodefault">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="qlabel" name="labelcoincontrolautomaticallyselected">
+            <property name="text">
+             <string>automatically selected</string>
+            </property>
+            <property name="margin">
+             <number>5</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="qlabel" name="labelcoincontrolinsufffunds">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="stylesheet">
+             <string notr="true">color:red;font-weight:bold;</string>
+            </property>
+            <property name="text">
+             <string>insufficient funds!</string>
+            </property>
+            <property name="margin">
+             <number>5</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalspacercoincontrol">
+            <property name="orientation">
+             <enum>qt::horizontal</enum>
+            </property>
+            <property name="sizehint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>1</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="qwidget" name="widgetcoincontrol" native="true">
+          <property name="sizepolicy">
+           <sizepolicy hsizetype="preferred" vsizetype="preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumsize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="stylesheet">
+           <string notr="true"/>
+          </property>
+          <layout class="qhboxlayout" name="horizontallayoutcoincontrol5">
+           <property name="leftmargin">
+            <number>0</number>
+           </property>
+           <property name="topmargin">
+            <number>0</number>
+           </property>
+           <property name="rightmargin">
+            <number>0</number>
+           </property>
+           <property name="bottommargin">
+            <number>0</number>
+           </property>
+           <item>
+            <layout class="qhboxlayout" name="horizontallayoutcoincontrol3" stretch="0,0,0,1">
+             <property name="spacing">
+              <number>20</number>
+             </property>
+             <property name="topmargin">
+              <number>0</number>
+             </property>
+             <property name="bottommargin">
+              <number>10</number>
+             </property>
+             <item>
+              <layout class="qformlayout" name="formlayoutcoincontrol1">
+               <property name="horizontalspacing">
+                <number>10</number>
+               </property>
+               <property name="verticalspacing">
+                <number>14</number>
+               </property>
+               <property name="leftmargin">
+                <number>10</number>
+               </property>
+               <property name="topmargin">
+                <number>4</number>
+               </property>
+               <property name="rightmargin">
+                <number>6</number>
+               </property>
+               <item row="0" column="0">
+                <widget class="qlabel" name="labelcoincontrolquantitytext">
+                 <property name="font">
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>quantity:</string>
+                 </property>
+                 <property name="margin">
+                  <number>0</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="qlabel" name="labelcoincontrolquantity">
+                 <property name="cursor">
+                  <cursorshape>ibeamcursor</cursorshape>
+                 </property>
+                 <property name="contextmenupolicy">
+                  <enum>qt::actionscontextmenu</enum>
+                 </property>
+                 <property name="text">
+                  <string notr="true">0</string>
+                 </property>
+                 <property name="margin">
+                  <number>0</number>
+                 </property>
+                 <property name="textinteractionflags">
+                  <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="qlabel" name="labelcoincontrolbytestext">
+                 <property name="font">
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>bytes:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="qlabel" name="labelcoincontrolbytes">
+                 <property name="cursor">
+                  <cursorshape>ibeamcursor</cursorshape>
+                 </property>
+                 <property name="contextmenupolicy">
+                  <enum>qt::actionscontextmenu</enum>
+                 </property>
+                 <property name="text">
+                  <string notr="true">0</string>
+                 </property>
+                 <property name="textinteractionflags">
+                  <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="qformlayout" name="formlayoutcoincontrol2">
+               <property name="horizontalspacing">
+                <number>10</number>
+               </property>
+               <property name="verticalspacing">
+                <number>14</number>
+               </property>
+               <property name="leftmargin">
+                <number>6</number>
+               </property>
+               <property name="topmargin">
+                <number>4</number>
+               </property>
+               <property name="rightmargin">
+                <number>6</number>
+               </property>
+               <item row="0" column="0">
+                <widget class="qlabel" name="labelcoincontrolamounttext">
+                 <property name="font">
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>amount:</string>
+                 </property>
+                 <property name="margin">
+                  <number>0</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="qlabel" name="labelcoincontrolamount">
+                 <property name="cursor">
+                  <cursorshape>ibeamcursor</cursorshape>
+                 </property>
+                 <property name="contextmenupolicy">
+                  <enum>qt::actionscontextmenu</enum>
+                 </property>
+                 <property name="text">
+                  <string notr="true">0.00 btc</string>
+                 </property>
+                 <property name="textinteractionflags">
+                  <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="qlabel" name="labelcoincontrolprioritytext">
+                 <property name="font">
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>priority:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="qlabel" name="labelcoincontrolpriority">
+                 <property name="cursor">
+                  <cursorshape>ibeamcursor</cursorshape>
+                 </property>
+                 <property name="contextmenupolicy">
+                  <enum>qt::actionscontextmenu</enum>
+                 </property>
+                 <property name="text">
+                  <string notr="true">medium</string>
+                 </property>
+                 <property name="textinteractionflags">
+                  <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="qformlayout" name="formlayoutcoincontrol3">
+               <property name="horizontalspacing">
+                <number>10</number>
+               </property>
+               <property name="verticalspacing">
+                <number>14</number>
+               </property>
+               <property name="leftmargin">
+                <number>6</number>
+               </property>
+               <property name="topmargin">
+                <number>4</number>
+               </property>
+               <property name="rightmargin">
+                <number>6</number>
+               </property>
+               <item row="0" column="0">
+                <widget class="qlabel" name="labelcoincontrolfeetext">
+                 <property name="font">
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>fee:</string>
+                 </property>
+                 <property name="margin">
+                  <number>0</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="qlabel" name="labelcoincontrolfee">
+                 <property name="cursor">
+                  <cursorshape>ibeamcursor</cursorshape>
+                 </property>
+                 <property name="contextmenupolicy">
+                  <enum>qt::actionscontextmenu</enum>
+                 </property>
+                 <property name="text">
+                  <string notr="true">0.00 btc</string>
+                 </property>
+                 <property name="textinteractionflags">
+                  <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="qlabel" name="labelcoincontrollowoutputtext">
+                 <property name="font">
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>dust:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="qlabel" name="labelcoincontrollowoutput">
+                 <property name="cursor">
+                  <cursorshape>ibeamcursor</cursorshape>
+                 </property>
+                 <property name="contextmenupolicy">
+                  <enum>qt::actionscontextmenu</enum>
+                 </property>
+                 <property name="text">
+                  <string notr="true">no</string>
+                 </property>
+                 <property name="textinteractionflags">
+                  <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="qformlayout" name="formlayoutcoincontrol4">
+               <property name="horizontalspacing">
+                <number>10</number>
+               </property>
+               <property name="verticalspacing">
+                <number>14</number>
+               </property>
+               <property name="leftmargin">
+                <number>6</number>
+               </property>
+               <property name="topmargin">
+                <number>4</number>
+               </property>
+               <property name="rightmargin">
+                <number>6</number>
+               </property>
+               <item row="0" column="0">
+                <widget class="qlabel" name="labelcoincontrolafterfeetext">
+                 <property name="font">
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>after fee:</string>
+                 </property>
+                 <property name="margin">
+                  <number>0</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="qlabel" name="labelcoincontrolafterfee">
+                 <property name="cursor">
+                  <cursorshape>ibeamcursor</cursorshape>
+                 </property>
+                 <property name="contextmenupolicy">
+                  <enum>qt::actionscontextmenu</enum>
+                 </property>
+                 <property name="text">
+                  <string notr="true">0.00 btc</string>
+                 </property>
+                 <property name="textinteractionflags">
+                  <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="qlabel" name="labelcoincontrolchangetext">
+                 <property name="font">
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>change:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="qlabel" name="labelcoincontrolchange">
+                 <property name="cursor">
+                  <cursorshape>ibeamcursor</cursorshape>
+                 </property>
+                 <property name="contextmenupolicy">
+                  <enum>qt::actionscontextmenu</enum>
+                 </property>
+                 <property name="text">
+                  <string notr="true">0.00 btc</string>
+                 </property>
+                 <property name="textinteractionflags">
+                  <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <layout class="qhboxlayout" name="horizontallayoutcoincontrol4" stretch="0,0,0">
+          <property name="spacing">
+           <number>12</number>
+          </property>
+          <property name="sizeconstraint">
+           <enum>qlayout::setdefaultconstraint</enum>
+          </property>
+          <property name="topmargin">
+           <number>5</number>
+          </property>
+          <property name="rightmargin">
+           <number>5</number>
+          </property>
+          <item>
+           <widget class="qcheckbox" name="checkbomoorecoincontrolchange">
+            <property name="tooltip">
+             <string>if this is activated, but the change address is empty or invalid, change will be sent to a newly generated address.</string>
+            </property>
+            <property name="text">
+             <string>custom change address</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="qvalidatedlineedit" name="lineeditcoincontrolchange">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizepolicy">
+             <sizepolicy hsizetype="expanding" vsizetype="fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="qlabel" name="labelcoincontrolchangelabel">
+            <property name="sizepolicy">
+             <sizepolicy hsizetype="preferred" vsizetype="expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumsize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="margin">
+             <number>3</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="verticalspacercoincontrol">
+          <property name="orientation">
+           <enum>qt::vertical</enum>
+          </property>
+          <property name="sizehint" stdset="0">
+           <size>
+            <width>800</width>
+            <height>1</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="qscrollarea" name="scrollarea">
+     <property name="widgetresizable">
+      <bool>true</bool>
+     </property>
+     <widget class="qwidget" name="scrollareawidgetcontents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>830</width>
+        <height>68</height>
+       </rect>
+      </property>
+      <layout class="qvboxlayout" name="verticallayout_2" stretch="0,1">
+       <property name="leftmargin">
+        <number>0</number>
+       </property>
+       <property name="topmargin">
+        <number>0</number>
+       </property>
+       <property name="rightmargin">
+        <number>0</number>
+       </property>
+       <property name="bottommargin">
+        <number>0</number>
+       </property>
+       <item>
+        <layout class="qvboxlayout" name="entries">
+         <property name="spacing">
+          <number>6</number>
+         </property>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalspacer">
+         <property name="orientation">
+          <enum>qt::vertical</enum>
+         </property>
+         <property name="sizehint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="qframe" name="framefee">
+     <property name="sizepolicy">
+      <sizepolicy hsizetype="expanding" vsizetype="expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="maximumsize">
+      <size>
+       <width>16777215</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="frameshape">
+      <enum>qframe::styledpanel</enum>
+     </property>
+     <property name="frameshadow">
+      <enum>qframe::sunken</enum>
+     </property>
+     <layout class="qvboxlayout" name="verticallayoutfee1">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftmargin">
+       <number>0</number>
+      </property>
+      <property name="topmargin">
+       <number>0</number>
+      </property>
+      <property name="rightmargin">
+       <number>0</number>
+      </property>
+      <property name="bottommargin">
+       <number>0</number>
+      </property>
+      <item>
+       <layout class="qvboxlayout" name="verticallayoutfee2" stretch="0,0,0">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftmargin">
+         <number>10</number>
+        </property>
+        <property name="topmargin">
+         <number>0</number>
+        </property>
+        <item>
+         <layout class="qhboxlayout" name="horizontallayoutfee1">
+          <property name="bottommargin">
+           <number>0</number>
+          </property>
+          <item>
+           <layout class="qvboxlayout" name="verticallayoutfee7">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item>
+             <spacer name="verticalspacersmartfee">
+              <property name="orientation">
+               <enum>qt::vertical</enum>
+              </property>
+              <property name="sizetype">
+               <enum>qsizepolicy::fixed</enum>
+              </property>
+              <property name="sizehint" stdset="0">
+               <size>
+                <width>1</width>
+                <height>4</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <layout class="qhboxlayout" name="horizontallayoutsmartfee">
+              <property name="spacing">
+               <number>10</number>
+              </property>
+              <item>
+               <widget class="qlabel" name="labelfeeheadline">
+                <property name="sizepolicy">
+                 <sizepolicy hsizetype="preferred" vsizetype="maximum">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="stylesheet">
+                 <string notr="true">font-weight:bold;</string>
+                </property>
+                <property name="text">
+                 <string>transaction fee:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="qlabel" name="labelfeeminimized">
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="qpushbutton" name="buttonchoosefee">
+                <property name="text">
+                 <string>choose...</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <spacer name="verticalspacer_5">
+              <property name="orientation">
+               <enum>qt::vertical</enum>
+              </property>
+              <property name="sizehint" stdset="0">
+               <size>
+                <width>1</width>
+                <height>1</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer name="horizontalspacer_4">
+            <property name="orientation">
+             <enum>qt::horizontal</enum>
+            </property>
+            <property name="sizehint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="qpushbutton" name="buttonminimizefee">
+            <property name="tooltip">
+             <string>collapse fee-settings</string>
+            </property>
+            <property name="text">
+             <string>hide</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="qframe" name="framefeeselection">
+          <layout class="qvboxlayout" name="verticallayoutfee12">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="leftmargin">
+            <number>0</number>
+           </property>
+           <property name="topmargin">
+            <number>0</number>
+           </property>
+           <property name="rightmargin">
+            <number>0</number>
+           </property>
+           <property name="bottommargin">
+            <number>0</number>
+           </property>
+           <item>
+            <layout class="qgridlayout" name="gridlayoutfee">
+             <property name="topmargin">
+              <number>10</number>
+             </property>
+             <property name="bottommargin">
+              <number>4</number>
+             </property>
+             <property name="horizontalspacing">
+              <number>10</number>
+             </property>
+             <property name="verticalspacing">
+              <number>4</number>
+             </property>
+             <item row="1" column="1">
+              <layout class="qvboxlayout" name="verticallayoutfee8">
+               <property name="spacing">
+                <number>6</number>
+               </property>
+               <item>
+                <layout class="qhboxlayout" name="horizontallayoutfee13">
+                 <item>
+                  <widget class="qradiobutton" name="radiocustomperkilobyte">
+                   <property name="tooltip">
+                    <string>if the custom fee is set to 1000 satoshis and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 satoshis in fee, while &quot;total at least&quot; pays 1000 satoshis. for transactions bigger than a kilobyte both pay by kilobyte.</string>
+                   </property>
+                   <property name="text">
+                    <string>per kilobyte</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                   <attribute name="buttongroup">
+                    <string notr="true">groupcustomfee</string>
+                   </attribute>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="qradiobutton" name="radiocustomatleast">
+                   <property name="tooltip">
+                    <string>if the custom fee is set to 1000 satoshis and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 satoshis in fee, while &quot;total at least&quot; pays 1000 satoshis. for transactions bigger than a kilobyte both pay by kilobyte.</string>
+                   </property>
+                   <property name="text">
+                    <string>total at least</string>
+                   </property>
+                   <attribute name="buttongroup">
+                    <string notr="true">groupcustomfee</string>
+                   </attribute>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="bitcoinamountfield" name="customfee"/>
+                 </item>
+                 <item>
+                  <spacer name="horizontalspacer_6">
+                   <property name="orientation">
+                    <enum>qt::horizontal</enum>
+                   </property>
+                   <property name="sizehint" stdset="0">
+                    <size>
+                     <width>1</width>
+                     <height>1</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="qhboxlayout" name="horizontallayoutfee8">
+                 <item>
+                  <widget class="qcheckbox" name="checkboxminimumfee">
+                   <property name="tooltip">
+                    <string>paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks. but be aware that this can end up in a never confirming transaction once there is more demand for bitcoin transactions than the network can process.</string>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="qlabel" name="labelminfeewarning">
+                   <property name="enabled">
+                    <bool>true</bool>
+                   </property>
+                   <property name="tooltip">
+                    <string>paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks. but be aware that this can end up in a never confirming transaction once there is more demand for bitcoin transactions than the network can process.</string>
+                   </property>
+                   <property name="text">
+                    <string>(read the tooltip)</string>
+                   </property>
+                   <property name="margin">
+                    <number>5</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalspacer_2">
+                   <property name="orientation">
+                    <enum>qt::horizontal</enum>
+                   </property>
+                   <property name="sizehint" stdset="0">
+                    <size>
+                     <width>1</width>
+                     <height>1</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </item>
+             <item row="0" column="0">
+              <layout class="qvboxlayout" name="verticallayoutfee4" stretch="0,1">
+               <item>
+                <widget class="qradiobutton" name="radiosmartfee">
+                 <property name="text">
+                  <string>recommended:</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                 <attribute name="buttongroup">
+                  <string notr="true">groupfee</string>
+                 </attribute>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalspacer_2">
+                 <property name="orientation">
+                  <enum>qt::vertical</enum>
+                 </property>
+                 <property name="sizehint" stdset="0">
+                  <size>
+                   <width>1</width>
+                   <height>1</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </item>
+             <item row="1" column="0">
+              <layout class="qvboxlayout" name="verticallayoutfee9" stretch="0,1">
+               <item>
+                <widget class="qradiobutton" name="radiocustomfee">
+                 <property name="text">
+                  <string>custom:</string>
+                 </property>
+                 <attribute name="buttongroup">
+                  <string notr="true">groupfee</string>
+                 </attribute>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalspacer_6">
+                 <property name="orientation">
+                  <enum>qt::vertical</enum>
+                 </property>
+                 <property name="sizehint" stdset="0">
+                  <size>
+                   <width>1</width>
+                   <height>1</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </item>
+             <item row="0" column="1">
+              <layout class="qvboxlayout" name="verticallayoutfee3" stretch="0,0,1">
+               <property name="spacing">
+                <number>6</number>
+               </property>
+               <property name="topmargin">
+                <number>2</number>
+               </property>
+               <item>
+                <layout class="qhboxlayout" name="horizontallayoutfee12">
+                 <item>
+                  <widget class="qlabel" name="labelsmartfee">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="margin">
+                    <number>2</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="qlabel" name="labelfeeestimation">
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="qlabel" name="labelsmartfee2">
+                   <property name="text">
+                    <string>(smart fee not initialized yet. this usually takes a few blocks...)</string>
+                   </property>
+                   <property name="margin">
+                    <number>2</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalspacer_5">
+                   <property name="orientation">
+                    <enum>qt::horizontal</enum>
+                   </property>
+                   <property name="sizehint" stdset="0">
+                    <size>
+                     <width>1</width>
+                     <height>1</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="qhboxlayout" name="horizontallayoutfee9">
+                 <item>
+                  <layout class="qvboxlayout" name="verticallayoutfee6">
+                   <item>
+                    <widget class="qlabel" name="labelsmartfee3">
+                     <property name="text">
+                      <string>confirmation time:</string>
+                     </property>
+                     <property name="margin">
+                      <number>2</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="verticalspacer_3">
+                     <property name="orientation">
+                      <enum>qt::vertical</enum>
+                     </property>
+                     <property name="sizehint" stdset="0">
+                      <size>
+                       <width>1</width>
+                       <height>1</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="qvboxlayout" name="verticallayoutfee5">
+                   <property name="rightmargin">
+                    <number>30</number>
+                   </property>
+                   <item>
+                    <widget class="qslider" name="slidersmartfee">
+                     <property name="minimum">
+                      <number>0</number>
+                     </property>
+                     <property name="maximum">
+                      <number>24</number>
+                     </property>
+                     <property name="pagestep">
+                      <number>1</number>
+                     </property>
+                     <property name="value">
+                      <number>0</number>
+                     </property>
+                     <property name="orientation">
+                      <enum>qt::horizontal</enum>
+                     </property>
+                     <property name="invertedappearance">
+                      <bool>false</bool>
+                     </property>
+                     <property name="invertedcontrols">
+                      <bool>false</bool>
+                     </property>
+                     <property name="tickposition">
+                      <enum>qslider::noticks</enum>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <layout class="qhboxlayout" name="horizontallayoutfee10">
+                     <item>
+                      <widget class="qlabel" name="labelsmartfeenormal">
+                       <property name="text">
+                        <string>normal</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <spacer name="horizontalspacer_3">
+                       <property name="orientation">
+                        <enum>qt::horizontal</enum>
+                       </property>
+                       <property name="sizehint" stdset="0">
+                        <size>
+                         <width>40</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                     <item>
+                      <widget class="qlabel" name="labelsmartfeefast">
+                       <property name="text">
+                        <string>fast</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <spacer name="verticalspacer_4">
+                 <property name="orientation">
+                  <enum>qt::vertical</enum>
+                 </property>
+                 <property name="sizehint" stdset="0">
+                  <size>
+                   <width>1</width>
+                   <height>1</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="qhboxlayout" name="horizontallayoutfee5" stretch="0,0,0">
+             <property name="spacing">
+              <number>8</number>
+             </property>
+             <property name="bottommargin">
+              <number>4</number>
+             </property>
+             <item>
+              <widget class="qcheckbox" name="checkboxfreetx">
+               <property name="text">
+                <string>send as zero-fee transaction if possible</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="qlabel" name="labelfreetx">
+               <property name="text">
+                <string>(confirmation may take longer)</string>
+               </property>
+               <property name="margin">
+                <number>5</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalspacerfee5">
+               <property name="orientation">
+                <enum>qt::horizontal</enum>
+               </property>
+               <property name="sizehint" stdset="0">
+                <size>
+                 <width>1</width>
+                 <height>1</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <spacer name="verticalspacerfee2">
+             <property name="orientation">
+              <enum>qt::vertical</enum>
+             </property>
+             <property name="sizehint" stdset="0">
+              <size>
+               <width>1</width>
+               <height>1</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalspacerfee">
+          <property name="orientation">
+           <enum>qt::vertical</enum>
+          </property>
+          <property name="sizehint" stdset="0">
+           <size>
+            <width>800</width>
+            <height>1</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <layout class="qhboxlayout" name="horizontallayout">
+     <item>
+      <widget class="qpushbutton" name="sendbutton">
+       <property name="minimumsize">
+        <size>
+         <width>150</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="tooltip">
+        <string>confirm the send action</string>
+       </property>
+       <property name="text">
+        <string>s&amp;end</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../bitcoin.qrc">
+         <normaloff>:/icons/send</normaloff>:/icons/send</iconset>
+       </property>
+       <property name="autodefault">
+        <bool>false</bool>
+       </property>
+       <property name="default">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="qpushbutton" name="clearbutton">
+       <property name="sizepolicy">
+        <sizepolicy hsizetype="minimum" vsizetype="fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="tooltip">
+        <string>clear all fields of the form.</string>
+       </property>
+       <property name="text">
+        <string>clear &amp;all</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../bitcoin.qrc">
+         <normaloff>:/icons/remove</normaloff>:/icons/remove</iconset>
+       </property>
+       <property name="autodefault">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="qpushbutton" name="addbutton">
+       <property name="tooltip">
+        <string>send to multiple recipients at once</string>
+       </property>
+       <property name="text">
+        <string>add &amp;recipient</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../bitcoin.qrc">
+         <normaloff>:/icons/add</normaloff>:/icons/add</iconset>
+       </property>
+       <property name="autodefault">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalspacer">
+       <property name="orientation">
+        <enum>qt::horizontal</enum>
+       </property>
+       <property name="sizehint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <layout class="qhboxlayout" name="horizontallayout_2">
+       <property name="spacing">
+        <number>3</number>
+       </property>
+       <item>
+        <widget class="qlabel" name="label">
+         <property name="sizepolicy">
+          <sizepolicy hsizetype="preferred" vsizetype="fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>balance:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="qlabel" name="labelbalance">
+         <property name="sizepolicy">
+          <sizepolicy hsizetype="preferred" vsizetype="fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="cursor">
+          <cursorshape>ibeamcursor</cursorshape>
+         </property>
+         <property name="text">
+          <string notr="true">123.456 btc</string>
+         </property>
+         <property name="textinteractionflags">
+          <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>qvalidatedlineedit</class>
+   <extends>qlineedit</extends>
+   <header>qvalidatedlineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>bitcoinamountfield</class>
+   <extends>qlineedit</extends>
+   <header>bitcoinamountfield.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../bitcoin.qrc"/>
+ </resources>
+ <connections/>
+ <buttongroups>
+  <buttongroup name="groupfee"/>
+  <buttongroup name="groupcustomfee"/>
+ </buttongroups>
+</ui>

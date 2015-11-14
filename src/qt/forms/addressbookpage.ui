@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui version="4.0">
+ <class>addressbookpage</class>
+ <widget class="qwidget" name="addressbookpage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>760</width>
+    <height>380</height>
+   </rect>
+  </property>
+  <layout class="qvboxlayout" name="verticallayout">
+   <item>
+    <widget class="qlabel" name="labelexplanation">
+     <property name="textformat">
+      <enum>qt::plaintext</enum>
+     </property>
+     <property name="wordwrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="qtableview" name="tableview">
+     <property name="contextmenupolicy">
+      <enum>qt::customcontextmenu</enum>
+     </property>
+     <property name="tooltip">
+      <string>right-click to edit address or label</string>
+     </property>
+     <property name="tabkeynavigation">
+      <bool>false</bool>
+     </property>
+     <property name="alternatingrowcolors">
+      <bool>true</bool>
+     </property>
+     <property name="selectionmode">
+      <enum>qabstractitemview::singleselection</enum>
+     </property>
+     <property name="selectionbehavior">
+      <enum>qabstractitemview::selectrows</enum>
+     </property>
+     <property name="sortingenabled">
+      <bool>true</bool>
+     </property>
+     <attribute name="verticalheadervisible">
+      <bool>false</bool>
+     </attribute>
+    </widget>
+   </item>
+   <item>
+    <layout class="qhboxlayout" name="horizontallayout">
+     <item>
+      <widget class="qpushbutton" name="newaddress">
+       <property name="tooltip">
+        <string>create a new address</string>
+       </property>
+       <property name="text">
+        <string>&amp;new</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../bitcoin.qrc">
+         <normaloff>:/icons/add</normaloff>:/icons/add</iconset>
+       </property>
+       <property name="autodefault">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="qpushbutton" name="copyaddress">
+       <property name="tooltip">
+        <string>copy the currently selected address to the system clipboard</string>
+       </property>
+       <property name="text">
+        <string>&amp;copy</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../bitcoin.qrc">
+         <normaloff>:/icons/editcopy</normaloff>:/icons/editcopy</iconset>
+       </property>
+       <property name="autodefault">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="qpushbutton" name="deleteaddress">
+       <property name="tooltip">
+        <string>delete the currently selected address from the list</string>
+       </property>
+       <property name="text">
+        <string>&amp;delete</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../bitcoin.qrc">
+         <normaloff>:/icons/remove</normaloff>:/icons/remove</iconset>
+       </property>
+       <property name="autodefault">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalspacer">
+       <property name="orientation">
+        <enum>qt::horizontal</enum>
+       </property>
+       <property name="sizehint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="qpushbutton" name="exportbutton">
+       <property name="tooltip">
+        <string>export the data in the current tab to a file</string>
+       </property>
+       <property name="text">
+        <string>&amp;export</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../bitcoin.qrc">
+         <normaloff>:/icons/export</normaloff>:/icons/export</iconset>
+       </property>
+       <property name="autodefault">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="qpushbutton" name="closebutton">
+       <property name="sizepolicy">
+        <sizepolicy hsizetype="minimum" vsizetype="minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>c&amp;lose</string>
+       </property>
+       <property name="autodefault">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../bitcoin.qrc"/>
+ </resources>
+ <connections/>
+</ui>

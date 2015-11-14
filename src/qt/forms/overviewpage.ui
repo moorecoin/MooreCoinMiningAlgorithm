@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui version="4.0">
+ <class>overviewpage</class>
+ <widget class="qwidget" name="overviewpage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>596</width>
+    <height>342</height>
+   </rect>
+  </property>
+  <property name="windowtitle">
+   <string>form</string>
+  </property>
+  <layout class="qvboxlayout" name="toplayout">
+   <item>
+    <widget class="qlabel" name="labelalerts">
+     <property name="visible">
+      <bool>false</bool>
+     </property>
+     <property name="stylesheet">
+      <string notr="true">background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, stop:0 #f0d0a0, stop:1 #f8d488); color:#000000;</string>
+     </property>
+     <property name="wordwrap">
+      <bool>true</bool>
+     </property>
+     <property name="margin">
+      <number>3</number>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="qhboxlayout" name="horizontallayout" stretch="1,1">
+     <item>
+      <layout class="qvboxlayout" name="verticallayout_2">
+       <item>
+        <widget class="qframe" name="frame">
+         <property name="frameshape">
+          <enum>qframe::styledpanel</enum>
+         </property>
+         <property name="frameshadow">
+          <enum>qframe::raised</enum>
+         </property>
+         <layout class="qvboxlayout" name="verticallayout_4">
+          <item>
+           <layout class="qhboxlayout" name="horizontallayout_4">
+            <item>
+             <widget class="qlabel" name="label_5">
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>balances</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="qpushbutton" name="labelwalletstatus">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="maximumsize">
+               <size>
+                <width>30</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="tooltip">
+               <string>the displayed information may be out of date. your wallet automatically synchronizes with the bitcoin network after a connection is established, but this process has not completed yet.</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="../bitcoin.qrc">
+                <normaloff>:/icons/warning</normaloff>
+                <disabledoff>:/icons/warning</disabledoff>:/icons/warning</iconset>
+              </property>
+              <property name="iconsize">
+               <size>
+                <width>24</width>
+                <height>24</height>
+               </size>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalspacer_3">
+              <property name="orientation">
+               <enum>qt::horizontal</enum>
+              </property>
+              <property name="sizehint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="qgridlayout" name="gridlayout">
+            <property name="spacing">
+             <number>12</number>
+            </property>
+            <item row="2" column="2">
+             <widget class="qlabel" name="labelwatchpending">
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="cursor">
+               <cursorshape>ibeamcursor</cursorshape>
+              </property>
+              <property name="tooltip">
+               <string>unconfirmed transactions to watch-only addresses</string>
+              </property>
+              <property name="text">
+               <string notr="true">0.000鈥?00鈥?0 btc</string>
+              </property>
+              <property name="alignment">
+               <set>qt::alignright|qt::aligntrailing|qt::alignvcenter</set>
+              </property>
+              <property name="textinteractionflags">
+               <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="qlabel" name="labelunconfirmed">
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="cursor">
+               <cursorshape>ibeamcursor</cursorshape>
+              </property>
+              <property name="tooltip">
+               <string>total of transactions that have yet to be confirmed, and do not yet count toward the spendable balance</string>
+              </property>
+              <property name="text">
+               <string notr="true">0.000鈥?00鈥?0 btc</string>
+              </property>
+              <property name="alignment">
+               <set>qt::alignright|qt::aligntrailing|qt::alignvcenter</set>
+              </property>
+              <property name="textinteractionflags">
+               <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="2">
+             <widget class="qlabel" name="labelwatchimmature">
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="cursor">
+               <cursorshape>ibeamcursor</cursorshape>
+              </property>
+              <property name="tooltip">
+               <string>mined balance in watch-only addresses that has not yet matured</string>
+              </property>
+              <property name="text">
+               <string notr="true">0.000鈥?00鈥?0 btc</string>
+              </property>
+              <property name="alignment">
+               <set>qt::alignright|qt::aligntrailing|qt::alignvcenter</set>
+              </property>
+              <property name="textinteractionflags">
+               <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0" colspan="2">
+             <widget class="line" name="line">
+              <property name="orientation">
+               <enum>qt::horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="2">
+             <widget class="line" name="linewatchbalance">
+              <property name="sizepolicy">
+               <sizepolicy hsizetype="preferred" vsizetype="fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumsize">
+               <size>
+                <width>140</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="orientation">
+               <enum>qt::horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0">
+             <widget class="qlabel" name="labeltotaltext">
+              <property name="text">
+               <string>total:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="qlabel" name="labelimmature">
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="cursor">
+               <cursorshape>ibeamcursor</cursorshape>
+              </property>
+              <property name="tooltip">
+               <string>mined balance that has not yet matured</string>
+              </property>
+              <property name="text">
+               <string notr="true">0.000鈥?00鈥?0 btc</string>
+              </property>
+              <property name="alignment">
+               <set>qt::alignright|qt::aligntrailing|qt::alignvcenter</set>
+              </property>
+              <property name="textinteractionflags">
+               <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="3">
+             <spacer name="horizontalspacer_2">
+              <property name="orientation">
+               <enum>qt::horizontal</enum>
+              </property>
+              <property name="sizehint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="3" column="0">
+             <widget class="qlabel" name="labelimmaturetext">
+              <property name="text">
+               <string>immature:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="qlabel" name="labeltotal">
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="cursor">
+               <cursorshape>ibeamcursor</cursorshape>
+              </property>
+              <property name="tooltip">
+               <string>your current total balance</string>
+              </property>
+              <property name="text">
+               <string notr="true">0.000鈥?00鈥?0 btc</string>
+              </property>
+              <property name="alignment">
+               <set>qt::alignright|qt::aligntrailing|qt::alignvcenter</set>
+              </property>
+              <property name="textinteractionflags">
+               <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="2">
+             <widget class="qlabel" name="labelwatchtotal">
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="cursor">
+               <cursorshape>ibeamcursor</cursorshape>
+              </property>
+              <property name="tooltip">
+               <string>current total balance in watch-only addresses</string>
+              </property>
+              <property name="text">
+               <string notr="true">0.000鈥?00鈥?0 btc</string>
+              </property>
+              <property name="alignment">
+               <set>qt::alignright|qt::aligntrailing|qt::alignvcenter</set>
+              </property>
+              <property name="textinteractionflags">
+               <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="qlabel" name="labelwatchonly">
+              <property name="text">
+               <string>watch-only:</string>
+              </property>
+              <property name="alignment">
+               <set>qt::alignright|qt::aligntrailing|qt::alignvcenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="qlabel" name="labelbalancetext">
+              <property name="text">
+               <string>available:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="qlabel" name="labelbalance">
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="cursor">
+               <cursorshape>ibeamcursor</cursorshape>
+              </property>
+              <property name="tooltip">
+               <string>your current spendable balance</string>
+              </property>
+              <property name="text">
+               <string notr="true">0.000鈥?00鈥?0 btc</string>
+              </property>
+              <property name="alignment">
+               <set>qt::alignright|qt::aligntrailing|qt::alignvcenter</set>
+              </property>
+              <property name="textinteractionflags">
+               <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="qlabel" name="labelwatchavailable">
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="cursor">
+               <cursorshape>ibeamcursor</cursorshape>
+              </property>
+              <property name="tooltip">
+               <string>your current balance in watch-only addresses</string>
+              </property>
+              <property name="text">
+               <string notr="true">0.000鈥?00鈥?0 btc</string>
+              </property>
+              <property name="alignment">
+               <set>qt::alignright|qt::aligntrailing|qt::alignvcenter</set>
+              </property>
+              <property name="textinteractionflags">
+               <set>qt::linksaccessiblebymouse|qt::textselectablebykeyboard|qt::textselectablebymouse</set>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="qlabel" name="labelpendingtext">
+              <property name="text">
+               <string>pending:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="qlabel" name="labelspendable">
+              <property name="text">
+               <string>spendable:</string>
+              </property>
+              <property name="alignment">
+               <set>qt::alignright|qt::aligntrailing|qt::alignvcenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalspacer">
+         <property name="orientation">
+          <enum>qt::vertical</enum>
+         </property>
+         <property name="sizehint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="qvboxlayout" name="verticallayout_3">
+       <item>
+        <widget class="qframe" name="frame_2">
+         <property name="frameshape">
+          <enum>qframe::styledpanel</enum>
+         </property>
+         <property name="frameshadow">
+          <enum>qframe::raised</enum>
+         </property>
+         <layout class="qvboxlayout" name="verticallayout">
+          <item>
+           <layout class="qhboxlayout" name="horizontallayout_2">
+            <item>
+             <widget class="qlabel" name="label_4">
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>recent transactions</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="qpushbutton" name="labeltransactionsstatus">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="maximumsize">
+               <size>
+                <width>30</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="tooltip">
+               <string>the displayed information may be out of date. your wallet automatically synchronizes with the bitcoin network after a connection is established, but this process has not completed yet.</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="../bitcoin.qrc">
+                <normaloff>:/icons/warning</normaloff>
+                <disabledoff>:/icons/warning</disabledoff>:/icons/warning</iconset>
+              </property>
+              <property name="iconsize">
+               <size>
+                <width>24</width>
+                <height>24</height>
+               </size>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalspacer">
+              <property name="orientation">
+               <enum>qt::horizontal</enum>
+              </property>
+              <property name="sizehint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="qlistview" name="listtransactions">
+            <property name="stylesheet">
+             <string notr="true">qlistview { background: transparent; }</string>
+            </property>
+            <property name="frameshape">
+             <enum>qframe::noframe</enum>
+            </property>
+            <property name="verticalscrollbarpolicy">
+             <enum>qt::scrollbaralwaysoff</enum>
+            </property>
+            <property name="horizontalscrollbarpolicy">
+             <enum>qt::scrollbaralwaysoff</enum>
+            </property>
+            <property name="selectionmode">
+             <enum>qabstractitemview::noselection</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalspacer_2">
+         <property name="orientation">
+          <enum>qt::vertical</enum>
+         </property>
+         <property name="sizehint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

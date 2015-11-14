@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui version="4.0">
+ <class>signverifymessagedialog</class>
+ <widget class="qdialog" name="signverifymessagedialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>700</width>
+    <height>380</height>
+   </rect>
+  </property>
+  <property name="windowtitle">
+   <string>signatures - sign / verify a message</string>
+  </property>
+  <property name="modal">
+   <bool>true</bool>
+  </property>
+  <layout class="qvboxlayout" name="verticallayout">
+   <item>
+    <widget class="qtabwidget" name="tabwidget">
+     <property name="currentindex">
+      <number>0</number>
+     </property>
+     <widget class="qwidget" name="tabsignmessage">
+      <attribute name="title">
+       <string>&amp;sign message</string>
+      </attribute>
+      <layout class="qvboxlayout" name="verticallayout_sm">
+       <item>
+        <widget class="qlabel" name="infolabel_sm">
+         <property name="text">
+          <string>you can sign messages/agreements with your addresses to prove you can receive bitcoins sent to them. be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. only sign fully-detailed statements you agree to.</string>
+         </property>
+         <property name="textformat">
+          <enum>qt::plaintext</enum>
+         </property>
+         <property name="wordwrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="qhboxlayout" name="horizontallayout_1_sm">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="qvalidatedlineedit" name="addressin_sm">
+           <property name="tooltip">
+            <string>the bitcoin address to sign the message with</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="qpushbutton" name="addressbookbutton_sm">
+           <property name="tooltip">
+            <string>choose previously used address</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="../bitcoin.qrc">
+             <normaloff>:/icons/address-book</normaloff>:/icons/address-book</iconset>
+           </property>
+           <property name="shortcut">
+            <string>alt+a</string>
+           </property>
+           <property name="autodefault">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="qpushbutton" name="pastebutton_sm">
+           <property name="tooltip">
+            <string>paste address from clipboard</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="../bitcoin.qrc">
+             <normaloff>:/icons/editpaste</normaloff>:/icons/editpaste</iconset>
+           </property>
+           <property name="shortcut">
+            <string>alt+p</string>
+           </property>
+           <property name="autodefault">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="qplaintextedit" name="messagein_sm">
+         <property name="tooltip">
+          <string>enter the message you want to sign here</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="qlabel" name="signaturelabel_sm">
+         <property name="text">
+          <string>signature</string>
+         </property>
+         <property name="textformat">
+          <enum>qt::plaintext</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="qhboxlayout" name="horizontallayout_2_sm">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="qlineedit" name="signatureout_sm">
+           <property name="font">
+            <font>
+             <italic>true</italic>
+            </font>
+           </property>
+           <property name="readonly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="qpushbutton" name="copysignaturebutton_sm">
+           <property name="tooltip">
+            <string>copy the current signature to the system clipboard</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="../bitcoin.qrc">
+             <normaloff>:/icons/editcopy</normaloff>:/icons/editcopy</iconset>
+           </property>
+           <property name="autodefault">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="qhboxlayout" name="horizontallayout_3_sm">
+         <item>
+          <widget class="qpushbutton" name="signmessagebutton_sm">
+           <property name="tooltip">
+            <string>sign the message to prove you own this bitcoin address</string>
+           </property>
+           <property name="text">
+            <string>sign &amp;message</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../bitcoin.qrc">
+             <normaloff>:/icons/edit</normaloff>:/icons/edit</iconset>
+           </property>
+           <property name="autodefault">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="qpushbutton" name="clearbutton_sm">
+           <property name="tooltip">
+            <string>reset all sign message fields</string>
+           </property>
+           <property name="text">
+            <string>clear &amp;all</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../bitcoin.qrc">
+             <normaloff>:/icons/remove</normaloff>:/icons/remove</iconset>
+           </property>
+           <property name="autodefault">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalspacer_1_sm">
+           <property name="orientation">
+            <enum>qt::horizontal</enum>
+           </property>
+           <property name="sizehint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>48</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="qlabel" name="statuslabel_sm">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="wordwrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalspacer_2_sm">
+           <property name="orientation">
+            <enum>qt::horizontal</enum>
+           </property>
+           <property name="sizehint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>48</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="qwidget" name="tabverifymessage">
+      <attribute name="title">
+       <string>&amp;verify message</string>
+      </attribute>
+      <layout class="qvboxlayout" name="verticallayout_vm">
+       <item>
+        <widget class="qlabel" name="infolabel_vm">
+         <property name="text">
+          <string>enter the receiver's address, message (ensure you copy line breaks, spaces, tabs, etc. exactly) and signature below to verify the message. be careful not to read more into the signature than what is in the signed message itself, to avoid being tricked by a man-in-the-middle attack. note that this only proves the signing party receives with the address, it cannot prove sendership of any transaction!</string>
+         </property>
+         <property name="textformat">
+          <enum>qt::plaintext</enum>
+         </property>
+         <property name="alignment">
+          <set>qt::alignleading|qt::alignleft|qt::aligntop</set>
+         </property>
+         <property name="wordwrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="qhboxlayout" name="horizontallayout_1_vm">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="qvalidatedlineedit" name="addressin_vm">
+           <property name="tooltip">
+            <string>the bitcoin address the message was signed with</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="qpushbutton" name="addressbookbutton_vm">
+           <property name="tooltip">
+            <string>choose previously used address</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="../bitcoin.qrc">
+             <normaloff>:/icons/address-book</normaloff>:/icons/address-book</iconset>
+           </property>
+           <property name="shortcut">
+            <string>alt+a</string>
+           </property>
+           <property name="autodefault">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="qplaintextedit" name="messagein_vm"/>
+       </item>
+       <item>
+        <widget class="qvalidatedlineedit" name="signaturein_vm"/>
+       </item>
+       <item>
+        <layout class="qhboxlayout" name="horizontallayout_2_vm">
+         <item>
+          <widget class="qpushbutton" name="verifymessagebutton_vm">
+           <property name="tooltip">
+            <string>verify the message to ensure it was signed with the specified bitcoin address</string>
+           </property>
+           <property name="text">
+            <string>verify &amp;message</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../bitcoin.qrc">
+             <normaloff>:/icons/transaction_0</normaloff>:/icons/transaction_0</iconset>
+           </property>
+           <property name="autodefault">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="qpushbutton" name="clearbutton_vm">
+           <property name="tooltip">
+            <string>reset all verify message fields</string>
+           </property>
+           <property name="text">
+            <string>clear &amp;all</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../bitcoin.qrc">
+             <normaloff>:/icons/remove</normaloff>:/icons/remove</iconset>
+           </property>
+           <property name="autodefault">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalspacer_1_vm">
+           <property name="orientation">
+            <enum>qt::horizontal</enum>
+           </property>
+           <property name="sizehint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>48</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="qlabel" name="statuslabel_vm">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="wordwrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalspacer_2_vm">
+           <property name="orientation">
+            <enum>qt::horizontal</enum>
+           </property>
+           <property name="sizehint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>48</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>qvalidatedlineedit</class>
+   <extends>qlineedit</extends>
+   <header>qvalidatedlineedit.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../bitcoin.qrc"/>
+ </resources>
+ <connections/>
+</ui>

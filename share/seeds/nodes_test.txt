@@ -1,0 +1,5 @@
+# list of fixed seed nodes for testnet
+
+# onion nodes
+thfsmmn2jmoorecoin.onion
+it2pj4f7657g3rhi.onion

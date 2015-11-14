@@ -1,0 +1,46 @@
+//
+// simple bitcoin payment protocol messages
+//
+// use fields 100+ for extensions;
+// to avoid conflicts, register extensions at:
+// https://en.bitcoin.it/wiki/payment_request
+//
+
+package payments;
+option java_package = "org.bitcoin.protocols.payments";
+option java_outer_classname = "protos";
+
+// generalized form of "send payment to this/these bitcoin addresses"
+message output {
+	optional uint64 amount = 1 [default = 0]; // amount is integer-number-of-satoshis
+	required bytes script = 2; // usually one of the standard script forms
+}
+message paymentdetails {
+        optional string network = 1 [default = "main"]; // "main" or "test"
+        repeated output outputs = 2;        // where payment should be sent
+        required uint64 time = 3;           // timestamp; when payment request created
+        optional uint64 expires = 4;        // timestamp; when this request should be considered invalid
+        optional string memo = 5;           // human-readable description of request for the customer
+        optional string payment_url = 6;    // url to send payment and get paymentack
+        optional bytes merchant_data = 7;   // arbitrary data to include in the payment message
+}
+message paymentrequest {
+        optional uint32 payment_details_version = 1 [default = 1];
+        optional string pki_type = 2 [default = "none"];  // none / x509+sha256 / x509+sha1
+        optional bytes pki_data = 3;                      // depends on pki_type
+        required bytes serialized_payment_details = 4;    // paymentdetails
+        optional bytes signature = 5;                     // pki-dependent signature
+}
+message x509certificates {
+        repeated bytes certificate = 1;    // der-encoded x.509 certificate chain
+}
+message payment {
+        optional bytes merchant_data = 1;  // from paymentdetails.merchant_data
+        repeated bytes transactions = 2;   // signed transactions that satisfy paymentdetails.outputs
+        repeated output refund_to = 3;     // where to send refunds, if a refund is necessary
+        optional string memo = 4;          // human-readable message for the merchant
+}
+message paymentack {
+        required payment payment = 1;      // payment message that triggered this ack
+        optional string memo = 2;          // human-readable message for customer
+}

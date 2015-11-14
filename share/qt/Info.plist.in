@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!doctype plist system "file://localhost/system/library/dtds/propertylist.dtd">
+<plist version="0.9">
+<dict>
+  <key>lsminimumsystemversion</key>
+  <string>10.7.0</string>
+
+  <key>lsarchitecturepriority</key>
+  <array>
+    <string>x86_64</string>
+  </array>
+
+  <key>cfbundleiconfile</key>
+  <string>bitcoin.icns</string>
+
+  <key>cfbundlepackagetype</key>
+  <string>appl</string>
+
+  <key>cfbundlegetinfostring</key>
+  <string>@client_version_major@.@client_version_minor@.@client_version_revision@, copyright 漏 2009-@copyright_year@ the bitcoin core developers</string>
+
+  <key>cfbundleshortversionstring</key>
+  <string>@client_version_major@.@client_version_minor@.@client_version_revision@</string>
+
+  <key>cfbundleversion</key>
+  <string>@client_version_major@.@client_version_minor@.@client_version_revision@</string>
+
+  <key>cfbundlesignature</key>
+  <string>????</string>
+
+  <key>cfbundleexecutable</key>
+  <string>bitcoin-qt</string>
+  
+  <key>cfbundlename</key>
+  <string>bitcoin-qt</string>
+
+  <key>lshaslocalizeddisplayname</key>
+  <true/>
+
+  <key>cfbundleidentifier</key>
+  <string>org.bitcoinfoundation.bitcoin-qt</string>
+
+  <key>cfbundleurltypes</key>
+  <array>
+    <dict>
+      <key>cfbundletyperole</key>
+      <string>editor</string>
+      <key>cfbundleurlname</key>
+      <string>org.bitcoin.bitcoinpayment</string>
+      <key>cfbundleurlschemes</key>
+      <array>
+        <string>bitcoin</string>
+      </array>
+    </dict>
+  </array>
+
+  <key>utexportedtypedeclarations</key>
+  <array>
+    <dict>
+      <key>uttypeidentifier</key>
+      <string>org.bitcoin.paymentrequest</string>
+      <key>uttypedescription</key>
+      <string>bitcoin payment request</string>
+      <key>uttypeconformsto</key>
+      <array>
+        <string>public.data</string>
+      </array>
+      <key>uttypetagspecification</key>
+      <dict>
+        <key>public.mime-type</key>
+        <string>application/x-bitcoin-payment-request</string>
+        <key>public.filename-extension</key>
+        <array>
+          <string>bitcoinpaymentrequest</string>
+        </array>
+      </dict>
+    </dict>
+  </array>
+
+  <key>cfbundledocumenttypes</key>
+  <array>
+    <dict>
+      <key>cfbundletyperole</key>
+      <string>editor</string>
+      <key>lsitemcontenttypes</key>
+      <array>
+        <string>org.bitcoin.paymentrequest</string>
+      </array>
+      <key>lshandlerrank</key>
+      <string>owner</string>
+    </dict>
+  </array>
+
+  <key>nsprincipalclass</key>
+    <string>nsapplication</string>
+
+  <key>nshighresolutioncapable</key>
+    <string>true</string>
+
+  <key>lsappnapisdisabled</key>
+    <string>true</string>
+  
+  <key>lsapplicationcategorytype</key>
+    <string>public.app-category.finance</string>
+</dict>
+</plist>

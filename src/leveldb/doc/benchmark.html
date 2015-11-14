@@ -1,0 +1,459 @@
+<!doctype html>
+<html>
+<head>
+<title>leveldb benchmarks</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<style>
+body {
+  font-family:helvetica,sans-serif;
+  padding:20px;
+}
+
+h2 {
+  padding-top:30px;
+}
+
+table.bn {
+  width:800px;
+  border-collapse:collapse;
+  border:0;
+  padding:0;
+}
+
+table.bnbase {
+  width:650px;
+}
+
+table.bn td {
+  padding:2px 0;
+}
+
+table.bn td.c1 {
+  font-weight:bold;
+  width:150px;
+}
+
+table.bn td.c1 div.e {
+  float:right;
+  font-weight:normal;
+}
+
+table.bn td.c2 {
+  width:150px;
+  text-align:right;
+  padding:2px;
+}
+
+table.bn td.c3 {
+  width:350px;
+}
+
+table.bn td.c4 {
+  width:150px;
+  font-size:small;
+  padding-left:4px;
+}
+
+/* chart bars */
+div.bldb {
+  background-color:#0255df;
+}
+
+div.bkct {
+  background-color:#df5555;
+}
+
+div.bsql {
+  background-color:#aadf55;
+}
+
+.code {
+  font-family:monospace;
+  font-size:large;
+}
+
+.todo {
+  color: red;
+}
+
+</style>
+</head>
+<body>
+<h1>leveldb benchmarks</h1>
+<p>google, july 2011</p>
+<hr>
+
+<p>in order to test leveldb's performance, we benchmark it against other well-established database implementations. we compare leveldb (revision 39) against <a href="http://www.sqlite.org/">sqlite3</a> (version 3.7.6.3) and <a href="http://fallabs.com/kyotocabinet/spex.html">kyoto cabinet's</a> (version 1.2.67) treedb (a b+tree based key-value store). we would like to acknowledge scott hess and mikio hirabayashi for their suggestions and contributions to the sqlite3 and kyoto cabinet benchmarks, respectively.</p>
+
+<p>benchmarks were all performed on a six-core intel(r) xeon(r) cpu x5650 @ 2.67ghz, with 12288 kb of total l3 cache and 12 gb of ddr3 ram at 1333 mhz. (note that leveldb uses at most two cpus since the benchmarks are single threaded: one to run the benchmark, and one for background compactions.) we ran the benchmarks on two machines (with identical processors), one with an ext3 file system and one with an ext4 file system. the machine with the ext3 file system has a sata hitachi hds721050cla362 hard drive. the machine with the ext4 file system has a sata samsung hd502hj hard drive. both hard drives spin at 7200 rpm and have hard drive write-caching enabled (using `hdparm -w 1 [device]`). the numbers reported below are the median of three measurements.</p>
+
+<h4>benchmark source code</h4>
+<p>we wrote benchmark tools for sqlite and kyoto treedb based on leveldb's <span class="code">db_bench</span>. the code for each of the benchmarks resides here:</p>
+<ul>
+	<li> <b>leveldb:</b> <a href="http://code.google.com/p/leveldb/source/browse/trunk/db/db_bench.cc">db/db_bench.cc</a>.</li>
+	<li> <b>sqlite:</b> <a href="http://code.google.com/p/leveldb/source/browse/#svn%2ftrunk%2fdoc%2fbench%2fdb_bench_sqlite3.cc">doc/bench/db_bench_sqlite3.cc</a>.</li>
+	<li> <b>kyoto treedb:</b> <a href="http://code.google.com/p/leveldb/source/browse/#svn%2ftrunk%2fdoc%2fbench%2fdb_bench_tree_db.cc">doc/bench/db_bench_tree_db.cc</a>.</li>
+</ul>
+
+<h4>custom build specifications</h4>
+<ul>
+<li>leveldb: leveldb was compiled with the <a href="http://code.google.com/p/google-perftools">tcmalloc</a> library and the <a href="http://code.google.com/p/snappy/">snappy</a> compression library (revision 33).  assertions were disabled.</li>
+<li>treedb: treedb was compiled using the <a href="http://www.oberhumer.com/opensource/lzo/">lzo</a> compression library (version 2.03). furthermore, we enabled the tsmall and tlinear options when opening the database in order to reduce the footprint of each record.</li>
+<li>sqlite: we tuned sqlite's performance, by setting its locking mode to exclusive.  we also enabled sqlite's <a href="http://www.sqlite.org/draft/wal.html">write-ahead logging</a>.</li>
+</ul>
+
+<h2>1. baseline performance</h2>
+<p>this section gives the baseline performance of all the
+databases.  following sections show how performance changes as various
+parameters are varied.  for the baseline:</p>
+<ul>
+	<li> each database is allowed 4 mb of cache memory.</li>
+        <li> databases are opened in <em>asynchronous</em> write mode.
+             (leveldb's sync option, treedb's oautosync option, and
+             sqlite3's synchronous options are all turned off).  i.e.,
+             every write is pushed to the operating system, but the
+             benchmark does not wait for the write to reach the disk.</li>
+	<li> keys are 16 bytes each.</li>
+        <li> value are 100 bytes each (with enough redundancy so that
+             a simple compressor shrinks them to 50% of their original
+             size).</li>
+	<li> sequential reads/writes traverse the key space in increasing order.</li>
+	<li> random reads/writes traverse the key space in random order.</li>
+</ul>
+
+<h3>a. sequential reads</h3>
+<table class="bn bnbase">
+<tr><td class="c1">leveldb</td>
+    <td class="c2">4,030,000 ops/sec</td>
+    <td class="c3"><div class="bldb" style="width:350px">&nbsp;</div></td>
+<tr><td class="c1">kyoto treedb</td>
+    <td class="c2">1,010,000 ops/sec</td>
+    <td class="c3"><div class="bkct" style="width:95px">&nbsp;</div></td>
+<tr><td class="c1">sqlite3</td>
+    <td class="c2">383,000 ops/sec</td>
+    <td class="c3"><div class="bsql" style="width:33px">&nbsp;</div></td>
+</table>
+<h3>b. random reads</h3>
+<table class="bn bnbase">
+<tr><td class="c1">leveldb</td>
+    <td class="c2">129,000 ops/sec</td>
+    <td class="c3"><div class="bldb" style="width:298px">&nbsp;</div></td>
+<tr><td class="c1">kyoto treedb</td>
+    <td class="c2">151,000 ops/sec</td>
+    <td class="c3"><div class="bkct" style="width:350px">&nbsp;</div></td>
+<tr><td class="c1">sqlite3</td>
+    <td class="c2">134,000 ops/sec</td>
+    <td class="c3"><div class="bsql" style="width:310px">&nbsp;</div></td>
+</table>
+<h3>c. sequential writes</h3>
+<table class="bn bnbase">
+<tr><td class="c1">leveldb</td>
+    <td class="c2">779,000 ops/sec</td>
+    <td class="c3"><div class="bldb" style="width:350px">&nbsp;</div></td>
+<tr><td class="c1">kyoto treedb</td>
+    <td class="c2">342,000 ops/sec</td>
+    <td class="c3"><div class="bkct" style="width:154px">&nbsp;</div></td>
+<tr><td class="c1">sqlite3</td>
+    <td class="c2">48,600 ops/sec</td>
+    <td class="c3"><div class="bsql" style="width:22px">&nbsp;</div></td>
+</table>
+<h3>d. random writes</h3>
+<table class="bn bnbase">
+<tr><td class="c1">leveldb</td>
+    <td class="c2">164,000 ops/sec</td>
+    <td class="c3"><div class="bldb" style="width:350px">&nbsp;</div></td>
+<tr><td class="c1">kyoto treedb</td>
+    <td class="c2">88,500 ops/sec</td>
+    <td class="c3"><div class="bkct" style="width:188px">&nbsp;</div></td>
+<tr><td class="c1">sqlite3</td>
+    <td class="c2">9,860 ops/sec</td>
+    <td class="c3"><div class="bsql" style="width:21px">&nbsp;</div></td>
+</table>
+
+<p>leveldb outperforms both sqlite3 and treedb in sequential and random write operations and sequential read operations. kyoto cabinet has the fastest random read operations.</p>
+
+<h2>2. write performance under different configurations</h2>
+<h3>a. large values </h3>
+<p>for this benchmark, we start with an empty database, and write 100,000 byte values (~50% compressible). to keep the benchmark running time reasonable, we stop after writing 1000 values.</p>
+<h4>sequential writes</h4>
+<table class="bn bnbase">
+<tr><td class="c1">leveldb</td>
+    <td class="c2">1,100 ops/sec</td>
+    <td class="c3"><div class="bldb" style="width:234px">&nbsp;</div></td></tr>
+<tr><td class="c1">kyoto treedb</td>
+    <td class="c2">1,000 ops/sec</td>
+    <td class="c3"><div class="bkct" style="width:224px">&nbsp;</div></td></tr>
+<tr><td class="c1">sqlite3</td>
+    <td class="c2">1,600 ops/sec</td>
+    <td class="c3"><div class="bsql" style="width:350px">&nbsp;</div></td></tr>
+</table>
+<h4>random writes</h4>
+<table class="bn bnbase">
+<tr><td class="c1">leveldb</td>
+    <td class="c2">480 ops/sec</td>
+    <td class="c3"><div class="bldb" style="width:105px">&nbsp;</div></td></tr>
+<tr><td class="c1">kyoto treedb</td>
+    <td class="c2">1,100 ops/sec</td>
+    <td class="c3"><div class="bkct" style="width:240px">&nbsp;</div></td></tr>
+<tr><td class="c1">sqlite3</td>
+    <td class="c2">1,600 ops/sec</td>
+    <td class="c3"><div class="bsql" style="width:350px">&nbsp;</div></td></tr>
+</table>
+<p>leveldb doesn't perform as well with large values of 100,000 bytes each. this is because leveldb writes keys and values at least twice: first time to the transaction log, and second time (during a compaction) to a sorted file.
+with larger values, leveldb's per-operation efficiency is swamped by the
+cost of extra copies of large values.</p>
+<h3>b. batch writes</h3>
+<p>a batch write is a set of writes that are applied atomically to the underlying database. a single batch of n writes may be significantly faster than n individual writes. the following benchmark writes one thousand batches where each batch contains one thousand 100-byte values. treedb does not support batch writes and is omitted from this benchmark.</p>
+<h4>sequential writes</h4>
+<table class="bn">
+<tr><td class="c1">leveldb</td>
+    <td class="c2">840,000 entries/sec</td>
+    <td class="c3"><div class="bldb" style="width:350px">&nbsp;</div></td>
+    <td class="c4">(1.08x baseline)</td></tr>
+<tr><td class="c1">sqlite3</td>
+    <td class="c2">124,000 entries/sec</td>
+    <td class="c3"><div class="bsql" style="width:52px">&nbsp;</div></td>
+    <td class="c4">(2.55x baseline)</td></tr>
+</table>
+<h4>random writes</h4>
+<table class="bn">
+<tr><td class="c1">leveldb</td>
+    <td class="c2">221,000 entries/sec</td>
+    <td class="c3"><div class="bldb" style="width:350px">&nbsp;</div></td>
+    <td class="c4">(1.35x baseline)</td></tr>
+<tr><td class="c1">sqlite3</td>
+    <td class="c2">22,000 entries/sec</td>
+    <td class="c3"><div class="bsql" style="width:34px">&nbsp;</div></td>
+    <td class="c4">(2.23x baseline)</td></tr>
+</table>
+
+<p>because of the way leveldb persistent storage is organized, batches of
+random writes are not much slower (only a factor of 4x) than batches
+of sequential writes.</p>
+
+<h3>c. synchronous writes</h3>
+<p>in the following benchmark, we enable the synchronous writing modes
+of all of the databases.  since this change significantly slows down the
+benchmark, we stop after 10,000 writes. for synchronous write tests, we've
+disabled hard drive write-caching (using `hdparm -w 0 [device]`).</p>
+<ul>
+    <li>for leveldb, we set writeoptions.sync = true.</li>
+    <li>in treedb, we enabled treedb's oautosync option.</li>
+    <li>for sqlite3, we set "pragma synchronous = full".</li>
+</ul>
+<h4>sequential writes</h4>
+<table class="bn">
+<tr><td class="c1">leveldb</td>
+    <td class="c2">100 ops/sec</td>
+    <td class="c3"><div class="bldb" style="width:350px">&nbsp;</div></td>
+    <td class="c4">(0.003x baseline)</td></tr>
+<tr><td class="c1">kyoto treedb</td>
+    <td class="c2">7 ops/sec</td>
+    <td class="c3"><div class="bkct" style="width:27px">&nbsp;</div></td>
+    <td class="c4">(0.0004x baseline)</td></tr>
+<tr><td class="c1">sqlite3</td>
+    <td class="c2">88 ops/sec</td>
+    <td class="c3"><div class="bsql" style="width:315px">&nbsp;</div></td>
+    <td class="c4">(0.002x baseline)</td></tr>
+</table>
+<h4>random writes</h4>
+<table class="bn">
+<tr><td class="c1">leveldb</td>
+    <td class="c2">100 ops/sec</td>
+    <td class="c3"><div class="bldb" style="width:350px">&nbsp;</div></td>
+    <td class="c4">(0.015x baseline)</td></tr>
+<tr><td class="c1">kyoto treedb</td>
+    <td class="c2">8 ops/sec</td>
+    <td class="c3"><div class="bkct" style="width:29px">&nbsp;</div></td>
+    <td class="c4">(0.001x baseline)</td></tr>
+<tr><td class="c1">sqlite3</td>
+    <td class="c2">88 ops/sec</td>
+    <td class="c3"><div class="bsql" style="width:314px">&nbsp;</div></td>
+    <td class="c4">(0.009x baseline)</td></tr>
+</table>
+
+<p>also see the <code>ext4</code> performance numbers below
+since synchronous writes behave significantly differently
+on <code>ext3</code> and <code>ext4</code>.</p>
+
+<h3>d. turning compression off</h3>
+
+<p>in the baseline measurements, leveldb and treedb were using
+light-weight compression
+(<a href="http://code.google.com/p/snappy/">snappy</a> for leveldb,
+and <a href="http://www.oberhumer.com/opensource/lzo/">lzo</a> for
+treedb). sqlite3, by default does not use compression.  the
+experiments below show what happens when compression is disabled in
+all of the databases (the sqlite3 numbers are just a copy of
+its baseline measurements):</p>
+
+<h4>sequential writes</h4>
+<table class="bn">
+<tr><td class="c1">leveldb</td>
+    <td class="c2">594,000 ops/sec</td>
+    <td class="c3"><div class="bldb" style="width:350px">&nbsp;</div></td>
+    <td class="c4">(0.76x baseline)</td></tr>
+<tr><td class="c1">kyoto treedb</td>
+    <td class="c2">485,000 ops/sec</td>
+    <td class="c3"><div class="bkct" style="width:239px">&nbsp;</div></td>
+    <td class="c4">(1.42x baseline)</td></tr>
+<tr><td class="c1">sqlite3</td>
+    <td class="c2">48,600 ops/sec</td>
+    <td class="c3"><div class="bsql" style="width:29px">&nbsp;</div></td>
+    <td class="c4">(1.00x baseline)</td></tr>
+</table>
+<h4>random writes</h4>
+<table class="bn">
+<tr><td class="c1">leveldb</td>
+    <td class="c2">135,000 ops/sec</td>
+    <td class="c3"><div class="bldb" style="width:296px">&nbsp;</div></td>
+    <td class="c4">(0.82x baseline)</td></tr>
+<tr><td class="c1">kyoto treedb</td>
+    <td class="c2">159,000 ops/sec</td>
+    <td class="c3"><div class="bkct" style="width:350px">&nbsp;</div></td>
+    <td class="c4">(1.80x baseline)</td></tr>
+<tr><td class="c1">sqlite3</td>
+    <td class="c2">9,860 ops/sec</td>
+    <td class="c3"><div class="bsql" style="width:22px">&nbsp;</div></td>
+    <td class="c4">(1.00x baseline)</td></tr>
+</table>
+
+<p>leveldb's write performance is better with compression than without
+since compression decreases the amount of data that has to be written
+to disk.  therefore leveldb users can leave compression enabled in
+most scenarios without having worry about a tradeoff between space
+usage and performance.  treedb's performance on the other hand is
+better without compression than with compression.  presumably this is
+because treedb's compression library (lzo) is more expensive than
+leveldb's compression library (snappy).<p>
+
+<h3>e. using more memory</h3>
+<p>we increased the overall cache size for each database to 128 mb. for leveldb, we partitioned 128 mb into a 120 mb write buffer and 8 mb of cache (up from 2 mb of write buffer and 2 mb of cache). for sqlite3, we kept the page size at 1024 bytes, but increased the number of pages to 131,072 (up from 4096). for treedb, we also kept the page size at 1024 bytes, but increased the cache size to 128 mb (up from 4 mb).</p>
+<h4>sequential writes</h4>
+<table class="bn">
+<tr><td class="c1">leveldb</td>
+    <td class="c2">812,000 ops/sec</td>
+    <td class="c3"><div class="bldb" style="width:350px">&nbsp;</div></td>
+    <td class="c4">(1.04x baseline)</td></tr>
+<tr><td class="c1">kyoto treedb</td>
+    <td class="c2">321,000 ops/sec</td>
+    <td class="c3"><div class="bkct" style="width:138px">&nbsp;</div></td>
+    <td class="c4">(0.94x baseline)</td></tr>
+<tr><td class="c1">sqlite3</td>
+    <td class="c2">48,500 ops/sec</td>
+    <td class="c3"><div class="bsql" style="width:21px">&nbsp;</div></td>
+    <td class="c4">(1.00x baseline)</td></tr>
+</table>
+<h4>random writes</h4>
+<table class="bn">
+<tr><td class="c1">leveldb</td>
+    <td class="c2">355,000 ops/sec</td>
+    <td class="c3"><div class="bldb" style="width:350px">&nbsp;</div></td>
+    <td class="c4">(2.16x baseline)</td></tr>
+<tr><td class="c1">kyoto treedb</td>
+    <td class="c2">284,000 ops/sec</td>
+    <td class="c3"><div class="bkct" style="width:280px">&nbsp;</div></td>
+    <td class="c4">(3.21x baseline)</td></tr>
+<tr><td class="c1">sqlite3</td>
+    <td class="c2">9,670 ops/sec</td>
+    <td class="c3"><div class="bsql" style="width:10px">&nbsp;</div></td>
+    <td class="c4">(0.98x baseline)</td></tr>
+</table>
+
+<p>sqlite's performance does not change substantially when compared to
+the baseline, but the random write performance for both leveldb and
+treedb increases significantly.  leveldb's performance improves
+because a larger write buffer reduces the need to merge sorted files
+(since it creates a smaller number of larger sorted files).  treedb's
+performance goes up because the entire database is available in memory
+for fast in-place updates.</p>
+
+  <h2>3. read performance under different configurations</h2>
+<h3>a. larger caches</h3>
+<p>we increased the overall memory usage to 128 mb for each database.
+for leveldb, we allocated 8 mb to leveldb's write buffer and 120 mb
+to leveldb's cache. the other databases don't differentiate between a
+write buffer and a cache, so we simply set their cache size to 128
+mb.</p>
+<h4>sequential reads</h4>
+<table class="bn">
+<tr><td class="c1">leveldb</td>
+    <td class="c2">5,210,000 ops/sec</td>
+    <td class="c3"><div class="bldb" style="width:350px">&nbsp;</div></td>
+    <td class="c4">(1.29x baseline)</td></tr>
+<tr><td class="c1">kyoto treedb</td>
+    <td class="c2">1,070,000 ops/sec</td>
+    <td class="c3"><div class="bkct" style="width:72px">&nbsp;</div></td>
+    <td class="c4">(1.06x baseline)</td></tr>
+<tr><td class="c1">sqlite3</td>
+    <td class="c2">609,000 ops/sec</td>
+    <td class="c3"><div class="bsql" style="width:41px">&nbsp;</div></td>
+    <td class="c4">(1.59x baseline)</td></tr>
+</table>
+
+<h4>random reads</h4>
+<table class="bn">
+<tr><td class="c1">leveldb</td>
+    <td class="c2">190,000 ops/sec</td>
+    <td class="c3"><div class="bldb" style="width:144px">&nbsp;</div></td>
+    <td class="c4">(1.47x baseline)</td></tr>
+<tr><td class="c1">kyoto treedb</td>
+    <td class="c2">463,000 ops/sec</td>
+    <td class="c3"><div class="bkct" style="width:350px">&nbsp;</div></td>
+    <td class="c4">(3.07x baseline)</td></tr>
+<tr><td class="c1">sqlite3</td>
+    <td class="c2">186,000 ops/sec</td>
+    <td class="c3"><div class="bsql" style="width:141px">&nbsp;</div></td>
+    <td class="c4">(1.39x baseline)</td></tr>
+</table>
+
+<p>as expected, the read performance of all of the databases increases
+when the caches are enlarged.  in particular, treedb seems to make
+very effective use of a cache that is large enough to hold the entire
+database.</p>
+
+<h3>b. no compression reads </h3>
+<p>for this benchmark, we populated a database with 1 million entries consisting of 16 byte keys and 100 byte values. we compiled leveldb and kyoto cabinet without compression support, so results that are read out from the database are already uncompressed. we've listed the sqlite3 baseline read performance as a point of comparison.</p>
+<h4>sequential reads</h4>
+<table class="bn">
+<tr><td class="c1">leveldb</td>
+    <td class="c2">4,880,000 ops/sec</td>
+    <td class="c3"><div class="bldb" style="width:350px">&nbsp;</div></td>
+    <td class="c4">(1.21x baseline)</td></tr>
+<tr><td class="c1">kyoto treedb</td>
+    <td class="c2">1,230,000 ops/sec</td>
+    <td class="c3"><div class="bkct" style="width:88px">&nbsp;</div></td>
+    <td class="c4">(3.60x baseline)</td></tr>
+<tr><td class="c1">sqlite3</td>
+    <td class="c2">383,000 ops/sec</td>
+    <td class="c3"><div class="bsql" style="width:27px">&nbsp;</div></td>
+    <td class="c4">(1.00x baseline)</td></tr>
+</table>
+<h4>random reads</h4>
+<table class="bn">
+<tr><td class="c1">leveldb</td>
+    <td class="c2">149,000 ops/sec</td>
+    <td class="c3"><div class="bldb" style="width:300px">&nbsp;</div></td>
+    <td class="c4">(1.16x baseline)</td></tr>
+<tr><td class="c1">kyoto treedb</td>
+    <td class="c2">175,000 ops/sec</td>
+    <td class="c3"><div class="bkct" style="width:350px">&nbsp;</div></td>
+    <td class="c4">(1.16x baseline)</td></tr>
+<tr><td class="c1">sqlite3</td>
+    <td class="c2">134,000 ops/sec</td>
+    <td class="c3"><div class="bsql" style="width:268px">&nbsp;</div></td>
+    <td class="c4">(1.00x baseline)</td></tr>
+</table>
+
+<p>performance of both leveldb and treedb improves a small amount when
+compression is disabled.  note however that under different workloads,
+performance may very well be better with compression if it allows more
+of the working set to fit in memory.</p>
+
+<h2>note about ext4 filesystems</h2>
+<p>the preceding numbers are for an ext3 file system. synchronous writes are much slower under <a href="http://en.wikipedia.org/wiki/ext4">ext4</a> (leveldb drops to ~31 writes / second and treedb drops to ~5 writes / second; sqlite3's synchronous writes do not noticeably drop) due to ext4's different handling of <span class="code">fsync</span> / <span class="code">msync</span> calls. even leveldb's asynchronous write performance drops somewhat since it spreads its storage across multiple files and issues <span class="code">fsync</span> calls when switching to a new file.</p>
+
+<h2>acknowledgements</h2>
+<p>jeff dean and sanjay ghemawat wrote leveldb. kevin tseng wrote and compiled these benchmarks. mikio hirabayashi, scott hess, and gabor cselle provided help and advice.</p>
+</body>
+</html>

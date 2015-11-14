@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui version="4.0">
+ <class>intro</class>
+ <widget class="qdialog" name="intro">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>674</width>
+    <height>363</height>
+   </rect>
+  </property>
+  <property name="windowtitle">
+   <string>welcome</string>
+  </property>
+  <layout class="qvboxlayout" name="verticallayout">
+   <item>
+    <widget class="qlabel" name="label_2">
+     <property name="stylesheet">
+      <string notr="true">qlabel { font-style:italic; }</string>
+     </property>
+     <property name="text">
+      <string>welcome to bitcoin core.</string>
+     </property>
+     <property name="wordwrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalspacer_4">
+     <property name="orientation">
+      <enum>qt::vertical</enum>
+     </property>
+     <property name="sizetype">
+      <enum>qsizepolicy::minimum</enum>
+     </property>
+     <property name="sizehint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>15</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="qlabel" name="label_4">
+     <property name="text">
+      <string>as this is the first time the program is launched, you can choose where bitcoin core will store its data.</string>
+     </property>
+     <property name="wordwrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="qlabel" name="sizewarninglabel">
+     <property name="text">
+      <string>bitcoin core will download and store a copy of the bitcoin block chain. at least %1gb of data will be stored in this directory, and it will grow over time. the wallet will also be stored in this directory.</string>
+     </property>
+     <property name="wordwrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="qradiobutton" name="datadirdefault">
+     <property name="text">
+      <string>use the default data directory</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="qradiobutton" name="datadircustom">
+     <property name="text">
+      <string>use a custom data directory:</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="qhboxlayout" name="horizontallayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="sizeconstraint">
+      <enum>qlayout::setdefaultconstraint</enum>
+     </property>
+     <item>
+      <spacer name="horizontalspacer">
+       <property name="orientation">
+        <enum>qt::horizontal</enum>
+       </property>
+       <property name="sizetype">
+        <enum>qsizepolicy::fixed</enum>
+       </property>
+       <property name="sizehint" stdset="0">
+        <size>
+         <width>60</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <layout class="qvboxlayout" name="verticallayout_2">
+       <property name="sizeconstraint">
+        <enum>qlayout::setdefaultconstraint</enum>
+       </property>
+       <item>
+        <layout class="qhboxlayout" name="horizontallayout_2">
+         <item>
+          <widget class="qlineedit" name="datadirectory"/>
+         </item>
+         <item>
+          <widget class="qpushbutton" name="ellipsisbutton">
+           <property name="sizepolicy">
+            <sizepolicy hsizetype="minimum" vsizetype="fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximumsize">
+            <size>
+             <width>30</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string notr="true">鈥?/string>
+           </property>
+           <property name="autodefault">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalspacer_3">
+         <property name="orientation">
+          <enum>qt::vertical</enum>
+         </property>
+         <property name="sizetype">
+          <enum>qsizepolicy::fixed</enum>
+         </property>
+         <property name="sizehint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>5</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="qlabel" name="freespace">
+         <property name="sizepolicy">
+          <sizepolicy hsizetype="preferred" vsizetype="expanding">
+           <horstretch>1</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="wordwrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalspacer_2">
+         <property name="orientation">
+          <enum>qt::vertical</enum>
+         </property>
+         <property name="sizetype">
+          <enum>qsizepolicy::fixed</enum>
+         </property>
+         <property name="sizehint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>5</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="qlabel" name="errormessage">
+         <property name="sizepolicy">
+          <sizepolicy hsizetype="preferred" vsizetype="expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="textformat">
+          <enum>qt::richtext</enum>
+         </property>
+         <property name="wordwrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="verticalspacer">
+     <property name="orientation">
+      <enum>qt::vertical</enum>
+     </property>
+     <property name="sizehint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="qdialogbuttonbox" name="buttonbox">
+     <property name="orientation">
+      <enum>qt::horizontal</enum>
+     </property>
+     <property name="standardbuttons">
+      <set>qdialogbuttonbox::cancel|qdialogbuttonbox::ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonbox</sender>
+   <signal>accepted()</signal>
+   <receiver>intro</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonbox</sender>
+   <signal>rejected()</signal>
+   <receiver>intro</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

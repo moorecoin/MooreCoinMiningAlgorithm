@@ -1,0 +1,100 @@
+cross_compiling=maybe
+host_alias=@host@
+ac_tool_prefix=${host_alias}-
+
+if test -z $with_boost; then
+  with_boost=$prefix
+fi
+if test -z $with_qt_plugindir; then
+  with_qt_plugindir=$prefix/plugins
+fi
+if test -z $with_qt_translationdir; then
+  with_qt_translationdir=$prefix/translations
+fi
+if test -z $with_qt_bindir; then
+  with_qt_bindir=$prefix/native/bin
+fi
+if test -z $with_protoc_bindir; then
+  with_protoc_bindir=$prefix/native/bin
+fi
+if test -z $with_comparison_tool; then
+  with_comparison_tool=$prefix/native/share/bitcoindcomparisontool_jar/bitcoindcomparisontool.jar
+fi
+
+
+if test -z $enable_wallet && test -n "@no_wallet@"; then
+  enable_wallet=no
+fi
+
+if test -z $with_miniupnpc && test -n "@no_upnp@"; then
+  with_miniupnpc=no
+fi
+
+if test -z $with_gui && test -n "@no_qt@"; then
+  with_gui=no
+fi
+
+if test x@host_os@ = xdarwin; then
+  brew=no
+  port=no
+fi
+
+if test x@host_os@ = xmingw32; then
+  if test -z $with_qt_incdir; then
+    with_qt_incdir=$prefix/include
+  fi
+  if test -z $with_qt_libdir; then
+    with_qt_libdir=$prefix/lib
+  fi
+fi
+
+path=$prefix/native/bin:$path
+pkg_config="`which pkg-config` --static"
+
+# these two need to remain exported because pkg-config does not see them
+# otherwise. that means they must be unexported at the end of configure.ac to
+# avoid ruining the cache. sigh.
+
+export pkg_config_libdir=$prefix/lib/pkgconfig
+export pkg_config_path=$prefix/share/pkgconfig
+
+cppflags="-i$prefix/include/ $cppflags"
+ldflags="-l$prefix/lib $ldflags"
+
+cc="@cc@"
+cxx="@cxx@"
+objc="${cc}"
+objcxx="${cxx}"
+ccache=$prefix/native/bin/ccache
+
+if test -n "@ar@"; then
+  ar=@ar@
+  ac_cv_path_ac_pt_ar=${ar}
+fi
+
+if test -n "@ranlib@"; then
+  ranlib=@ranlib@
+  ac_cv_path_ac_pt_ranlib=${ranlib}
+fi
+
+if test -n "@nm@"; then
+  nm=@nm@
+  ac_cv_path_ac_pt_nm=${nm}
+fi
+
+if test -n "@debug@"; then
+  enable_reduce_exports=no
+fi
+
+if test -n "@cflags@"; then
+  cflags="@cflags@ $cflags"
+fi
+if test -n "@cxxflags@"; then
+  cxxflags="@cxxflags@ $cxxflags"
+fi
+if test -n "@cppflags@"; then
+  cppflags="@cppflags@ $cppflags"
+fi
+if test -n "@ldflags@"; then
+  ldflags="@ldflags@ $ldflags"
+fi

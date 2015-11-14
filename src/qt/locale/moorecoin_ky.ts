@@ -1,0 +1,330 @@
+<ts language="ky" version="2.1">
+<context>
+    <name>addressbookpage</name>
+    <message>
+        <source>create a new address</source>
+        <translation>袞邪遥 写邪褉械泻褌懈 卸邪褋芯芯</translation>
+    </message>
+    <message>
+        <source>&amp;delete</source>
+        <translation>莹&amp;褔爷褉爷爷</translation>
+    </message>
+    </context>
+<context>
+    <name>addresstablemodel</name>
+    <message>
+        <source>address</source>
+        <translation>袛邪褉械泻</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(邪褌褘 卸芯泻)</translation>
+    </message>
+</context>
+<context>
+    <name>askpassphrasedialog</name>
+    </context>
+<context>
+    <name>bitcoingui</name>
+    <message>
+        <source>&amp;transactions</source>
+        <translation>&amp;孝褉邪薪蟹邪泻褑懈褟谢邪褉</translation>
+    </message>
+    <message>
+        <source>&amp;verify message...</source>
+        <translation>袘懈谢写懈褉爷爷薪爷 &amp;褌械泻褕械褉爷爷...</translation>
+    </message>
+    <message>
+        <source>bitcoin</source>
+        <translation>bitcoin</translation>
+    </message>
+    <message>
+        <source>wallet</source>
+        <translation>袣邪锌褔褘泻</translation>
+    </message>
+    <message>
+        <source>&amp;file</source>
+        <translation>&amp;肖邪泄谢</translation>
+    </message>
+    <message>
+        <source>&amp;help</source>
+        <translation>&amp;袞邪褉写邪屑</translation>
+    </message>
+    <message>
+        <source>error</source>
+        <translation>袣邪褌邪</translation>
+    </message>
+    <message>
+        <source>warning</source>
+        <translation>协褋泻械褉褌爷爷</translation>
+    </message>
+    <message>
+        <source>information</source>
+        <translation>袦邪邪谢褘屑邪褌</translation>
+    </message>
+    <message>
+        <source>up to date</source>
+        <translation>袞邪遥褘谢邪薪谐邪薪</translation>
+    </message>
+    </context>
+<context>
+    <name>clientmodel</name>
+    </context>
+<context>
+    <name>coincontroldialog</name>
+    <message>
+        <source>date</source>
+        <translation>袛邪褌邪</translation>
+    </message>
+    <message>
+        <source>none</source>
+        <translation>卸芯泻</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(邪褌褘 卸芯泻)</translation>
+    </message>
+    </context>
+<context>
+    <name>editaddressdialog</name>
+    <message>
+        <source>&amp;address</source>
+        <translation>&amp;袛邪褉械泻</translation>
+    </message>
+    </context>
+<context>
+    <name>freespacechecker</name>
+    </context>
+<context>
+    <name>helpmessagedialog</name>
+    <message>
+        <source>version</source>
+        <translation>胁械褉褋懈褟</translation>
+    </message>
+    </context>
+<context>
+    <name>intro</name>
+    <message>
+        <source>error</source>
+        <translation>袣邪褌邪</translation>
+    </message>
+    </context>
+<context>
+    <name>openuridialog</name>
+    </context>
+<context>
+    <name>optionsdialog</name>
+    <message>
+        <source>mb</source>
+        <translation>袦袘</translation>
+    </message>
+    <message>
+        <source>&amp;network</source>
+        <translation>&amp;孝邪褉屑邪泻</translation>
+    </message>
+    <message>
+        <source>&amp;port:</source>
+        <translation>&amp;袩芯褉褌:</translation>
+    </message>
+    <message>
+        <source>&amp;window</source>
+        <translation>&amp;孝械褉械蟹械</translation>
+    </message>
+    <message>
+        <source>&amp;ok</source>
+        <translation>&amp;袞邪褉邪泄褌</translation>
+    </message>
+    <message>
+        <source>&amp;cancel</source>
+        <translation>&amp;袞芯泻泻芯 褔褘谐邪褉褍褍</translation>
+    </message>
+    <message>
+        <source>default</source>
+        <translation>卸邪褉褘褟谢邪薪斜邪谐邪薪</translation>
+    </message>
+    <message>
+        <source>none</source>
+        <translation>卸芯泻</translation>
+    </message>
+    </context>
+<context>
+    <name>overviewpage</name>
+    </context>
+<context>
+    <name>paymentserver</name>
+    </context>
+<context>
+    <name>peertablemodel</name>
+    </context>
+<context>
+    <name>qobject</name>
+    </context>
+<context>
+    <name>qrimagewidget</name>
+    </context>
+<context>
+    <name>rpcconsole</name>
+    <message>
+        <source>&amp;information</source>
+        <translation>袦邪邪谢褘屑邪褌</translation>
+    </message>
+    <message>
+        <source>general</source>
+        <translation>袞邪谢锌褘</translation>
+    </message>
+    <message>
+        <source>name</source>
+        <translation>袗褌褘</translation>
+    </message>
+    <message>
+        <source>&amp;open</source>
+        <translation>&amp;袗褔褍褍</translation>
+    </message>
+    <message>
+        <source>&amp;console</source>
+        <translation>&amp;袣芯薪褋芯谢褜</translation>
+    </message>
+    <message>
+        <source>clear console</source>
+        <translation>袣芯薪褋芯谢写褍 褌邪蟹邪谢芯芯</translation>
+    </message>
+    </context>
+<context>
+    <name>receivecoinsdialog</name>
+    </context>
+<context>
+    <name>receiverequestdialog</name>
+    <message>
+        <source>address</source>
+        <translation>袛邪褉械泻</translation>
+    </message>
+    <message>
+        <source>message</source>
+        <translation>袘懈谢写懈褉爷爷</translation>
+    </message>
+    </context>
+<context>
+    <name>recentrequeststablemodel</name>
+    <message>
+        <source>date</source>
+        <translation>袛邪褌邪</translation>
+    </message>
+    <message>
+        <source>message</source>
+        <translation>袘懈谢写懈褉爷爷</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(邪褌褘 卸芯泻)</translation>
+    </message>
+    </context>
+<context>
+    <name>sendcoinsdialog</name>
+    <message>
+        <source>clear &amp;all</source>
+        <translation>&amp;袘邪褉写褘谐褘薪 褌邪蟹邪谢芯芯</translation>
+    </message>
+    <message>
+        <source>s&amp;end</source>
+        <translation>&amp;袞萤薪萤褌爷爷</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(邪褌褘 卸芯泻)</translation>
+    </message>
+    </context>
+<context>
+    <name>sendcoinsentry</name>
+    <message>
+        <source>paste address from clipboard</source>
+        <translation>袛邪褉械泻褌懈 邪谢屑邪褕褍褍 斜褍褎械褉懈薪械薪 泻芯褞褍</translation>
+    </message>
+    <message>
+        <source>message:</source>
+        <translation>袘懈谢写懈褉爷爷:</translation>
+    </message>
+    </context>
+<context>
+    <name>shutdownwindow</name>
+    </context>
+<context>
+    <name>signverifymessagedialog</name>
+    <message>
+        <source>paste address from clipboard</source>
+        <translation>袛邪褉械泻褌懈 邪谢屑邪褕褍褍 斜褍褎械褉懈薪械薪 泻芯褞褍</translation>
+    </message>
+    <message>
+        <source>clear &amp;all</source>
+        <translation>&amp;袘邪褉写褘谐褘薪 褌邪蟹邪谢芯芯</translation>
+    </message>
+    </context>
+<context>
+    <name>splashscreen</name>
+    </context>
+<context>
+    <name>trafficgraphwidget</name>
+    </context>
+<context>
+    <name>transactiondesc</name>
+    <message>
+        <source>%1/offline</source>
+        <translation>%1/褌邪褉屑邪泻褌邪 褝屑械褋</translation>
+    </message>
+    <message>
+        <source>date</source>
+        <translation>袛邪褌邪</translation>
+    </message>
+    <message>
+        <source>message</source>
+        <translation>袘懈谢写懈褉爷爷</translation>
+    </message>
+    </context>
+<context>
+    <name>transactiondescdialog</name>
+    </context>
+<context>
+    <name>transactiontablemodel</name>
+    <message>
+        <source>date</source>
+        <translation>袛邪褌邪</translation>
+    </message>
+    </context>
+<context>
+    <name>transactionview</name>
+    <message>
+        <source>date</source>
+        <translation>袛邪褌邪</translation>
+    </message>
+    <message>
+        <source>address</source>
+        <translation>袛邪褉械泻</translation>
+    </message>
+    </context>
+<context>
+    <name>unitdisplaystatusbarcontrol</name>
+    </context>
+<context>
+    <name>walletframe</name>
+    </context>
+<context>
+    <name>walletmodel</name>
+    </context>
+<context>
+    <name>walletview</name>
+    </context>
+<context>
+    <name>bitcoin-core</name>
+    <message>
+        <source>information</source>
+        <translation>袦邪邪谢褘屑邪褌</translation>
+    </message>
+    <message>
+        <source>warning</source>
+        <translation>协褋泻械褉褌爷爷</translation>
+    </message>
+    <message>
+        <source>error</source>
+        <translation>袣邪褌邪</translation>
+    </message>
+</context>
+</ts>

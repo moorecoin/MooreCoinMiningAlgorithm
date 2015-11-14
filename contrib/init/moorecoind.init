@@ -1,0 +1,67 @@
+#!/bin/bash
+#
+#  moorecoind the moorecoin core server.
+#
+#
+# chkconfig: 345 80 20
+# description: moorecoind
+# processname: moorecoind
+#
+
+# source function library.
+. /etc/init.d/functions
+
+# you can override defaults in /etc/sysconfig/moorecoind, see below
+if [ -f /etc/sysconfig/moorecoind ]; then
+        . /etc/sysconfig/moorecoind
+fi
+
+retval=0
+
+prog=moorecoind
+# you can override the lockfile via moorecoind_lockfile in /etc/sysconfig/moorecoind
+lockfile=${moorecoind_lockfile-/var/lock/subsys/moorecoind}
+
+# moorecoind defaults to /usr/bin/moorecoind, override with moorecoind_bin
+moorecoind=${moorecoind_bin-/usr/bin/moorecoind}
+
+# moorecoind opts default to -disablewallet, override with moorecoind_opts
+moorecoind_opts=${moorecoind_opts--disablewallet}
+
+start() {
+    echo -n $"starting $prog: "
+    daemon $daemonopts $moorecoind $moorecoind_opts
+    retval=$?
+    echo
+    [ $retval -eq 0 ] && touch $lockfile
+    return $retval
+}
+
+stop() {
+    echo -n $"stopping $prog: "
+    killproc $prog
+    retval=$?
+    echo
+    [ $retval -eq 0 ] && rm -f $lockfile
+    return $retval
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status $prog
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "usage: service $prog {start|stop|status|restart}"
+        exit 1
+        ;;
+esac

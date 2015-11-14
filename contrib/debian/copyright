@@ -1,0 +1,162 @@
+format: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?rev=174
+upstream-name: moorecoin
+upstream-contact: satoshi nakamoto <satoshin@gmx.com>
+ irc://#moorecoin@freenode.net
+source: http://sourceforge.net/projects/moorecoin/files/
+ https://github.com/moorecoin/moorecoin
+
+files: *
+copyright: 2009-2012, moorecoin core developers
+license: expat
+comment: the moorecoin core developers encompasses the current developers listed on moorecoin.org,
+         as well as the numerous contributors to the project.
+
+files: src/json/*
+copyright: 2007-2009, john w. wilkinson
+license: expat
+
+files: debian/*
+copyright: 2010-2011, jonas smedegaard <dr@jones.dk>
+           2011, matt corallo <matt@bluematt.me>
+license: gpl-2+
+
+files: debian/manpages/*
+copyright: micah anderson <micah@debian.org>
+license: gpl-3+
+
+files: src/qt/res/icons/clock*.png, src/qt/res/icons/tx*.png,
+       src/qt/res/src/*.svg
+copyright: wladimir van der laan
+license: expat
+
+files: src/qt/res/icons/address-book.png, src/qt/res/icons/export.png,
+       src/qt/res/icons/history.png, src/qt/res/icons/key.png,
+       src/qt/res/icons/lock_*.png, src/qt/res/icons/overview.png,
+       src/qt/res/icons/receive.png, src/qt/res/icons/send.png,
+       src/qt/res/icons/synced.png, src/qt/res/icons/filesave.png
+copyright: david vignoni (david@icon-king.com)
+           icon king - www.icon-king.com
+license: lgpl
+comment: nuvola icon theme for kde 3.x
+         original icons: kaddressbook, klipper_dock, view-list-text,
+                         key-password, encrypted/decrypted, go-home, go-down,
+                         go-next, dialog-ok
+         site: http://www.icon-king.com/projects/nuvola/
+
+files: src/qt/res/icons/connect*.png
+copyright: schollidesign
+license: gpl-3+
+comment: icon pack: human-o2
+         site: http://findicons.com/icon/93743/blocks_gnome_netstatus_0
+
+files: src/qt/res/icons/transaction*.png
+copyright: md2k7
+license: expat
+comment: site: https://moorecointalk.org/index.php?topic=15276.0
+
+files: src/qt/res/icons/configure.png, src/qt/res/icons/quit.png,
+      src/qt/res/icons/editcopy.png, src/qt/res/icons/editpaste.png,
+      src/qt/res/icons/add.png, src/qt/res/icons/edit.png,
+      src/qt/res/icons/remove.png
+copyright: http://www.everaldo.com
+license: lgpl
+comment: icon pack: crystal svg
+
+files: src/qt/res/icons/moorecoin.png, src/qt/res/icons/toolbar.png
+copyright: bitboy (optimized for 16x16 by wladimir van der laan)
+license: pub-dom
+comment: site: https://moorecointalk.org/?topic=1756.0
+
+files:  scripts/img/reload.xcf, src/qt/res/movies/*.png
+copyright: everaldo (everaldo coelho)
+license: gpl-3+
+comment: icon pack: kids
+         site: http://findicons.com/icon/17102/reload?id=17102
+
+files: src/qt/res/images/splash2.jpg
+license: pub-dom
+copyright: crobbo (forum)
+comment: site: https://moorecointalk.org/index.php?topic=32273.0
+
+
+license: expat
+ permission is hereby granted, free of charge, to any person obtaining a
+ copy of this software and associated documentation files (the
+ "software"), to deal in the software without restriction, including
+ without limitation the rights to use, copy, modify, merge, publish,
+ distribute, sublicense, and/or sell copies of the software, and to
+ permit persons to whom the software is furnished to do so, subject to
+ the following conditions:
+ .
+ the above copyright notice and this permission notice shall be included
+ in all copies or substantial portions of the software.
+ .
+ the software is provided "as is", without warranty of any kind, express
+ or implied, including but not limited to the warranties of
+ merchantability, fitness for a particular purpose and noninfringement.
+ in no event shall the authors or copyright holders be liable for any
+ claim, damages or other liability, whether in an action of contract,
+ tort or otherwise, arising from, out of or in connection with the
+ software or the use or other dealings in the software.
+
+license: isc
+ permission to use, copy, modify, and distribute this software for any
+ purpose with or without fee is hereby granted, provided that the above
+ copyright notice and this permission notice appear in all copies.
+ .
+ the software is provided "as is" and the author disclaims all
+ warranties with regard to this software including all implied
+ warranties of merchantability and fitness. in no event shall the author
+ be liable for any special, direct, indirect, or consequential damages
+ or any damages whatsoever resulting from loss of use, data or profits,
+ whether in an action of contract, negligence or other tortious action,
+ arising out of or in connection with the use or performance of this
+ software.
+
+license: gpl-2+
+ this program is free software; you can redistribute it and/or modify it
+ under the terms of the gnu general public license as published by the
+ free software foundation; either version 2, or (at your option) any
+ later version.
+ .
+ this program is distributed in the hope that it will be useful, but
+ without any warranty; without even the implied warranty of
+ merchantability or fitness for a particular purpose.  see the gnu
+ general public license for more details.
+comment:
+ on debian systems the gnu general public license (gpl) version 2 is
+ located in '/usr/share/common-licenses/gpl-2'.
+ .
+ you should have received a copy of the gnu general public license along
+ with this program.  if not, see <http://www.gnu.org/licenses/>.
+
+license: gpl-3+
+ permission is granted to copy, distribute and/or modify this document
+ under the terms of the gnu general public license, version 3 or any
+ later version published by the free software foundation.
+comment:
+ on debian systems the gnu general public license (gpl) version 3 is
+ located in '/usr/share/common-licenses/gpl-3'.
+ .
+ you should have received a copy of the gnu general public license along
+ with this program.  if not, see <http://www.gnu.org/licenses/>.
+
+license: lgpl
+ this program is free software: you can redistribute it and/or modify
+ it under the terms of the gnu general public license as published by
+ the free software foundation, either version 3 of the license, or
+ (at your option) any later version.
+ .
+ this program is distributed in the hope that it will be useful,
+ but without any warranty; without even the implied warranty of
+ merchantability or fitness for a particular purpose.  see the
+ gnu general public license for more details.
+comment:
+ on debian systems the gnu lesser general public license (lgpl) is
+ located in '/usr/share/common-licenses/lgpl'.
+ .
+ you should have received a copy of the gnu general public license
+ along with this program.  if not, see <http://www.gnu.org/licenses/>.
+
+license: pub-dom
+ this work is in the public domain.

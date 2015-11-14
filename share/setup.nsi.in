@@ -1,0 +1,179 @@
+name "@package_name@ (@windows_bits@-bit)"
+
+requestexecutionlevel highest
+setcompressor /solid lzma
+
+# general symbol definitions
+!define regkey "software\$(^name)"
+!define version @client_version_major@.@client_version_minor@.@client_version_revision@
+!define company "bitcoin core project"
+!define url http://www.bitcoin.org/
+
+# mui symbol definitions
+!define mui_icon "@abs_top_srcdir@/share/pixmaps/bitcoin.ico"
+!define mui_welcomefinishpage_bitmap "@abs_top_srcdir@/share/pixmaps/nsis-wizard.bmp"
+!define mui_headerimage
+!define mui_headerimage_right
+!define mui_headerimage_bitmap "@abs_top_srcdir@/share/pixmaps/nsis-header.bmp"
+!define mui_finishpage_noautoclose
+!define mui_startmenupage_registry_root hklm
+!define mui_startmenupage_registry_key ${regkey}
+!define mui_startmenupage_registry_valuename startmenugroup
+!define mui_startmenupage_defaultfolder "@package_name@"
+!define mui_finishpage_run $instdir\bitcoin-qt.exe
+!define mui_unicon "${nsisdir}\contrib\graphics\icons\modern-uninstall.ico"
+!define mui_unwelcomefinishpage_bitmap "@abs_top_srcdir@/share/pixmaps/nsis-wizard.bmp"
+!define mui_unfinishpage_noautoclose
+
+# included files
+!include sections.nsh
+!include mui2.nsh
+!if "@windows_bits@" == "64"
+!include x64.nsh
+!endif
+
+# variables
+var startmenugroup
+
+# installer pages
+!insertmacro mui_page_welcome
+!insertmacro mui_page_directory
+!insertmacro mui_page_startmenu application $startmenugroup
+!insertmacro mui_page_instfiles
+!insertmacro mui_page_finish
+!insertmacro mui_unpage_confirm
+!insertmacro mui_unpage_instfiles
+
+# installer languages
+!insertmacro mui_language english
+
+# installer attributes
+outfile @abs_top_srcdir@/bitcoin-${version}-win@windows_bits@-setup.exe
+!if "@windows_bits@" == "64"
+installdir $programfiles64\bitcoin
+!else
+installdir $programfiles\bitcoin
+!endif
+crccheck on
+xpstyle on
+brandingtext " "
+showinstdetails show
+viproductversion ${version}.@client_version_build@
+viaddversionkey productname "bitcoin core"
+viaddversionkey productversion "${version}"
+viaddversionkey companyname "${company}"
+viaddversionkey companywebsite "${url}"
+viaddversionkey fileversion "${version}"
+viaddversionkey filedescription ""
+viaddversionkey legalcopyright ""
+installdirregkey hkcu "${regkey}" path
+showuninstdetails show
+
+# installer sections
+section -main sec0000
+    setoutpath $instdir
+    setoverwrite on
+    file @abs_top_srcdir@/release/bitcoin-qt.exe
+    file /oname=copying.txt @abs_top_srcdir@/copying
+    file /oname=readme.txt @abs_top_srcdir@/doc/readme_windows.txt
+    setoutpath $instdir\daemon
+    file @abs_top_srcdir@/release/bitcoind.exe
+    file @abs_top_srcdir@/release/bitcoin-cli.exe
+    setoutpath $instdir\doc
+    file /r @abs_top_srcdir@/doc\*.*
+    setoutpath $instdir
+    writeregstr hkcu "${regkey}\components" main 1
+
+    # remove old wxwidgets-based-bitcoin executable and locales:
+    delete /rebootok $instdir\bitcoin.exe
+    rmdir /r /rebootok $instdir\locale
+sectionend
+
+section -post sec0001
+    writeregstr hkcu "${regkey}" path $instdir
+    setoutpath $instdir
+    writeuninstaller $instdir\uninstall.exe
+    !insertmacro mui_startmenu_write_begin application
+    createdirectory $smprograms\$startmenugroup
+    createshortcut "$smprograms\$startmenugroup\$(^name).lnk" $instdir\bitcoin-qt.exe
+    createshortcut "$smprograms\$startmenugroup\uninstall $(^name).lnk" $instdir\uninstall.exe
+    !insertmacro mui_startmenu_write_end
+    writeregstr hkcu "software\microsoft\windows\currentversion\uninstall\$(^name)" displayname "$(^name)"
+    writeregstr hkcu "software\microsoft\windows\currentversion\uninstall\$(^name)" displayversion "${version}"
+    writeregstr hkcu "software\microsoft\windows\currentversion\uninstall\$(^name)" publisher "${company}"
+    writeregstr hkcu "software\microsoft\windows\currentversion\uninstall\$(^name)" urlinfoabout "${url}"
+    writeregstr hkcu "software\microsoft\windows\currentversion\uninstall\$(^name)" displayicon $instdir\uninstall.exe
+    writeregstr hkcu "software\microsoft\windows\currentversion\uninstall\$(^name)" uninstallstring $instdir\uninstall.exe
+    writeregdword hkcu "software\microsoft\windows\currentversion\uninstall\$(^name)" nomodify 1
+    writeregdword hkcu "software\microsoft\windows\currentversion\uninstall\$(^name)" norepair 1
+    writeregstr hkcr "bitcoin" "url protocol" ""
+    writeregstr hkcr "bitcoin" "" "url:bitcoin"
+    writeregstr hkcr "bitcoin\defaulticon" "" $instdir\bitcoin-qt.exe
+    writeregstr hkcr "bitcoin\shell\open\command" "" '"$instdir\bitcoin-qt.exe" "%1"'
+sectionend
+
+# macro for selecting uninstaller sections
+!macro select_unsection section_name unsection_id
+    push $r0
+    readregstr $r0 hkcu "${regkey}\components" "${section_name}"
+    strcmp $r0 1 0 next${unsection_id}
+    !insertmacro selectsection "${unsection_id}"
+    goto done${unsection_id}
+next${unsection_id}:
+    !insertmacro unselectsection "${unsection_id}"
+done${unsection_id}:
+    pop $r0
+!macroend
+
+# uninstaller sections
+section /o -un.main unsec0000
+    delete /rebootok $instdir\bitcoin-qt.exe
+    delete /rebootok $instdir\copying.txt
+    delete /rebootok $instdir\readme.txt
+    rmdir /r /rebootok $instdir\daemon
+    rmdir /r /rebootok $instdir\doc
+    deleteregvalue hkcu "${regkey}\components" main
+sectionend
+
+section -un.post unsec0001
+    deleteregkey hkcu "software\microsoft\windows\currentversion\uninstall\$(^name)"
+    delete /rebootok "$smprograms\$startmenugroup\uninstall $(^name).lnk"
+    delete /rebootok "$smprograms\$startmenugroup\$(^name).lnk"
+    delete /rebootok "$smstartup\bitcoin.lnk"
+    delete /rebootok $instdir\uninstall.exe
+    delete /rebootok $instdir\debug.log
+    delete /rebootok $instdir\db.log
+    deleteregvalue hkcu "${regkey}" startmenugroup
+    deleteregvalue hkcu "${regkey}" path
+    deleteregkey /ifempty hkcu "${regkey}\components"
+    deleteregkey /ifempty hkcu "${regkey}"
+    deleteregkey hkcr "bitcoin"
+    rmdir /rebootok $smprograms\$startmenugroup
+    rmdir /rebootok $instdir
+    push $r0
+    strcpy $r0 $startmenugroup 1
+    strcmp $r0 ">" no_smgroup
+no_smgroup:
+    pop $r0
+sectionend
+
+# installer functions
+function .oninit
+    initpluginsdir
+!if "@windows_bits@" == "64"
+    ${if} ${runningx64}
+      ; disable registry redirection (enable access to 64-bit portion of registry)
+      setregview 64
+    ${else}
+      messagebox mb_ok|mb_iconstop "cannot install 64-bit version on a 32-bit system."
+      abort
+    ${endif}
+!endif
+functionend
+
+# uninstaller functions
+function un.oninit
+    readregstr $instdir hkcu "${regkey}" path
+    !insertmacro mui_startmenu_getfolder application $startmenugroup
+    !insertmacro select_unsection main ${unsec0000}
+functionend
